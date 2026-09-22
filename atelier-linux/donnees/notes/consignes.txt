@@ -1,0 +1,2 @@
+Observer avant de modifier.
+Verifier le resultat apres chaque commande.

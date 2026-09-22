@@ -1,0 +1,8 @@
+machine,role,etat
+node01,web,UP
+node02,web,DOWN
+node03,db,UP
+node04,db,DOWN
+node05,worker,UP
+node06,web,UP
+node07,worker,DOWN

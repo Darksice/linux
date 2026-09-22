@@ -7,8 +7,8 @@ de cette version sont originaux. Les dernières missions ciblent AlmaLinux.
 
 1. Ouvrir `index.html` dans un navigateur. Le site est statique et ne demande
    pas de serveur ni de compte.
-2. Télécharger `atelier-linux.tar.gz` depuis la page d'accueil, puis déposer
-   l'archive dans la VM Linux.
+2. Télécharger `atelier-linux.tar.gz` depuis la page d'accueil (le lien mène
+   au fichier hébergé sur GitHub), puis déposer l'archive dans la VM Linux.
 3. Dans le dossier de téléchargement de la VM :
 
    ```bash
@@ -68,6 +68,12 @@ dossier, reconstruire l'archive depuis la racine du projet :
 ```bash
 tar -czf atelier-linux.tar.gz atelier-linux
 ```
+
+Le site publié sur Vercel est construit par `node scripts/build-site.cjs` :
+seuls `index.html`, `styles.css`, `app.js` et `cours-data.js` sont copiés dans
+`dist/`. L'archive reste dans le dépôt GitHub et les deux liens du site pointent
+vers sa version sur la branche `main`. Après une modification de l'atelier,
+reconstruire et pousser l'archive pour que les téléchargements soient à jour.
 
 Le test d'intégration `scripts/smoke-test.sh` extrait l'archive dans un dossier
 temporaire Linux, réalise les missions dans l'ordre et vérifie chaque résultat.

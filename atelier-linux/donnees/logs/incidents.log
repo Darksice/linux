@@ -1,0 +1,12 @@
+2026-09-21 08:00 web INFO Service demarre
+2026-09-21 08:05 web ERREUR Connexion refusee
+2026-09-21 08:10 db INFO Connexion etablie
+2026-09-21 08:15 db ERREUR Requete trop lente
+2026-09-21 08:20 worker INFO Tache lancee
+2026-09-21 08:25 web AVERTISSEMENT Nouvelle tentative
+2026-09-21 08:30 web ERREUR Delai depasse
+2026-09-22 09:10 web ERREUR Fichier absent
+2026-09-22 09:50 worker ERREUR Tache interrompue
+2026-09-22 10:00 web INFO Connexion retablie
+2026-09-22 10:05 db INFO Requete terminee
+2026-09-22 10:10 web INFO Service stable
