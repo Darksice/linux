@@ -90,7 +90,7 @@ const module01ArchiveUrl = 'https://raw.githubusercontent.com/Darksice/linux/mai
 const stateKey = 'linux-pour-de-vrai-v1';
 let saved;
 try { saved = JSON.parse(localStorage.getItem(stateKey) || '{}'); } catch { saved = {}; }
-const state = {done: Array.isArray(saved.done) ? saved.done : [], cards: saved.cards && typeof saved.cards === 'object' ? saved.cards : {}, ctfDone: saved.ctfDone && typeof saved.ctfDone === 'object' ? saved.ctfDone : {}};
+const state = {done: Array.isArray(saved.done) ? saved.done : [], cards: saved.cards && typeof saved.cards === 'object' ? saved.cards : {}, ctfDone: saved.ctfDone && typeof saved.ctfDone === 'object' ? saved.ctfDone : {}, sidebarHidden: saved.sidebarHidden === true};
 let revealed = 0;
 let feedback = '';
 let quizSession = [];
@@ -100,6 +100,7 @@ let quizMode = 'due';
 const ctfActive = {};
 const ctfHints = {};
 let ctfFeedback = '';
+let ctfResetPending = false;
 
 function persist(){try{localStorage.setItem(stateKey,JSON.stringify(state));}catch{}}
 function dateKey(d){return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`}
@@ -120,6 +121,20 @@ function validateCtfFlag(mod, challenge, input){
   persist();
   return {valid:true,message:challenge.success};
 }
+function resetCtfModule(mod){
+  delete state.ctfDone[mod.id];
+  for(const key of Object.keys(ctfHints))if(key.startsWith(`${mod.id}-`))delete ctfHints[key];
+  ctfActive[mod.id]=0;
+  ctfFeedback='';
+  ctfResetPending=false;
+  persist();
+}
+function applySidebarState(){
+  document.body.classList.toggle('sidebar-hidden',state.sidebarHidden);
+  const button=document.getElementById('sidebar-toggle');
+  button.setAttribute('aria-expanded',String(!state.sidebarHidden));
+  button.setAttribute('aria-label',state.sidebarHidden?'Afficher le menu':'Masquer le menu');
+}
 function ctfCurrent(mod){
   if(ctfActive[mod.id] === undefined) ctfActive[mod.id] = Math.max(0, mod.challenges.findIndex(c => !ctfCompleted(mod).includes(c.id)));
   return mod.challenges[ctfActive[mod.id]] || mod.challenges[0];
@@ -131,6 +146,7 @@ function terminal(lines){return `<div class="terminal"><div class="terminal-bar"
 function missionModule(id){return modules.find(m=>m.missions.includes(id))}
 
 function renderNav(){
+  document.getElementById('module-nav').innerHTML=ctfModules.map(mod=>`<button class="module-nav-item ${getRoute()==='module-'+mod.id?'active':''}" data-route="module-${mod.id}" aria-current="${getRoute()==='module-'+mod.id?'page':'false'}"><span class="module-nav-id">${escapeHtml(mod.id)}</span><span class="module-nav-text">${escapeHtml(mod.title)}</span><span class="module-nav-count">${ctfCompleted(mod).length}/${mod.challenges.length}</span></button>`).join('');
   document.getElementById('nav').innerHTML=modules.map(m=>`<div class="nav-group"><div class="nav-group-title">${m.id} · ${m.title}</div>${m.missions.map(id=>{const item=missions.find(x=>x.id===id);return `<button class="nav-item ${getRoute()==='mission-'+id?'active':''}" data-route="mission-${id}" aria-current="${getRoute()==='mission-'+id?'page':'false'}"><span class="nav-index">${id}</span><span>${item.title}</span>${state.done.includes(id)?'<span class="nav-check" aria-label="terminée">✓</span>':''}</button>`}).join('')}</div>`).join('');
   document.getElementById('mission-select').innerHTML=`<option value="">Choisir une mission…</option>${modules.map(m=>`<optgroup label="${m.id} · ${m.title}">${m.missions.map(id=>{const item=missions.find(x=>x.id===id);return `<option value="mission-${id}" ${getRoute()==='mission-'+id?'selected':''}>${id} · ${item.title}${state.done.includes(id)?' ✓':''}</option>`}).join('')}</optgroup>`).join('')}`;
   document.getElementById('progress-side').textContent=`${state.done.length} / ${missions.length} missions`;
@@ -138,7 +154,6 @@ function renderNav(){
   document.getElementById('progress-percent').textContent=`${percent} %`;
   document.getElementById('progress-fill').style.width=`${percent}%`;
   document.getElementById('due-count').textContent=dueCards().length;
-  document.getElementById('module01-count').textContent=`${ctfCompleted(module01).length}/${module01.challenges.length}`;
 }
 
 function renderHome(){
@@ -162,6 +177,7 @@ function renderCtfModule(mod){
   return `<div class="breadcrumbs"><button data-route="accueil">Accueil</button><span>›</span><span>Module ${mod.id}</span></div>
   <p class="eyebrow">MODULE PILOTE · EXPLORATION CTF</p><h1 class="page-title">${escapeHtml(mod.title)}</h1><p class="page-intro">${escapeHtml(mod.description)} Les flags sont dans les <strong>noms</strong> : tu n’as pas besoin de lire le contenu des fichiers.</p>
   <section class="ctf-setup"><div><div class="ctf-setup-top"><span>TON TERRAIN DE JEU</span><span>${done.length} / ${mod.challenges.length} flags</span></div><div class="progress-track"><div class="progress-fill" style="width:${percent}%"></div></div><p>Sur ta machine Linux, télécharge l’archive propre à ce module depuis GitHub. Extrais-la puis ouvre <code>atelier-module-01</code>. Chaque nom contenant <code>FLAG{...}</code> est un candidat, lis bien la question avant de répondre.</p><a class="secondary download-link" href="${module01ArchiveUrl}">Télécharger l’archive du Module 01 ↓</a></div>${terminal('<span class="prompt">$</span> tar -xzf module01-linux.tar.gz\n<span class="prompt">$</span> cd atelier-module-01')}</section>
+  <div class="ctf-reset"><button class="ghost" data-action="ctf-reset-request">↻ Recommencer le module</button>${ctfResetPending?`<div class="ctf-reset-confirm" role="group" aria-label="Confirmer la remise à zéro"><p>Effacer les flags validés et les indices affichés du Module ${escapeHtml(mod.id)} ? L’archive dans ta VM ne sera pas modifiée.</p><button class="secondary" data-action="ctf-reset-confirm">Oui, recommencer</button><button class="ghost" data-action="ctf-reset-cancel">Annuler</button></div>`:''}</div>
   ${done.length===mod.challenges.length?'<div class="ctf-complete" role="status">✓ Module terminé ! Tu peux rejouer chaque défi et expliquer comment tu as écarté les leurres.</div>':''}
   <div class="ctf-layout"><nav class="ctf-map" aria-label="Défis du module"><div class="ctf-map-title">LES DÉFIS <span>${done.length}/${mod.challenges.length}</span></div>${mod.challenges.map((challenge,i)=>`<button class="ctf-map-item ${i===index?'active':''} ${done.includes(challenge.id)?'done':''}" data-ctf-step="${i}" aria-current="${i===index?'step':'false'}"><span class="ctf-map-number">${String(i+1).padStart(2,'0')}</span><span>${escapeHtml(challenge.title)}</span><span class="ctf-map-check">${done.includes(challenge.id)?'✓':'→'}</span></button>`).join('')}</nav>
   <section class="panel ctf-challenge"><div class="ctf-challenge-meta"><span>DÉFI ${String(index+1).padStart(2,'0')} / ${mod.challenges.length}</span><span>${escapeHtml(current.command)}</span></div><h2>${escapeHtml(current.title)}</h2><p class="ctf-story">${escapeHtml(current.story)}</p><div class="ctf-question"><span>TA MISSION</span><p>${escapeHtml(current.question)}</p></div>
@@ -244,7 +260,7 @@ function answerQuiz(index){
 }
 
 function render(){
-  const route=getRoute();renderNav();
+  const route=getRoute();renderNav();applySidebarState();
   const view=document.getElementById('view');
   if(route==='accueil')view.innerHTML=renderHome();
   else if(route.startsWith('module-')){const mod=ctfModules.find(m=>route==='module-'+m.id);view.innerHTML=mod?renderCtfModule(mod):renderHome()}
@@ -258,9 +274,9 @@ function render(){
 }
 
 document.addEventListener('click',async e=>{
-  const nav=e.target.closest('[data-route],[data-view]');if(nav){const dest=nav.dataset.route||nav.dataset.view;revealed=0;feedback='';ctfFeedback='';if(dest==='revision'){quizMode='due';quizSession=[];quizIndex=0;quizAnswer=null}routeTo(dest);window.scrollTo({top:0,behavior:'smooth'});return}
-  const ctfStep=e.target.closest('[data-ctf-step]');if(ctfStep){ctfActive['01']=Number(ctfStep.dataset.ctfStep);ctfFeedback='';render();return}
-  const action=e.target.closest('[data-action]');if(action){if(action.dataset.action==='setup'){document.getElementById('installation')?.scrollIntoView({behavior:'smooth'})}if(action.dataset.action==='hint'){revealed++;render()}if(action.dataset.action==='ctf-hint'){const mod=ctfModules.find(m=>getRoute()==='module-'+m.id);if(mod){const challenge=ctfCurrent(mod);const key=`${mod.id}-${challenge.id}`;ctfHints[key]=Math.min((ctfHints[key]||0)+1,challenge.hints.length);render()}}if(action.dataset.action==='next-card'){quizIndex++;quizAnswer=null;render()}if(action.dataset.action==='restart-quiz'){if(dueCards().length)startQuiz();else routeTo('accueil')}if(action.dataset.action==='practice-quiz')startQuiz('practice');if(action.dataset.action==='missed-quiz')startQuiz('missed');return}
+  const nav=e.target.closest('[data-route],[data-view]');if(nav){const dest=nav.dataset.route||nav.dataset.view;revealed=0;feedback='';ctfFeedback='';ctfResetPending=false;if(dest==='revision'){quizMode='due';quizSession=[];quizIndex=0;quizAnswer=null}routeTo(dest);window.scrollTo({top:0,behavior:'smooth'});return}
+  const ctfStep=e.target.closest('[data-ctf-step]');if(ctfStep){const mod=ctfModules.find(m=>getRoute()==='module-'+m.id);if(mod)ctfActive[mod.id]=Number(ctfStep.dataset.ctfStep);ctfFeedback='';ctfResetPending=false;render();return}
+  const action=e.target.closest('[data-action]');if(action){const mod=ctfModules.find(m=>getRoute()==='module-'+m.id);if(action.dataset.action==='toggle-sidebar'){state.sidebarHidden=!state.sidebarHidden;persist();applySidebarState()}if(action.dataset.action==='setup'){document.getElementById('installation')?.scrollIntoView({behavior:'smooth'})}if(action.dataset.action==='hint'){revealed++;render()}if(action.dataset.action==='ctf-hint'&&mod){const challenge=ctfCurrent(mod);const key=`${mod.id}-${challenge.id}`;ctfHints[key]=Math.min((ctfHints[key]||0)+1,challenge.hints.length);render()}if(action.dataset.action==='ctf-reset-request'&&mod){ctfResetPending=true;render()}if(action.dataset.action==='ctf-reset-cancel'){ctfResetPending=false;render()}if(action.dataset.action==='ctf-reset-confirm'&&mod&&ctfResetPending){resetCtfModule(mod);render()}if(action.dataset.action==='next-card'){quizIndex++;quizAnswer=null;render()}if(action.dataset.action==='restart-quiz'){if(dueCards().length)startQuiz();else routeTo('accueil')}if(action.dataset.action==='practice-quiz')startQuiz('practice');if(action.dataset.action==='missed-quiz')startQuiz('missed');return}
   const answer=e.target.closest('[data-answer]');if(answer){answerQuiz(Number(answer.dataset.answer));return}
   const copy=e.target.closest('[data-copy]');if(copy){try{await navigator.clipboard.writeText(copy.dataset.copy);copy.textContent='Copié ✓'}catch{copy.textContent='Sélectionne la commande'}return}
 });
@@ -283,5 +299,5 @@ document.addEventListener('submit',e=>{
 });
 document.addEventListener('change',e=>{if(e.target.id==='mission-select'&&e.target.value){routeTo(e.target.value);window.scrollTo(0,0)}});
 document.addEventListener('input',e=>{if(e.target.id==='course-search'){document.getElementById('course-list').innerHTML=renderCourseList(e.target.value)}});
-window.addEventListener('hashchange',()=>{revealed=0;feedback='';ctfFeedback='';render();window.scrollTo(0,0)});
+window.addEventListener('hashchange',()=>{revealed=0;feedback='';ctfFeedback='';ctfResetPending=false;render();window.scrollTo(0,0)});
 render();

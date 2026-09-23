@@ -25,8 +25,10 @@ cd atelier-module-01
 
 Les sept réponses sont des flags présents dans les noms des entrées. Le module
 sauvegarde les défis réussis dans le navigateur ; il reste possible de revoir
-chaque défi et ses indices. Il ne faut ni lire le contenu des fichiers ni lancer
-un script de vérification.
+chaque défi et ses indices. Le bouton « Recommencer le module » efface, après
+confirmation, ses flags validés et ses indices affichés dans ce navigateur ;
+il ne modifie pas l’archive sur la VM. Il ne faut ni lire le contenu des fichiers
+ni lancer un script de vérification.
 
 ### Parcours de 42 missions · format précédent
 
@@ -93,7 +95,9 @@ tar -czf atelier-linux.tar.gz atelier-linux
 ```
 
 Le site publié sur Vercel est construit par `node scripts/build-site.cjs` :
-seuls les fichiers HTML/CSS/JS requis sont copiés dans `dist/`. Les archives
+la source du Module 01 est dans `modules/01/`, tandis que `dist/` est une sortie
+générée et ignorée par Git, à ne pas éditer directement. Seuls les fichiers
+HTML/CSS/JS requis sont copiés dans `dist/`. Les archives
 restent dans le dépôt GitHub et les liens du site pointent vers la branche
 `main`. Après une modification des données, reconstruire et pousser l’archive
 correspondante pour que les téléchargements soient à jour. Pour le Module 01 :
