@@ -1,0 +1,10 @@
+01 ouverture FLAG{MEDITIK}
+02 vérification du répertoire
+03 lecture des consignes
+04 premier contrôle
+05 préparation de l'archive
+06 comparaison des fichiers
+07 ancien repère FLAG{ARTIKODIN}
+08 repère demandé FLAG{MILOBELLUS}
+09 confirmation
+10 fermeture

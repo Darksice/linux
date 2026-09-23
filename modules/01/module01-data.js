@@ -3,6 +3,9 @@ const module01 = {
   id: '01',
   title: 'Se repérer dans le terminal',
   description: 'Explore une petite arborescence avec pwd, cd, ls et man.',
+  archive: 'module01-linux.tar.gz',
+  folder: 'atelier-module-01',
+  intro: 'Les flags sont dans les noms : tu n’as pas besoin de lire le contenu des fichiers.',
   commands: ['pwd', 'ls', 'ls -a', 'ls -l', 'cd', 'cd ..', 'cd ~', 'man ls'],
   challenges: [
     {

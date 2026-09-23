@@ -1,0 +1,4 @@
+service=partage
+mode=lecture
+repere=FLAG{MEW}
+acces=proprietaire

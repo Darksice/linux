@@ -1,0 +1,16 @@
+01 initialisation FLAG{TOGEPI}
+02 chargement des paramètres
+03 contrôle du stockage
+04 ouverture du journal
+05 première lecture
+06 contrôle intermédiaire FLAG{MORPHEO}
+07 requête reçue
+08 requête traitée
+09 sauvegarde préparée
+10 sauvegarde effectuée
+11 validation du service
+12 journal prêt
+13 début de la fenêtre finale FLAG{MARILL}
+14 vérification des tâches
+15 synchronisation terminée
+16 état final FLAG{RONFLEX}

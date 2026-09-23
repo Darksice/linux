@@ -23,12 +23,15 @@ const context = vm.createContext({
 });
 vm.runInContext(fs.readFileSync(path.join(root,'cours-data.js'),'utf8'),context);
 vm.runInContext(fs.readFileSync(path.join(root,'modules','01','module01-data.js'),'utf8'),context);
+vm.runInContext(fs.readFileSync(path.join(root,'modules','02','module02-data.js'),'utf8'),context);
 vm.runInContext(fs.readFileSync(path.join(root,'app.js'),'utf8'),context);
 assert.match(element('view').innerHTML,/42 missions/);
 assert.match(element('view').innerHTML,/module-01/);
+assert.match(element('view').innerHTML,/module-02/);
 assert.match(element('view').innerHTML,/https:\/\/raw\.githubusercontent\.com\/Darksice\/linux\/main\/atelier-linux\.tar\.gz/);
 assert.doesNotMatch(fs.readFileSync(path.join(root,'index.html'),'utf8'),/<footer\b/);
 assert.match(fs.readFileSync(path.join(root,'index.html'),'utf8'),/modules\/01\/module01-data\.js/);
+assert.match(fs.readFileSync(path.join(root,'index.html'),'utf8'),/modules\/02\/module02-data\.js/);
 context.location.hash='#module-01';
 vm.runInContext('render()',context);
 assert.match(element('view').innerHTML,/Sept flags|sept flags|7 flags/);
@@ -70,6 +73,36 @@ clickAction('toggle-sidebar');
 assert.equal(element('sidebar-toggle')['aria-expanded'],'false');
 clickAction('toggle-sidebar');
 assert.equal(element('sidebar-toggle')['aria-expanded'],'true');
+context.location.hash='#module-02';
+vm.runInContext('render()',context);
+assert.match(element('view').innerHTML,/14 flags/);
+assert.match(element('view').innerHTML,/module02-linux\.tar\.gz/);
+assert.match(element('view').innerHTML,/atelier-module-02/);
+assert.match(element('module-nav').innerHTML,/Lire et comparer les fichiers/);
+assert.equal(vm.runInContext('module02.challenges.length',context),14);
+const ctfSource02=path.join(root,'modules','02','atelier-module-02');
+vm.runInContext('validateCtfFlag(module01,module01.challenges[0],module01.challenges[0].flag)',context);
+for(const challenge of vm.runInContext('module02.challenges',context)){
+  assert.doesNotMatch(challenge.flag,/M02|\d/);
+  assert.doesNotMatch(challenge.command,/[-~/]/);
+  const found=[];
+  function walk(dir){for(const item of fs.readdirSync(dir,{withFileTypes:true})){const itemPath=path.join(dir,item.name);if(item.isDirectory())walk(itemPath);else if(fs.readFileSync(itemPath,'utf8').includes(challenge.flag))found.push(itemPath);}}
+  walk(ctfSource02);
+  assert.equal(found.length,1,`Flag absent ou répété dans le Module 02 : ${challenge.id}`);
+  if(challenge.decoy){
+    const decoys=[];
+    function findDecoy(dir){for(const item of fs.readdirSync(dir,{withFileTypes:true})){const itemPath=path.join(dir,item.name);if(item.isDirectory())findDecoy(itemPath);else if(fs.readFileSync(itemPath,'utf8').includes(challenge.decoy))decoys.push(itemPath);}}
+    findDecoy(ctfSource02);
+    assert.equal(decoys.length,1,`Leurre absent ou répété dans le Module 02 : ${challenge.id}`);
+  }
+}
+assert.equal(vm.runInContext("validateCtfFlag(module02,module02.challenges[1],module02.challenges[1].decoy).valid",context),false);
+vm.runInContext('for(const challenge of module02.challenges) validateCtfFlag(module02,challenge,challenge.flag)',context);
+assert.equal(vm.runInContext('ctfCompleted(module02).length',context),14);
+clickAction('ctf-reset-request');
+clickAction('ctf-reset-confirm');
+assert.equal(vm.runInContext('ctfCompleted(module02).length',context),0);
+assert.equal(vm.runInContext('ctfCompleted(module01).length',context),1);
 const missionIds=vm.runInContext('missions.map(m => m.id)',context);
 assert.equal(missionIds.length,42);
 assert.equal(new Set(missionIds).size,42);
@@ -120,4 +153,4 @@ vm.runInContext("state.done.push('04'); startQuiz('practice'); quizIndex=quizSes
 const dueBefore=vm.runInContext('dueCards().length',context);
 vm.runInContext('answerQuiz(0)',context);
 assert.equal(vm.runInContext('dueCards().length',context),dueBefore);
-console.log('Interface : Module 01 CTF, 42 missions, 28 fiches et révisions vérifiés.');
+console.log('Interface : Modules 01 et 02 CTF, 42 missions, 28 fiches et révisions vérifiés.');

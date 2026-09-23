@@ -1,0 +1,43 @@
+GUIDE D'EXPLOITATION — édition pédagogique
+
+Sommaire
+1. Présentation
+2. Procédure archivée
+3. Procédure active
+4. Annexe de contrôle
+
+PRÉSENTATION
+Ce guide est volontairement plus long qu'une simple note.
+Dans less, les flèches et la barre d'espace font défiler le texte.
+La touche q quitte le lecteur.
+La recherche commence par une barre oblique.
+
+PROCÉDURE ARCHIVÉE
+Statut : retirée
+Ne pas utiliser ce paragraphe comme référence actuelle.
+Ancien repère : FLAG{GRAVALANCH}
+Les anciennes procédures restent visibles pour comprendre l'historique.
+Cette visibilité ne signifie pas qu'elles sont toujours valides.
+
+PRÉPARATION
+Vérifier le répertoire courant avant toute intervention.
+Lire la demande et identifier la version attendue.
+Ne pas confondre le nom d'un fichier avec son contenu.
+Noter les commandes utilisées pour pouvoir les expliquer.
+
+PROCÉDURE ACTIVE
+Statut : en vigueur
+Repère de la procédure active : FLAG{ALTARIA}
+Lire le document complet avant de conclure.
+Une réponse correcte doit correspondre à la section demandée.
+Le flag de la procédure archivée constitue un leurre.
+
+CONTRÔLE
+Comparer la consigne à la ligne sélectionnée.
+Répéter la commande si le résultat est ambigu.
+Vérifier que l'on ne s'appuie pas sur une ancienne section.
+
+ANNEXE DE CONTRÔLE
+Statut : active
+Repère de l'annexe : FLAG{LUXRAY}
+Fin du guide.

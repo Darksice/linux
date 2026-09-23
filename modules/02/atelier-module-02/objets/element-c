@@ -1,0 +1,3 @@
+#!/bin/sh
+# Exemple de script fourni comme objet de comparaison.
+printf 'Ceci est un script, pas le document demandé.\n'
