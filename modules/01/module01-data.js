@@ -2,7 +2,7 @@
 const module01 = {
   id: '01',
   title: 'Se repérer dans le terminal',
-  description: 'Explore une petite arborescence avec pwd, cd, ls et man. Sept flags, aucun script de validation.',
+  description: 'Explore une petite arborescence avec pwd, cd, ls et man.',
   commands: ['pwd', 'ls', 'ls -a', 'ls -l', 'cd', 'cd ..', 'cd ~', 'man ls'],
   challenges: [
     {
