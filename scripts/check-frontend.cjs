@@ -24,15 +24,18 @@ const context = vm.createContext({
 vm.runInContext(fs.readFileSync(path.join(root,'cours-data.js'),'utf8'),context);
 vm.runInContext(fs.readFileSync(path.join(root,'modules','01','module01-data.js'),'utf8'),context);
 vm.runInContext(fs.readFileSync(path.join(root,'modules','02','module02-data.js'),'utf8'),context);
+vm.runInContext(fs.readFileSync(path.join(root,'modules','03','module03-data.js'),'utf8'),context);
 vm.runInContext(fs.readFileSync(path.join(root,'app.js'),'utf8'),context);
 assert.match(element('view').innerHTML,/42 missions/);
 assert.match(element('view').innerHTML,/module-01/);
 assert.match(element('view').innerHTML,/module-02/);
+assert.match(element('view').innerHTML,/module-03/);
 assert.match(element('view').innerHTML,/commandes indiquées en haut à droite/);
 assert.match(element('view').innerHTML,/https:\/\/raw\.githubusercontent\.com\/Darksice\/linux\/main\/atelier-linux\.tar\.gz/);
 assert.doesNotMatch(fs.readFileSync(path.join(root,'index.html'),'utf8'),/<footer\b/);
 assert.match(fs.readFileSync(path.join(root,'index.html'),'utf8'),/modules\/01\/module01-data\.js/);
 assert.match(fs.readFileSync(path.join(root,'index.html'),'utf8'),/modules\/02\/module02-data\.js/);
+assert.match(fs.readFileSync(path.join(root,'index.html'),'utf8'),/modules\/03\/module03-data\.js/);
 context.location.hash='#module-01';
 vm.runInContext('render()',context);
 assert.match(element('view').innerHTML,/Sept flags|sept flags|7 flags/);
@@ -112,6 +115,29 @@ clickAction('ctf-reset-request');
 clickAction('ctf-reset-confirm');
 assert.equal(vm.runInContext('ctfCompleted(module02).length',context),0);
 assert.equal(vm.runInContext('ctfCompleted(module01).length',context),1);
+context.location.hash='#module-03';
+vm.runInContext('render()',context);
+assert.match(element('view').innerHTML,/15 flags/);
+assert.match(element('view').innerHTML,/module03-linux\.tar\.gz/);
+assert.match(element('module-nav').innerHTML,/Transformer et compter des données/);
+assert.equal(vm.runInContext('module03.challenges.length',context),15);
+const ctfSource03=path.join(root,'modules','03','atelier-module-03');
+const files03=[];
+function walk03(dir){for(const item of fs.readdirSync(dir,{withFileTypes:true})){const itemPath=path.join(dir,item.name);if(item.isDirectory())walk03(itemPath);else files03.push(fs.readFileSync(itemPath,'utf8').toUpperCase());}}
+walk03(ctfSource03);
+for(const challenge of vm.runInContext('module03.challenges',context)){
+  assert.doesNotMatch(challenge.flag,/M03|\d/);
+  assert.doesNotMatch(challenge.command,/[-~/]/);
+  assert.ok(files03.some(file=>file.includes(challenge.flag)),`Flag absent du Module 03 : ${challenge.id}`);
+  if(challenge.decoy)assert.ok(files03.some(file=>file.includes(challenge.decoy)),`Leurre absent du Module 03 : ${challenge.id}`);
+}
+assert.equal(vm.runInContext("validateCtfFlag(module03,module03.challenges[0],module03.challenges[0].decoy).valid",context),false);
+vm.runInContext('for(const challenge of module03.challenges) validateCtfFlag(module03,challenge,challenge.flag)',context);
+assert.equal(vm.runInContext('ctfCompleted(module03).length',context),15);
+clickAction('ctf-reset-request');
+clickAction('ctf-reset-confirm');
+assert.equal(vm.runInContext('ctfCompleted(module03).length',context),0);
+assert.equal(vm.runInContext('ctfCompleted(module01).length',context),1);
 const missionIds=vm.runInContext('missions.map(m => m.id)',context);
 assert.equal(missionIds.length,42);
 assert.equal(new Set(missionIds).size,42);
@@ -162,4 +188,4 @@ vm.runInContext("state.done.push('04'); startQuiz('practice'); quizIndex=quizSes
 const dueBefore=vm.runInContext('dueCards().length',context);
 vm.runInContext('answerQuiz(0)',context);
 assert.equal(vm.runInContext('dueCards().length',context),dueBefore);
-console.log('Interface : Modules 01 et 02 CTF, 42 missions, 28 fiches et révisions vérifiés.');
+console.log('Interface : Modules 01 à 03 CTF, 42 missions, 28 fiches et révisions vérifiés.');

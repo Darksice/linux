@@ -2,3 +2,4 @@
 scripts/fixtures/rpm text eol=lf
 scripts/fixtures/getenforce text eol=lf
 *.tar.gz binary
+modules/03/atelier-module-03/** text eol=lf

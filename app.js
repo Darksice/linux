@@ -84,7 +84,7 @@ const cards = [
 
 const lessons = courseLessons;
 const archiveUrl = 'https://raw.githubusercontent.com/Darksice/linux/main/atelier-linux.tar.gz';
-const ctfModules = [module01, module02];
+const ctfModules = [module01, module02, module03];
 const ctfArchiveUrl = mod => `https://raw.githubusercontent.com/Darksice/linux/main/${mod.archive}`;
 
 const stateKey = 'linux-pour-de-vrai-v1';
@@ -157,8 +157,8 @@ function renderNav(){
 }
 
 function renderHome(){
-  return `<section class="hero"><div><p class="eyebrow">UN PARCOURS POUR APPRENDRE EN FAISANT</p><h1>Le terminal,<br><em>ça s’apprend.</em></h1><p class="lead">Explore les modules CTF dans ta VM AlmaLinux : une archive par thème, des flags à découvrir et des pièges qui apprennent à lire précisément. Le parcours de ${missions.length} missions reste disponible pendant que nous construisons les modules ensemble.</p></div><div class="hero-card"><h2>Prêt à ouvrir le terminal ?</h2><p>Commence par te repérer, puis apprends à lire et comparer les fichiers dans ta VM AlmaLinux.</p><button class="primary" data-route="module-01">Entrer dans le Module 01 →</button></div></section>
-  <section class="ctf-howto"><div><p class="eyebrow">COMMENT ÇA MARCHE ?</p><h2>Une archive, des défis, des flags.</h2></div><ol><li>Télécharge l’archive du module et explore-la dans ta VM Linux.</li><li>Pour chaque défi, utilise les <strong>commandes indiquées en haut à droite</strong> de la question : elles désignent les outils à pratiquer, pas les options à saisir.</li><li>Repère le flag demandé, saisis-le sur le site et ouvre un indice si tu bloques. Ta progression reste dans ce navigateur.</li></ol></section>
+  return `<section class="hero"><div><p class="eyebrow">UN PARCOURS POUR APPRENDRE EN FAISANT</p><h1>Le terminal,<br><em>ça s’apprend.</em></h1><p class="lead">Explore les modules CTF dans ta VM AlmaLinux : une archive par thème, des flags à découvrir et des pièges qui apprennent à lire précisément. Le parcours de ${missions.length} missions reste disponible pendant que nous construisons les modules ensemble.</p></div><div class="hero-card"><h2>Prêt à ouvrir le terminal ?</h2><p>Apprends à te repérer, lire les fichiers puis traiter leurs données dans ta VM AlmaLinux.</p><button class="primary" data-route="module-01">Entrer dans le Module 01 →</button></div></section>
+  <section class="ctf-howto"><div><p class="eyebrow">COMMENT ÇA MARCHE ?</p><h2>Une archive, des défis, des flags.</h2></div><ol><li>Télécharge l’archive du module et explore-la dans ta VM Linux.</li><li>Pour chaque défi, utilise les <strong>commandes indiquées en haut à droite</strong> de la question : elles désignent les outils à pratiquer.</li><li>Repère le flag demandé, saisis-le sur le site et ouvre un indice si tu bloques. Ta progression reste dans ce navigateur.</li></ol></section>
   ${ctfModules.map(mod=>`<section class="ctf-home-card"><div><p class="eyebrow">MODULE CTF · ${escapeHtml(mod.id)}</p><h2>${escapeHtml(mod.id)} · ${escapeHtml(mod.title)}</h2><p>${escapeHtml(mod.description)}</p><div class="ctf-home-meta"><span>${ctfCompleted(mod).length} / ${mod.challenges.length} flags trouvés</span><span>Archive dédiée · indices progressifs</span></div></div><button class="secondary" data-route="module-${escapeHtml(mod.id)}">${ctfCompleted(mod).length?'Reprendre le module':'Commencer le module'} →</button></section>`).join('')}
   <div class="progress-summary"><div><small>TA PROGRESSION</small><br><strong>${state.done.length} mission${state.done.length>1?'s':''} terminée${state.done.length>1?'s':''} sur ${missions.length}</strong></div><button class="secondary" data-view="revision">${dueCards().length?`Réviser ${dueCards().length} carte${dueCards().length>1?'s':''}`:'Voir les révisions'} →</button></div>
   <div class="section-head"><div><p class="eyebrow">PARCOURS EXISTANT</p><h2>${modules.length} étapes, un vrai terminal</h2></div><p>Du premier <code>pwd</code> à l’inspection de SELinux.</p></div>

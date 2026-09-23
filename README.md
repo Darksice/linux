@@ -3,10 +3,11 @@
 Un parcours autonome pour des débutants en Linux. Les exercices et les données
 de cette version sont originaux. Les dernières missions ciblent AlmaLinux.
 
-Les **Modules 01 et 02** proposent un format CTF : des flags à découvrir
+Les **Modules 01 à 03** proposent un format CTF : des flags à découvrir
 dans une archive dédiée par module, sans script de validation. Le premier porte
 sur la navigation et les noms de fichiers ; le second sur la lecture et la
-comparaison de leur contenu. Les 42 missions du parcours précédent restent
+comparaison de leur contenu ; le troisième sur le traitement de données et les
+pipes. Les 42 missions du parcours précédent restent
 accessibles pendant la construction des autres modules.
 
 ## Utilisation
@@ -46,6 +47,21 @@ Les versions obsolètes et les lignes voisines sont des leurres ; il faut suivre
 précisément la question. `ls`, `cd` et `pwd` restent utiles pour explorer
 l’archive. Le bouton « Recommencer » efface la progression de ce seul module
 dans le navigateur, sans modifier les fichiers de la VM.
+
+### Module 03 · traiter les données
+
+Télécharger `module03-linux.tar.gz` depuis la page du module, puis dans la VM :
+
+```bash
+tar -xzf module03-linux.tar.gz
+cd atelier-module-03
+```
+
+Les quinze défis utilisent `cut`, `sort`, `uniq`, `wc`, `tr` et `|`, en réutilisant
+notamment `cat`, `head` et `tail`. Les fichiers proposent plusieurs flags : la
+bonne réponse résulte d’une extraction, d’un tri, d’une normalisation ou d’un
+comptage. Les pièges portent notamment sur le tri numérique et sur le fait que
+`uniq` seul ne rapproche pas les doublons éloignés.
 
 ### Parcours de 42 missions · format précédent
 
@@ -112,7 +128,7 @@ tar -czf atelier-linux.tar.gz atelier-linux
 ```
 
 Le site publié sur Vercel est construit par `node scripts/build-site.cjs` :
-les sources des modules sont dans `modules/01/` et `modules/02/`, tandis que `dist/` est une sortie
+les sources des modules sont dans `modules/01/`, `modules/02/` et `modules/03/`, tandis que `dist/` est une sortie
 générée et ignorée par Git, à ne pas éditer directement. Seuls les fichiers
 HTML/CSS/JS requis sont copiés dans `dist/`. Les archives
 restent dans le dépôt GitHub et les liens du site pointent vers la branche
@@ -122,9 +138,11 @@ correspondante pour que les téléchargements soient à jour :
 ```bash
 node scripts/build-module01.cjs
 node scripts/build-module02.cjs
+node scripts/build-module03.cjs
 ```
 
-Les tests `scripts/smoke-module01.sh` et `scripts/smoke-module02.sh` extraient
+Les tests `scripts/smoke-module01.sh`, `scripts/smoke-module02.sh` et
+`scripts/smoke-module03.sh` extraient
 les archives CTF et vérifient les flags avec les commandes du cours. Le test d'intégration
 `scripts/smoke-test.sh` extrait l'archive historique dans un dossier
 temporaire Linux, réalise les missions dans l'ordre et vérifie chaque résultat.
