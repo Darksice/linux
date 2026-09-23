@@ -3,20 +3,43 @@
 Un parcours autonome pour des débutants en Linux. Les exercices et les données
 de cette version sont originaux. Les dernières missions ciblent AlmaLinux.
 
+Le **Module 01 pilote** propose un nouveau format CTF : sept flags à découvrir
+dans les noms d’une archive dédiée, sans lire les fichiers ni lancer de script
+de validation. Les 42 missions du parcours précédent restent accessibles
+pendant la construction des autres modules.
+
 ## Utilisation
 
-1. Ouvrir `index.html` dans un navigateur. Le site est statique et ne demande
-   pas de serveur ni de compte.
-2. Télécharger `atelier-linux.tar.gz` depuis la page d'accueil (le lien mène
+Ouvrir `index.html` dans un navigateur ou utiliser le site Vercel. Aucun compte
+n'est nécessaire.
+
+### Module 01 · nouveau format CTF
+
+Télécharger `module01-linux.tar.gz` depuis la page du module, déposer l’archive
+dans la VM, puis lancer :
+
+```bash
+tar -xzf module01-linux.tar.gz
+cd atelier-module-01
+```
+
+Les sept réponses sont des flags présents dans les noms des entrées. Le module
+sauvegarde les défis réussis dans le navigateur ; il reste possible de revoir
+chaque défi et ses indices. Il ne faut ni lire le contenu des fichiers ni lancer
+un script de vérification.
+
+### Parcours de 42 missions · format précédent
+
+1. Télécharger `atelier-linux.tar.gz` depuis la page d'accueil (le lien mène
    au fichier hébergé sur GitHub), puis déposer l'archive dans la VM Linux.
-3. Dans le dossier de téléchargement de la VM :
+2. Dans le dossier de téléchargement de la VM :
 
    ```bash
    tar -xzf atelier-linux.tar.gz
    cd atelier-linux
    ```
 
-4. Réaliser les missions dans l'ordre. Après chacune, lancer
+3. Réaliser les missions dans l'ordre. Après chacune, lancer
    `bash verifier.sh 01` en remplaçant le numéro. Reporter le code affiché
    après « VALIDÉ » dans le site.
 
@@ -70,12 +93,18 @@ tar -czf atelier-linux.tar.gz atelier-linux
 ```
 
 Le site publié sur Vercel est construit par `node scripts/build-site.cjs` :
-seuls `index.html`, `styles.css`, `app.js` et `cours-data.js` sont copiés dans
-`dist/`. L'archive reste dans le dépôt GitHub et les deux liens du site pointent
-vers sa version sur la branche `main`. Après une modification de l'atelier,
-reconstruire et pousser l'archive pour que les téléchargements soient à jour.
+seuls les fichiers HTML/CSS/JS requis sont copiés dans `dist/`. Les archives
+restent dans le dépôt GitHub et les liens du site pointent vers la branche
+`main`. Après une modification des données, reconstruire et pousser l’archive
+correspondante pour que les téléchargements soient à jour. Pour le Module 01 :
 
-Le test d'intégration `scripts/smoke-test.sh` extrait l'archive dans un dossier
+```bash
+node scripts/build-module01.cjs
+```
+
+Le test `scripts/smoke-module01.sh` extrait l’archive du Module 01 et vérifie
+les sept flags avec les commandes du cours. Le test d'intégration
+`scripts/smoke-test.sh` extrait l'archive historique dans un dossier
 temporaire Linux, réalise les missions dans l'ordre et vérifie chaque résultat.
 Le lancer sous Linux avec `bash scripts/smoke-test.sh`. Sur une distribution
 sans RPM ou SELinux, les deux branches spécifiques sont vérifiées avec des

@@ -4,10 +4,11 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#101923" />
-    <meta name="description" content="42 missions pratiques pour apprendre Linux et les bases de l’administration AlmaLinux dans une VM." />
+    <meta name="description" content="Un module CTF pour découvrir Linux, puis 42 missions pratiques d’administration AlmaLinux dans une VM." />
     <title>Linux, pour de vrai — parcours Linux et administration</title>
     <link rel="stylesheet" href="styles.css" />
     <script src="cours-data.js" defer></script>
+    <script src="modules/01/module01-data.js" defer></script>
     <script src="app.js" defer></script>
   </head>
   <body>
@@ -23,6 +24,7 @@
         <label class="mobile-nav-label" for="mission-select">Aller à une mission</label>
         <select id="mission-select" class="mobile-nav-select" aria-label="Choisir une mission"></select>
         <div class="sidebar-bottom">
+          <button class="side-link module01-side-link" data-view="module-01"><span>⚑</span> Module 01 · CTF <span id="module01-count" class="due-badge">0/7</span></button>
           <div class="side-progress"><span id="progress-side">0 / 42 missions</span><span id="progress-percent">0 %</span></div>
           <div class="progress-track"><div id="progress-fill" class="progress-fill"></div></div>
           <button class="side-link" data-view="revision"><span>↻</span> Révisions <span id="due-count" class="due-badge">0</span></button>

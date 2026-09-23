@@ -84,17 +84,22 @@ const cards = [
 
 const lessons = courseLessons;
 const archiveUrl = 'https://raw.githubusercontent.com/Darksice/linux/main/atelier-linux.tar.gz';
+const ctfModules = [module01];
+const module01ArchiveUrl = 'https://raw.githubusercontent.com/Darksice/linux/main/module01-linux.tar.gz';
 
 const stateKey = 'linux-pour-de-vrai-v1';
 let saved;
 try { saved = JSON.parse(localStorage.getItem(stateKey) || '{}'); } catch { saved = {}; }
-const state = {done: Array.isArray(saved.done) ? saved.done : [], cards: saved.cards && typeof saved.cards === 'object' ? saved.cards : {}};
+const state = {done: Array.isArray(saved.done) ? saved.done : [], cards: saved.cards && typeof saved.cards === 'object' ? saved.cards : {}, ctfDone: saved.ctfDone && typeof saved.ctfDone === 'object' ? saved.ctfDone : {}};
 let revealed = 0;
 let feedback = '';
 let quizSession = [];
 let quizIndex = 0;
 let quizAnswer = null;
 let quizMode = 'due';
+const ctfActive = {};
+const ctfHints = {};
+let ctfFeedback = '';
 
 function persist(){try{localStorage.setItem(stateKey,JSON.stringify(state));}catch{}}
 function dateKey(d){return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`}
@@ -106,6 +111,19 @@ function unlockedCards(){
 }
 function dueCards(){return unlockedCards().filter(c=>!state.cards[c.id] || state.cards[c.id].due <= today())}
 function missedCards(){return unlockedCards().filter(c=>state.cards[c.id]?.wrong === true)}
+function ctfCompleted(mod){return Array.isArray(state.ctfDone[mod.id]) ? state.ctfDone[mod.id] : []}
+function validateCtfFlag(mod, challenge, input){
+  const value=input.trim().toUpperCase();
+  if(value!==challenge.flag.toUpperCase())return {valid:false,message:value===challenge.decoy?.toUpperCase()?challenge.decoyFeedback:'Ce flag ne correspond pas à la consigne. Vérifie le dossier, le type et la visibilité de l’entrée demandée.'};
+  if(!Array.isArray(state.ctfDone[mod.id]))state.ctfDone[mod.id]=[];
+  if(!state.ctfDone[mod.id].includes(challenge.id))state.ctfDone[mod.id].push(challenge.id);
+  persist();
+  return {valid:true,message:challenge.success};
+}
+function ctfCurrent(mod){
+  if(ctfActive[mod.id] === undefined) ctfActive[mod.id] = Math.max(0, mod.challenges.findIndex(c => !ctfCompleted(mod).includes(c.id)));
+  return mod.challenges[ctfActive[mod.id]] || mod.challenges[0];
+}
 function getRoute(){const h=decodeURIComponent(location.hash.slice(1));return h || 'accueil'}
 function routeTo(route){location.hash = route; if(getRoute()===route) render()}
 function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
@@ -120,16 +138,36 @@ function renderNav(){
   document.getElementById('progress-percent').textContent=`${percent} %`;
   document.getElementById('progress-fill').style.width=`${percent}%`;
   document.getElementById('due-count').textContent=dueCards().length;
+  document.getElementById('module01-count').textContent=`${ctfCompleted(module01).length}/${module01.challenges.length}`;
 }
 
 function renderHome(){
-  const next=missions.find(m=>!state.done.includes(m.id)) || missions[missions.length-1];
-  return `<section class="hero"><div><p class="eyebrow">UN PARCOURS POUR APPRENDRE EN FAISANT</p><h1>Le terminal,<br><em>ça s’apprend.</em></h1><p class="lead">${missions.length} missions à réaliser dans ta VM AlmaLinux, des premières commandes à une enquête d’administration complète. Tu testes, tu vérifies, puis tu reviens quelques jours plus tard pour voir ce que tu as retenu.</p></div><div class="hero-card"><h2>Prêt à ouvrir le terminal ?</h2><p>Avance à ton rythme, avec des indices quand tu en as besoin. Les dernières étapes te demanderont de combiner plusieurs outils.</p>${state.done.length?`<button class="primary" data-route="mission-${next.id}">Continuer · mission ${next.id} →</button>`:'<button class="primary" data-action="setup">Préparer la VM ↓</button>'}</div></section>
+  return `<section class="hero"><div><p class="eyebrow">UN PARCOURS POUR APPRENDRE EN FAISANT</p><h1>Le terminal,<br><em>ça s’apprend.</em></h1><p class="lead">Découvre le nouveau Module 01 façon CTF : une archive à explorer, des pièges pédagogiques et sept flags à trouver. Le parcours de ${missions.length} missions reste disponible pendant que nous construisons les modules ensemble.</p></div><div class="hero-card"><h2>Prêt à ouvrir le terminal ?</h2><p>Commence par les bases : observer, te déplacer et retrouver les bons flags dans ta VM AlmaLinux.</p><button class="primary" data-route="module-01">Entrer dans le Module 01 →</button></div></section>
+  <section class="ctf-home-card"><div><p class="eyebrow">NOUVEAU FORMAT · MODULE PILOTE</p><h2>01 · ${module01.title}</h2><p>${module01.description}</p><div class="ctf-home-meta"><span>${ctfCompleted(module01).length} / ${module01.challenges.length} flags trouvés</span><span>Navigation · observation · aide intégrée</span></div></div><button class="secondary" data-route="module-01">${ctfCompleted(module01).length?'Reprendre le module':'Commencer le module'} →</button></section>
   <div class="progress-summary"><div><small>TA PROGRESSION</small><br><strong>${state.done.length} mission${state.done.length>1?'s':''} terminée${state.done.length>1?'s':''} sur ${missions.length}</strong></div><button class="secondary" data-view="revision">${dueCards().length?`Réviser ${dueCards().length} carte${dueCards().length>1?'s':''}`:'Voir les révisions'} →</button></div>
-  <div class="section-head"><div><p class="eyebrow">LE PROGRAMME</p><h2>${modules.length} étapes, un vrai terminal</h2></div><p>Du premier <code>pwd</code> à l’inspection de SELinux.</p></div>
+  <div class="section-head"><div><p class="eyebrow">PARCOURS EXISTANT</p><h2>${modules.length} étapes, un vrai terminal</h2></div><p>Du premier <code>pwd</code> à l’inspection de SELinux.</p></div>
   <div class="module-grid">${modules.map((m,i)=>`<button class="module-card" data-route="mission-${m.missions[0]}"><div class="module-top"><span class="module-number">ÉTAPE 0${i+1}</span><span class="module-count">${m.missions.filter(id=>state.done.includes(id)).length} / ${m.missions.length} missions</span></div><h3>${m.title} ↗</h3><p>${m.description}</p></button>`).join('')}</div>
   <section class="course-promo"><div><p class="eyebrow">BESOIN D’UNE EXPLICATION ?</p><h2>${lessons.length} fiches de cours express</h2><p>Des commandes, leurs options, des exemples commentés et des exercices. À consulter pendant les missions ou plus tard au travail.</p></div><button class="secondary" data-view="cours">Parcourir les fiches →</button></section>
   <div class="setup" id="installation"><div><p class="eyebrow">AVANT DE COMMENCER</p><h3>Prépare ta VM en deux minutes</h3><p>Télécharge l’archive depuis GitHub dans ta VM Linux, extrais-la puis ouvre le dossier créé. Aucun compte, installation ni droit administrateur n’est nécessaire.</p><a class="primary download-link" href="${archiveUrl}">Télécharger l’atelier (.tar.gz) ↓</a><div class="small-note">L’archive contient les données des missions et le vérificateur local.</div></div><div>${terminal('<span class="comment"># Dans le dossier où se trouve l’archive :</span>\n<span class="prompt">$</span> tar -xzf atelier-linux.tar.gz\n<span class="prompt">$</span> cd atelier-linux\n<span class="prompt">$</span> ls\n<span class="comment"># Tu devrais voir donnees, travail, reponses…</span>')}</div></div>`;
+}
+
+function renderCtfModule(mod){
+  const done=ctfCompleted(mod);
+  const current=ctfCurrent(mod);
+  const index=mod.challenges.findIndex(c=>c.id===current.id);
+  const key=`${mod.id}-${current.id}`;
+  const hintsShown=ctfHints[key] || 0;
+  const solved=done.includes(current.id);
+  const percent=Math.round(done.length/mod.challenges.length*100);
+  return `<div class="breadcrumbs"><button data-route="accueil">Accueil</button><span>›</span><span>Module ${mod.id}</span></div>
+  <p class="eyebrow">MODULE PILOTE · EXPLORATION CTF</p><h1 class="page-title">${escapeHtml(mod.title)}</h1><p class="page-intro">${escapeHtml(mod.description)} Les flags sont dans les <strong>noms</strong> : tu n’as pas besoin de lire le contenu des fichiers ni de lancer un vérificateur.</p>
+  <section class="ctf-setup"><div><div class="ctf-setup-top"><span>TON TERRAIN DE JEU</span><span>${done.length} / ${mod.challenges.length} flags</span></div><div class="progress-track"><div class="progress-fill" style="width:${percent}%"></div></div><p>Sur ta VM AlmaLinux, télécharge l’archive propre à ce module depuis GitHub. Extrais-la puis ouvre <code>atelier-module-01</code>. Chaque nom contenant <code>FLAG{...}</code> est un candidat ; lis bien la question avant de le saisir.</p><a class="secondary download-link" href="${module01ArchiveUrl}">Télécharger l’archive du Module 01 ↓</a></div>${terminal('<span class="prompt">$</span> tar -xzf module01-linux.tar.gz\n<span class="prompt">$</span> cd atelier-module-01\n<span class="prompt">$</span> pwd\n<span class="prompt">$</span> ls')}</section>
+  ${done.length===mod.challenges.length?'<div class="ctf-complete" role="status">✓ Module terminé ! Tu peux rejouer chaque défi et expliquer comment tu as écarté les leurres.</div>':''}
+  <div class="ctf-layout"><nav class="ctf-map" aria-label="Défis du module"><div class="ctf-map-title">LES DÉFIS <span>${done.length}/${mod.challenges.length}</span></div>${mod.challenges.map((challenge,i)=>`<button class="ctf-map-item ${i===index?'active':''} ${done.includes(challenge.id)?'done':''}" data-ctf-step="${i}" aria-current="${i===index?'step':'false'}"><span class="ctf-map-number">${String(i+1).padStart(2,'0')}</span><span>${escapeHtml(challenge.title)}</span><span class="ctf-map-check">${done.includes(challenge.id)?'✓':'→'}</span></button>`).join('')}</nav>
+  <section class="panel ctf-challenge"><div class="ctf-challenge-meta"><span>DÉFI ${String(index+1).padStart(2,'0')} / ${mod.challenges.length}</span><span>${escapeHtml(current.command)}</span></div><h2>${escapeHtml(current.title)}</h2><p class="ctf-story">${escapeHtml(current.story)}</p><div class="ctf-question"><span>TA MISSION</span><p>${escapeHtml(current.question)}</p></div>
+  ${solved?`<div class="ctf-solved"><strong>✓ Flag trouvé</strong><p>${escapeHtml(current.success)}</p></div>`:`<form id="ctf-form" class="ctf-form"><label for="ctf-flag">Flag découvert dans la VM</label><div><input id="ctf-flag" name="flag" placeholder="FLAG{...}" autocomplete="off" autocapitalize="off" spellcheck="false" required><button class="primary" type="submit">Valider le flag →</button></div><p class="feedback ${ctfFeedback?'error':''}" role="status">${escapeHtml(ctfFeedback)}</p></form>`}
+  <div class="ctf-hints"><button class="ghost" data-action="ctf-hint" ${hintsShown>=current.hints.length?'disabled':''}>${hintsShown>=current.hints.length?'Tous les indices affichés':'Voir un indice'}</button>${current.hints.slice(0,hintsShown).map((hint,i)=>`<div class="hint-box"><div class="hint-label">INDICE ${i+1}</div>${escapeHtml(hint)}</div>`).join('')}</div>
+  <div class="next-row"><button class="ghost" data-ctf-step="${Math.max(0,index-1)}" ${index===0?'disabled':''}>← Défi précédent</button><button class="secondary" data-ctf-step="${Math.min(mod.challenges.length-1,index+1)}" ${index===mod.challenges.length-1?'disabled':''}>Défi suivant →</button></div></section></div>`;
 }
 
 function renderMission(m){
@@ -209,24 +247,41 @@ function render(){
   const route=getRoute();renderNav();
   const view=document.getElementById('view');
   if(route==='accueil')view.innerHTML=renderHome();
+  else if(route.startsWith('module-')){const mod=ctfModules.find(m=>route==='module-'+m.id);view.innerHTML=mod?renderCtfModule(mod):renderHome()}
   else if(route==='guide')view.innerHTML=renderGuide();
   else if(route==='cours')view.innerHTML=renderCourse();
   else if(route.startsWith('fiche-'))view.innerHTML=renderLesson(route.slice(6));
   else if(route==='revision')view.innerHTML=renderQuiz();
   else if(route.startsWith('mission-')){const m=missions.find(x=>x.id===route.slice(8));view.innerHTML=m?renderMission(m):renderHome()}
   else view.innerHTML=renderHome();
-  document.title=`${route==='accueil'?'Parcours Linux':route==='guide'?'Guide de survie':route==='cours'?'Cours express':route.startsWith('fiche-')?lessons.find(l=>route==='fiche-'+l.id)?.label||'Cours express':route==='revision'?'Révisions':missions.find(m=>route==='mission-'+m.id)?.title||'Parcours Linux'} — Linux, pour de vrai`;
+  document.title=`${route==='accueil'?'Parcours Linux':route.startsWith('module-')?ctfModules.find(m=>route==='module-'+m.id)?.title||'Module CTF':route==='guide'?'Guide de survie':route==='cours'?'Cours express':route.startsWith('fiche-')?lessons.find(l=>route==='fiche-'+l.id)?.label||'Cours express':route==='revision'?'Révisions':missions.find(m=>route==='mission-'+m.id)?.title||'Parcours Linux'} — Linux, pour de vrai`;
 }
 
 document.addEventListener('click',async e=>{
-  const nav=e.target.closest('[data-route],[data-view]');if(nav){const dest=nav.dataset.route||nav.dataset.view;revealed=0;feedback='';if(dest==='revision'){quizMode='due';quizSession=[];quizIndex=0;quizAnswer=null}routeTo(dest);window.scrollTo({top:0,behavior:'smooth'});return}
-  const action=e.target.closest('[data-action]');if(action){if(action.dataset.action==='setup'){document.getElementById('installation')?.scrollIntoView({behavior:'smooth'})}if(action.dataset.action==='hint'){revealed++;render()}if(action.dataset.action==='next-card'){quizIndex++;quizAnswer=null;render()}if(action.dataset.action==='restart-quiz'){if(dueCards().length)startQuiz();else routeTo('accueil')}if(action.dataset.action==='practice-quiz')startQuiz('practice');if(action.dataset.action==='missed-quiz')startQuiz('missed');return}
+  const nav=e.target.closest('[data-route],[data-view]');if(nav){const dest=nav.dataset.route||nav.dataset.view;revealed=0;feedback='';ctfFeedback='';if(dest==='revision'){quizMode='due';quizSession=[];quizIndex=0;quizAnswer=null}routeTo(dest);window.scrollTo({top:0,behavior:'smooth'});return}
+  const ctfStep=e.target.closest('[data-ctf-step]');if(ctfStep){ctfActive['01']=Number(ctfStep.dataset.ctfStep);ctfFeedback='';render();return}
+  const action=e.target.closest('[data-action]');if(action){if(action.dataset.action==='setup'){document.getElementById('installation')?.scrollIntoView({behavior:'smooth'})}if(action.dataset.action==='hint'){revealed++;render()}if(action.dataset.action==='ctf-hint'){const mod=ctfModules.find(m=>getRoute()==='module-'+m.id);if(mod){const challenge=ctfCurrent(mod);const key=`${mod.id}-${challenge.id}`;ctfHints[key]=Math.min((ctfHints[key]||0)+1,challenge.hints.length);render()}}if(action.dataset.action==='next-card'){quizIndex++;quizAnswer=null;render()}if(action.dataset.action==='restart-quiz'){if(dueCards().length)startQuiz();else routeTo('accueil')}if(action.dataset.action==='practice-quiz')startQuiz('practice');if(action.dataset.action==='missed-quiz')startQuiz('missed');return}
   const answer=e.target.closest('[data-answer]');if(answer){answerQuiz(Number(answer.dataset.answer));return}
   const copy=e.target.closest('[data-copy]');if(copy){try{await navigator.clipboard.writeText(copy.dataset.copy);copy.textContent='Copié ✓'}catch{copy.textContent='Sélectionne la commande'}return}
 });
 
-document.addEventListener('submit',e=>{if(e.target.id!=='verify-form')return;e.preventDefault();const m=missions.find(x=>getRoute()==='mission-'+x.id);if(!m)return;const value=new FormData(e.target).get('token').toString().trim().toUpperCase();const target=document.getElementById('verify-feedback');if(value===m.token){if(!state.done.includes(m.id))state.done.push(m.id);persist();target.textContent='Mission validée. Bien joué !';target.className='feedback success';renderNav();document.querySelector('.mission-badge').textContent='✓ VALIDÉE';document.querySelector('.mission-badge').classList.add('done')}else{target.textContent='Ce code ne correspond pas. Lance la commande de vérification dans ta VM et reporte le code affiché après « VALIDÉ ».';target.className='feedback error'}});
+document.addEventListener('submit',e=>{
+  if(e.target.id==='ctf-form'){
+    e.preventDefault();
+    const mod=ctfModules.find(m=>getRoute()==='module-'+m.id);
+    if(!mod)return;
+    const challenge=ctfCurrent(mod);
+    const result=validateCtfFlag(mod,challenge,new FormData(e.target).get('flag').toString());
+    if(result.valid){ctfFeedback='';render()}
+    else{
+      ctfFeedback=result.message;
+      const target=e.target.querySelector('.feedback');target.textContent=ctfFeedback;target.className='feedback error';
+    }
+    return;
+  }
+  if(e.target.id!=='verify-form')return;e.preventDefault();const m=missions.find(x=>getRoute()==='mission-'+x.id);if(!m)return;const value=new FormData(e.target).get('token').toString().trim().toUpperCase();const target=document.getElementById('verify-feedback');if(value===m.token){if(!state.done.includes(m.id))state.done.push(m.id);persist();target.textContent='Mission validée. Bien joué !';target.className='feedback success';renderNav();document.querySelector('.mission-badge').textContent='✓ VALIDÉE';document.querySelector('.mission-badge').classList.add('done')}else{target.textContent='Ce code ne correspond pas. Lance la commande de vérification dans ta VM et reporte le code affiché après « VALIDÉ ».';target.className='feedback error'}
+});
 document.addEventListener('change',e=>{if(e.target.id==='mission-select'&&e.target.value){routeTo(e.target.value);window.scrollTo(0,0)}});
 document.addEventListener('input',e=>{if(e.target.id==='course-search'){document.getElementById('course-list').innerHTML=renderCourseList(e.target.value)}});
-window.addEventListener('hashchange',()=>{revealed=0;feedback='';render();window.scrollTo(0,0)});
+window.addEventListener('hashchange',()=>{revealed=0;feedback='';ctfFeedback='';render();window.scrollTo(0,0)});
 render();
