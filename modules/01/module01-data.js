@@ -7,10 +7,10 @@ const module01 = {
   challenges: [
     {
       id: '01', title: 'Le point de départ', command: 'pwd · ls',
-      story: 'Tu viens d’entrer dans l’atelier. Avant de bouger, repère le chemin complet du dossier courant avec pwd.',
+      story: 'Tu viens d’entrer dans le premier module. Avant de bouger, repère le chemin complet du dossier courant avec pwd.',
       question: 'Dans le dossier accueil, quel flag porte le fichier visible qui marque le départ ?',
-      hints: ['Depuis atelier-module-01, ls affiche les noms visibles. Tu peux préciser le dossier à observer.', 'Essaie ls accueil. Le flag est dans le nom du fichier, pas dans son contenu.'],
-      success: 'pwd indique où tu es ; ls accueil inspecte un autre dossier sans changer ta position.',
+      hints: ['ls affiche les noms visibles. Tu peux préciser le dossier à observer.', 'Utilise ls accueil. Le flag est dans le nom du fichier, pas dans son contenu.'],
+      success: 'pwd indique où tu es, ls accueil inspecte le dossier sans changer ta position.',
       flag: 'FLAG{M01-01-COMMENCER}'
     },
     {
