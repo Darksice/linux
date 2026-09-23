@@ -1,43 +1,360 @@
 GUIDE D'EXPLOITATION — édition pédagogique
-
-Sommaire
-1. Présentation
-2. Procédure archivée
-3. Procédure active
-4. Annexe de contrôle
-
-PRÉSENTATION
-Ce guide est volontairement plus long qu'une simple note.
-Dans less, les flèches et la barre d'espace font défiler le texte.
-La touche q quitte le lecteur.
-La recherche commence par une barre oblique.
-
-PROCÉDURE ARCHIVÉE
-Statut : retirée
-Ne pas utiliser ce paragraphe comme référence actuelle.
-Ancien repère : FLAG{GRAVALANCH}
-Les anciennes procédures restent visibles pour comprendre l'historique.
-Cette visibilité ne signifie pas qu'elles sont toujours valides.
-
-PRÉPARATION
-Vérifier le répertoire courant avant toute intervention.
-Lire la demande et identifier la version attendue.
-Ne pas confondre le nom d'un fichier avec son contenu.
-Noter les commandes utilisées pour pouvoir les expliquer.
-
-PROCÉDURE ACTIVE
-Statut : en vigueur
+Navigation : dans less, / cherche vers l'avant, ? vers l'arrière et q quitte le lecteur.
+003 | préparation | journal | comparer avec la consigne.
+004 | préparation | stockage | noter la version active.
+005 | préparation | web | vérifier le contexte.
+006 | préparation | sauvegarde | observer le résultat.
+007 | préparation | authentification | conserver une trace.
+008 | préparation | journal | comparer avec la consigne.
+009 | préparation | stockage | noter la version active.
+010 | préparation | web | vérifier le contexte.
+011 | préparation | sauvegarde | observer le résultat.
+012 | préparation | authentification | conserver une trace.
+013 | préparation | journal | comparer avec la consigne.
+014 | préparation | stockage | noter la version active.
+015 | préparation | web | vérifier le contexte.
+016 | préparation | sauvegarde | observer le résultat.
+017 | préparation | authentification | conserver une trace.
+018 | préparation | journal | comparer avec la consigne.
+019 | préparation | stockage | noter la version active.
+020 | préparation | web | vérifier le contexte.
+021 | préparation | sauvegarde | observer le résultat.
+PROCÉDURE ARCHIVÉE — ne pas utiliser comme référence actuelle
+023 | préparation | journal | comparer avec la consigne.
+024 | préparation | stockage | noter la version active.
+025 | préparation | web | vérifier le contexte.
+026 | préparation | sauvegarde | observer le résultat.
+Repère de l'ancienne procédure : FLAG{GRAVALANCH}
+028 | préparation | journal | comparer avec la consigne.
+029 | préparation | stockage | noter la version active.
+030 | préparation | web | vérifier le contexte.
+031 | préparation | sauvegarde | observer le résultat.
+032 | préparation | authentification | conserver une trace.
+033 | préparation | journal | comparer avec la consigne.
+034 | préparation | stockage | noter la version active.
+035 | préparation | web | vérifier le contexte.
+036 | préparation | sauvegarde | observer le résultat.
+037 | préparation | authentification | conserver une trace.
+038 | préparation | journal | comparer avec la consigne.
+039 | préparation | stockage | noter la version active.
+040 | préparation | web | vérifier le contexte.
+041 | préparation | sauvegarde | observer le résultat.
+042 | préparation | authentification | conserver une trace.
+043 | préparation | journal | comparer avec la consigne.
+044 | préparation | stockage | noter la version active.
+045 | préparation | web | vérifier le contexte.
+046 | préparation | sauvegarde | observer le résultat.
+047 | préparation | authentification | conserver une trace.
+048 | préparation | journal | comparer avec la consigne.
+049 | préparation | stockage | noter la version active.
+050 | préparation | web | vérifier le contexte.
+051 | préparation | sauvegarde | observer le résultat.
+052 | préparation | authentification | conserver une trace.
+053 | préparation | journal | comparer avec la consigne.
+054 | préparation | stockage | noter la version active.
+055 | préparation | web | vérifier le contexte.
+056 | préparation | sauvegarde | observer le résultat.
+057 | préparation | authentification | conserver une trace.
+058 | préparation | journal | comparer avec la consigne.
+059 | préparation | stockage | noter la version active.
+060 | préparation | web | vérifier le contexte.
+061 | préparation | sauvegarde | observer le résultat.
+062 | préparation | authentification | conserver une trace.
+063 | préparation | journal | comparer avec la consigne.
+064 | préparation | stockage | noter la version active.
+065 | préparation | web | vérifier le contexte.
+066 | préparation | sauvegarde | observer le résultat.
+067 | préparation | authentification | conserver une trace.
+068 | préparation | journal | comparer avec la consigne.
+069 | préparation | stockage | noter la version active.
+070 | préparation | web | vérifier le contexte.
+071 | préparation | sauvegarde | observer le résultat.
+072 | préparation | authentification | conserver une trace.
+073 | préparation | journal | comparer avec la consigne.
+074 | préparation | stockage | noter la version active.
+075 | préparation | web | vérifier le contexte.
+076 | préparation | sauvegarde | observer le résultat.
+077 | préparation | authentification | conserver une trace.
+078 | préparation | journal | comparer avec la consigne.
+079 | préparation | stockage | noter la version active.
+080 | préparation | web | vérifier le contexte.
+081 | préparation | sauvegarde | observer le résultat.
+082 | préparation | authentification | conserver une trace.
+083 | préparation | journal | comparer avec la consigne.
+084 | préparation | stockage | noter la version active.
+085 | préparation | web | vérifier le contexte.
+086 | préparation | sauvegarde | observer le résultat.
+087 | préparation | authentification | conserver une trace.
+088 | préparation | journal | comparer avec la consigne.
+089 | préparation | stockage | noter la version active.
+090 | préparation | web | vérifier le contexte.
+091 | préparation | sauvegarde | observer le résultat.
+092 | préparation | authentification | conserver une trace.
+093 | préparation | journal | comparer avec la consigne.
+094 | préparation | stockage | noter la version active.
+095 | préparation | web | vérifier le contexte.
+096 | préparation | sauvegarde | observer le résultat.
+097 | préparation | authentification | conserver une trace.
+098 | préparation | journal | comparer avec la consigne.
+099 | préparation | stockage | noter la version active.
+100 | préparation | web | vérifier le contexte.
+101 | préparation | sauvegarde | observer le résultat.
+102 | préparation | authentification | conserver une trace.
+103 | préparation | journal | comparer avec la consigne.
+104 | préparation | stockage | noter la version active.
+105 | préparation | web | vérifier le contexte.
+106 | préparation | sauvegarde | observer le résultat.
+107 | préparation | authentification | conserver une trace.
+108 | préparation | journal | comparer avec la consigne.
+109 | préparation | stockage | noter la version active.
+110 | préparation | web | vérifier le contexte.
+111 | préparation | sauvegarde | observer le résultat.
+112 | préparation | authentification | conserver une trace.
+113 | préparation | journal | comparer avec la consigne.
+114 | préparation | stockage | noter la version active.
+115 | préparation | web | vérifier le contexte.
+116 | préparation | sauvegarde | observer le résultat.
+117 | préparation | authentification | conserver une trace.
+118 | préparation | journal | comparer avec la consigne.
+119 | préparation | stockage | noter la version active.
+120 | préparation | web | vérifier le contexte.
+121 | préparation | sauvegarde | observer le résultat.
+122 | préparation | authentification | conserver une trace.
+123 | préparation | journal | comparer avec la consigne.
+124 | préparation | stockage | noter la version active.
+125 | préparation | web | vérifier le contexte.
+126 | préparation | sauvegarde | observer le résultat.
+127 | préparation | authentification | conserver une trace.
+128 | préparation | journal | comparer avec la consigne.
+129 | préparation | stockage | noter la version active.
+130 | préparation | web | vérifier le contexte.
+131 | préparation | sauvegarde | observer le résultat.
+132 | préparation | authentification | conserver une trace.
+133 | préparation | journal | comparer avec la consigne.
+134 | préparation | stockage | noter la version active.
+135 | préparation | web | vérifier le contexte.
+136 | préparation | sauvegarde | observer le résultat.
+137 | préparation | authentification | conserver une trace.
+138 | préparation | journal | comparer avec la consigne.
+139 | préparation | stockage | noter la version active.
+140 | préparation | web | vérifier le contexte.
+141 | préparation | sauvegarde | observer le résultat.
+142 | préparation | authentification | conserver une trace.
+143 | préparation | journal | comparer avec la consigne.
+144 | préparation | stockage | noter la version active.
+145 | préparation | web | vérifier le contexte.
+146 | préparation | sauvegarde | observer le résultat.
+147 | préparation | authentification | conserver une trace.
+148 | préparation | journal | comparer avec la consigne.
+149 | préparation | stockage | noter la version active.
+150 | préparation | web | vérifier le contexte.
+151 | préparation | sauvegarde | observer le résultat.
+152 | préparation | authentification | conserver une trace.
+153 | préparation | journal | comparer avec la consigne.
+154 | préparation | stockage | noter la version active.
+155 | préparation | web | vérifier le contexte.
+156 | préparation | sauvegarde | observer le résultat.
+157 | préparation | authentification | conserver une trace.
+158 | préparation | journal | comparer avec la consigne.
+159 | préparation | stockage | noter la version active.
+PRÉPARATION DU SERVICE
+161 | exploitation | sauvegarde | observer le résultat.
+162 | exploitation | authentification | conserver une trace.
+163 | exploitation | journal | comparer avec la consigne.
+164 | exploitation | stockage | noter la version active.
+165 | exploitation | web | vérifier le contexte.
+166 | exploitation | sauvegarde | observer le résultat.
+167 | exploitation | authentification | conserver une trace.
+PROCÉDURE ACTIVE — section en vigueur
+169 | exploitation | stockage | noter la version active.
+170 | exploitation | web | vérifier le contexte.
+171 | exploitation | sauvegarde | observer le résultat.
+172 | exploitation | authentification | conserver une trace.
+173 | exploitation | journal | comparer avec la consigne.
 Repère de la procédure active : FLAG{ALTARIA}
-Lire le document complet avant de conclure.
-Une réponse correcte doit correspondre à la section demandée.
-Le flag de la procédure archivée constitue un leurre.
-
-CONTRÔLE
-Comparer la consigne à la ligne sélectionnée.
-Répéter la commande si le résultat est ambigu.
-Vérifier que l'on ne s'appuie pas sur une ancienne section.
-
-ANNEXE DE CONTRÔLE
-Statut : active
+175 | exploitation | web | vérifier le contexte.
+176 | exploitation | sauvegarde | observer le résultat.
+177 | exploitation | authentification | conserver une trace.
+178 | exploitation | journal | comparer avec la consigne.
+179 | exploitation | stockage | noter la version active.
+180 | exploitation | web | vérifier le contexte.
+181 | exploitation | sauvegarde | observer le résultat.
+182 | exploitation | authentification | conserver une trace.
+183 | exploitation | journal | comparer avec la consigne.
+184 | exploitation | stockage | noter la version active.
+185 | exploitation | web | vérifier le contexte.
+186 | exploitation | sauvegarde | observer le résultat.
+187 | exploitation | authentification | conserver une trace.
+188 | exploitation | journal | comparer avec la consigne.
+189 | exploitation | stockage | noter la version active.
+190 | exploitation | web | vérifier le contexte.
+191 | exploitation | sauvegarde | observer le résultat.
+192 | exploitation | authentification | conserver une trace.
+193 | exploitation | journal | comparer avec la consigne.
+194 | exploitation | stockage | noter la version active.
+195 | exploitation | web | vérifier le contexte.
+196 | exploitation | sauvegarde | observer le résultat.
+197 | exploitation | authentification | conserver une trace.
+198 | exploitation | journal | comparer avec la consigne.
+199 | exploitation | stockage | noter la version active.
+200 | exploitation | web | vérifier le contexte.
+201 | exploitation | sauvegarde | observer le résultat.
+202 | exploitation | authentification | conserver une trace.
+203 | exploitation | journal | comparer avec la consigne.
+204 | exploitation | stockage | noter la version active.
+205 | exploitation | web | vérifier le contexte.
+206 | exploitation | sauvegarde | observer le résultat.
+207 | exploitation | authentification | conserver une trace.
+208 | exploitation | journal | comparer avec la consigne.
+209 | exploitation | stockage | noter la version active.
+210 | exploitation | web | vérifier le contexte.
+211 | exploitation | sauvegarde | observer le résultat.
+212 | exploitation | authentification | conserver une trace.
+213 | exploitation | journal | comparer avec la consigne.
+214 | exploitation | stockage | noter la version active.
+215 | exploitation | web | vérifier le contexte.
+216 | exploitation | sauvegarde | observer le résultat.
+217 | exploitation | authentification | conserver une trace.
+218 | exploitation | journal | comparer avec la consigne.
+219 | exploitation | stockage | noter la version active.
+220 | exploitation | web | vérifier le contexte.
+221 | exploitation | sauvegarde | observer le résultat.
+222 | exploitation | authentification | conserver une trace.
+223 | exploitation | journal | comparer avec la consigne.
+224 | exploitation | stockage | noter la version active.
+225 | exploitation | web | vérifier le contexte.
+226 | exploitation | sauvegarde | observer le résultat.
+227 | exploitation | authentification | conserver une trace.
+228 | exploitation | journal | comparer avec la consigne.
+229 | exploitation | stockage | noter la version active.
+230 | exploitation | web | vérifier le contexte.
+231 | exploitation | sauvegarde | observer le résultat.
+232 | exploitation | authentification | conserver une trace.
+233 | exploitation | journal | comparer avec la consigne.
+234 | exploitation | stockage | noter la version active.
+235 | exploitation | web | vérifier le contexte.
+236 | exploitation | sauvegarde | observer le résultat.
+237 | exploitation | authentification | conserver une trace.
+238 | exploitation | journal | comparer avec la consigne.
+239 | exploitation | stockage | noter la version active.
+CONTRÔLE DES CHANGEMENTS
+241 | contrôle | sauvegarde | observer le résultat.
+242 | contrôle | authentification | conserver une trace.
+243 | contrôle | journal | comparer avec la consigne.
+244 | contrôle | stockage | noter la version active.
+ANNEXE DE CONTRÔLE — repère indépendant de la procédure
+246 | contrôle | sauvegarde | observer le résultat.
+247 | contrôle | authentification | conserver une trace.
+248 | contrôle | journal | comparer avec la consigne.
+249 | contrôle | stockage | noter la version active.
+250 | contrôle | web | vérifier le contexte.
 Repère de l'annexe : FLAG{LUXRAY}
-Fin du guide.
+252 | contrôle | authentification | conserver une trace.
+253 | contrôle | journal | comparer avec la consigne.
+254 | contrôle | stockage | noter la version active.
+255 | contrôle | web | vérifier le contexte.
+256 | contrôle | sauvegarde | observer le résultat.
+257 | contrôle | authentification | conserver une trace.
+258 | contrôle | journal | comparer avec la consigne.
+259 | contrôle | stockage | noter la version active.
+260 | contrôle | web | vérifier le contexte.
+261 | contrôle | sauvegarde | observer le résultat.
+262 | contrôle | authentification | conserver une trace.
+263 | contrôle | journal | comparer avec la consigne.
+264 | contrôle | stockage | noter la version active.
+265 | contrôle | web | vérifier le contexte.
+266 | contrôle | sauvegarde | observer le résultat.
+267 | contrôle | authentification | conserver une trace.
+268 | contrôle | journal | comparer avec la consigne.
+269 | contrôle | stockage | noter la version active.
+270 | contrôle | web | vérifier le contexte.
+271 | contrôle | sauvegarde | observer le résultat.
+272 | contrôle | authentification | conserver une trace.
+273 | contrôle | journal | comparer avec la consigne.
+274 | contrôle | stockage | noter la version active.
+275 | contrôle | web | vérifier le contexte.
+276 | contrôle | sauvegarde | observer le résultat.
+277 | contrôle | authentification | conserver une trace.
+278 | contrôle | journal | comparer avec la consigne.
+279 | contrôle | stockage | noter la version active.
+280 | contrôle | web | vérifier le contexte.
+281 | contrôle | sauvegarde | observer le résultat.
+282 | contrôle | authentification | conserver une trace.
+283 | contrôle | journal | comparer avec la consigne.
+284 | contrôle | stockage | noter la version active.
+285 | contrôle | web | vérifier le contexte.
+286 | contrôle | sauvegarde | observer le résultat.
+287 | contrôle | authentification | conserver une trace.
+288 | contrôle | journal | comparer avec la consigne.
+289 | contrôle | stockage | noter la version active.
+290 | contrôle | web | vérifier le contexte.
+291 | contrôle | sauvegarde | observer le résultat.
+292 | contrôle | authentification | conserver une trace.
+293 | contrôle | journal | comparer avec la consigne.
+294 | contrôle | stockage | noter la version active.
+295 | contrôle | web | vérifier le contexte.
+296 | contrôle | sauvegarde | observer le résultat.
+297 | contrôle | authentification | conserver une trace.
+298 | contrôle | journal | comparer avec la consigne.
+299 | contrôle | stockage | noter la version active.
+300 | contrôle | web | vérifier le contexte.
+301 | contrôle | sauvegarde | observer le résultat.
+302 | contrôle | authentification | conserver une trace.
+303 | contrôle | journal | comparer avec la consigne.
+304 | contrôle | stockage | noter la version active.
+305 | contrôle | web | vérifier le contexte.
+306 | contrôle | sauvegarde | observer le résultat.
+307 | contrôle | authentification | conserver une trace.
+308 | contrôle | journal | comparer avec la consigne.
+309 | contrôle | stockage | noter la version active.
+310 | contrôle | web | vérifier le contexte.
+311 | contrôle | sauvegarde | observer le résultat.
+312 | contrôle | authentification | conserver une trace.
+313 | contrôle | journal | comparer avec la consigne.
+314 | contrôle | stockage | noter la version active.
+315 | contrôle | web | vérifier le contexte.
+316 | contrôle | sauvegarde | observer le résultat.
+317 | contrôle | authentification | conserver une trace.
+318 | contrôle | journal | comparer avec la consigne.
+319 | contrôle | stockage | noter la version active.
+320 | suivi | web | vérifier le contexte.
+321 | suivi | sauvegarde | observer le résultat.
+322 | suivi | authentification | conserver une trace.
+323 | suivi | journal | comparer avec la consigne.
+324 | suivi | stockage | noter la version active.
+325 | suivi | web | vérifier le contexte.
+326 | suivi | sauvegarde | observer le résultat.
+327 | suivi | authentification | conserver une trace.
+328 | suivi | journal | comparer avec la consigne.
+329 | suivi | stockage | noter la version active.
+330 | suivi | web | vérifier le contexte.
+331 | suivi | sauvegarde | observer le résultat.
+332 | suivi | authentification | conserver une trace.
+333 | suivi | journal | comparer avec la consigne.
+334 | suivi | stockage | noter la version active.
+335 | suivi | web | vérifier le contexte.
+336 | suivi | sauvegarde | observer le résultat.
+337 | suivi | authentification | conserver une trace.
+338 | suivi | journal | comparer avec la consigne.
+339 | suivi | stockage | noter la version active.
+340 | suivi | web | vérifier le contexte.
+341 | suivi | sauvegarde | observer le résultat.
+342 | suivi | authentification | conserver une trace.
+343 | suivi | journal | comparer avec la consigne.
+344 | suivi | stockage | noter la version active.
+345 | suivi | web | vérifier le contexte.
+346 | suivi | sauvegarde | observer le résultat.
+347 | suivi | authentification | conserver une trace.
+348 | suivi | journal | comparer avec la consigne.
+349 | suivi | stockage | noter la version active.
+350 | suivi | web | vérifier le contexte.
+351 | suivi | sauvegarde | observer le résultat.
+352 | suivi | authentification | conserver une trace.
+353 | suivi | journal | comparer avec la consigne.
+354 | suivi | stockage | noter la version active.
+355 | suivi | web | vérifier le contexte.
+356 | suivi | sauvegarde | observer le résultat.
+357 | suivi | authentification | conserver une trace.
+358 | suivi | journal | comparer avec la consigne.
+359 | suivi | stockage | noter la version active.
+360 | Fin du guide d'exploitation.

@@ -5,7 +5,7 @@ const module02 = {
   description: 'Lis des documents et des journaux, identifie leur type, compare des versions et découvre le pipe.',
   archive: 'module02-linux.tar.gz',
   folder: 'atelier-module-02',
-  intro: 'Cette fois, les flags sont dans le contenu des fichiers. Lis précisément la consigne : certaines versions et certaines lignes sont des leurres.',
+  intro: 'Cette fois, les flags sont dans le contenu des fichiers. Lis précisément la consigne, certaines versions et certaines lignes sont des leurres.',
   commands: ['cat', 'less', 'head', 'tail', 'file', 'diff', '|'],
   challenges: [
     {
@@ -18,7 +18,7 @@ const module02 = {
     },
     {
       id: '02', title: 'La version en vigueur', command: 'cat',
-      story: 'Deux notes portent presque le même nom. L’une est archivée ; seule la note en vigueur répond à la demande.',
+      story: 'Deux notes portent presque le même nom. L’une est archivée, seule la note en vigueur répond à la demande.',
       question: 'Dans notes, quel flag contient le fichier actif, et non la version archivée ?',
       hints: ['Observe d’abord les noms avec ls notes, puis lis les deux fichiers.', 'Le fichier notes/en_vigueur est celui demandé.'],
       decoy: 'FLAG{ONIX}',
@@ -30,7 +30,7 @@ const module02 = {
       id: '03', title: 'Un long document', command: 'less',
       story: 'Le guide est suffisamment long pour rendre la lecture avec cat peu confortable. Une ancienne procédure y côtoie la procédure active.',
       question: 'Dans manuel/guide, quel flag appartient à la section PROCÉDURE ACTIVE ?',
-      hints: ['less permet de parcourir le document sans remplir tout le terminal ; q permet de quitter.', 'Dans less, tape /PROCÉDURE ACTIVE puis Entrée pour rejoindre cette section.'],
+      hints: ['less permet de parcourir le document sans remplir tout le terminal, q permet de quitter.', 'Dans less, tape /PROCÉDURE ACTIVE puis Entrée pour rejoindre cette section.'],
       decoy: 'FLAG{GRAVALANCH}',
       decoyFeedback: 'Ce flag est dans la procédure archivée, pas dans la section active.',
       success: 'less permet de naviguer et de rechercher dans un document long.',
@@ -38,12 +38,12 @@ const module02 = {
     },
     {
       id: '04', title: 'L’annexe oubliée', command: 'less',
-      story: 'Le même guide contient une annexe de contrôle après la procédure active.',
-      question: 'Quel flag figure dans l’ANNEXE DE CONTRÔLE à la fin de manuel/guide ?',
-      hints: ['Dans less, G mène à la fin du document ; g revient au début.', 'Tu peux aussi chercher /ANNEXE DE CONTRÔLE puis quitter avec q.'],
+      story: 'Le même guide contient une annexe de contrôle après la procédure active, au milieu d’un long document.',
+      question: 'Quel flag figure dans l’ANNEXE DE CONTRÔLE de manuel/guide ?',
+      hints: ['Dans less, / cherche vers l’avant et ? cherche vers l’arrière. G mène à la fin du document.', 'Depuis le début, cherche /ANNEXE DE CONTRÔLE ; depuis la fin, cherche ?ANNEXE DE CONTRÔLE. Quitte avec q.'],
       decoy: 'FLAG{ALTARIA}',
       decoyFeedback: 'Tu as trouvé la procédure active, mais la question vise l’annexe de contrôle.',
-      success: 'G et la recherche interne rendent less utile pour parcourir un long fichier.',
+      success: 'La recherche avant ou arrière dans less permet de rejoindre une section au milieu d’un long fichier.',
       flag: 'FLAG{LUXRAY}'
     },
     {
@@ -57,13 +57,13 @@ const module02 = {
       flag: 'FLAG{TOGEPI}'
     },
     {
-      id: '06', title: 'Sixième ligne', command: 'head',
-      story: 'Le sixième événement du même journal correspond au premier contrôle intermédiaire.',
-      question: 'Quel flag apparaît exactement sur la ligne 6 de journaux/rotation ?',
-      hints: ['head accepte un nombre de lignes avec -n.', 'Affiche les six premières lignes avec head -n 6 journaux/rotation ; lis la dernière de ces six lignes.'],
+      id: '06', title: 'Onzième ligne', command: 'head',
+      story: 'L’onzième événement du même journal correspond au premier contrôle intermédiaire. Par défaut, head ne montre que les dix premières lignes.',
+      question: 'Quel flag apparaît exactement sur la ligne 11 de journaux/rotation ?',
+      hints: ['head accepte un nombre de lignes avec -n.', 'Affiche les onze premières lignes avec head -n 11 journaux/rotation, lis la dernière de ces onze lignes.'],
       decoy: 'FLAG{TOGEPI}',
-      decoyFeedback: 'Ce flag est sur la première ligne, pas sur la sixième.',
-      success: 'head -n 6 limite l’affichage aux six premières lignes.',
+      decoyFeedback: 'Ce flag est sur la première ligne, pas sur la onzième.',
+      success: 'head -n 11 révèle la ligne absente de l’affichage par défaut.',
       flag: 'FLAG{MORPHEO}'
     },
     {
@@ -72,7 +72,7 @@ const module02 = {
       question: 'Quel flag figure sur la dernière ligne de journaux/rotation ?',
       hints: ['tail affiche la fin du fichier.', 'tail -n 1 journaux/rotation isole la dernière ligne.'],
       decoy: 'FLAG{TOGEPI}',
-      decoyFeedback: 'Tu as pris le premier événement ; cherche le dernier.',
+      decoyFeedback: 'Tu as pris le premier événement, cherche le dernier.',
       success: 'tail permet de voir rapidement les événements les plus récents.',
       flag: 'FLAG{RONFLEX}'
     },
@@ -80,7 +80,7 @@ const module02 = {
       id: '08', title: 'Le début de la fin', command: 'tail',
       story: 'L’événement recherché ouvre les quatre dernières lignes du journal, avant le dernier état.',
       question: 'Quel flag apparaît sur la première des quatre dernières lignes de journaux/rotation ?',
-      hints: ['Demande exactement quatre lignes à tail.', 'tail -n 4 journaux/rotation ; la réponse est sur la première ligne affichée.'],
+      hints: ['Demande exactement quatre lignes à tail.', 'tail -n 4 journaux/rotation, la réponse est sur la première ligne affichée.'],
       decoy: 'FLAG{RONFLEX}',
       decoyFeedback: 'C’est la dernière des quatre lignes affichées, pas la première.',
       success: 'Avec tail -n 4, tu conserves le contexte des événements récents.',
@@ -100,7 +100,7 @@ const module02 = {
       id: '10', title: 'Une ligne ajoutée', command: 'diff',
       story: 'La configuration actuelle a remplacé une ancienne valeur. Les deux versions contiennent un flag.',
       question: 'Entre config/service-ancien et config/service-actuel, quel flag a été ajouté dans la version actuelle ?',
-      hints: ['diff compare deux fichiers ligne par ligne ; l’ordre des arguments compte.', 'diff -u config/service-ancien config/service-actuel : une ligne précédée de + vient de la version actuelle.'],
+      hints: ['diff compare deux fichiers ligne par ligne, l’ordre des arguments compte.', 'diff -u config/service-ancien config/service-actuel : une ligne précédée de + vient de la version actuelle.'],
       decoy: 'FLAG{DRACO}',
       decoyFeedback: 'Ce flag est sur la ligne retirée de l’ancienne version.',
       success: 'Dans diff -u ancien actuel, - signale une ligne retirée et + une ligne ajoutée.',
@@ -121,7 +121,7 @@ const module02 = {
       story: 'Le pipe relie la sortie d’une commande à l’entrée de la suivante. Commence par une combinaison simple.',
       question: 'Avec cat flux/chronologie | head -n 1, quel flag obtiens-tu ?',
       hints: ['Le caractère | transmet la sortie de cat à head.', 'Cette combinaison montre le principe du pipe. head -n 1 flux/chronologie serait aussi possible sans cat.'],
-      success: 'Le pipe transmet un flux de texte ; ici, cat est pédagogique mais facultatif.',
+      success: 'Le pipe transmet un flux de texte, ici, cat est pédagogique mais facultatif.',
       flag: 'FLAG{MEDITIK}'
     },
     {
@@ -141,7 +141,7 @@ const module02 = {
       hints: ['Le pipe envoie la sortie de diff dans less. Cherche authentification dans less avec /authentification.', 'Une ligne commençant par + appartient à volume-actuel. Quitte less avec q.'],
       decoy: 'FLAG{MACHOC}',
       decoyFeedback: 'Ce flag appartient à la ligne retirée de l’ancien bloc authentification.',
-      success: 'diff repère les changements ; less aide à parcourir une sortie longue.',
+      success: 'diff repère les changements, less aide à parcourir une sortie longue.',
       flag: 'FLAG{JIRACHI}'
     }
   ]

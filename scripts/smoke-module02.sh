@@ -10,11 +10,16 @@ cd "$temporaire/atelier-module-02"
 cat accueil/briefing | grep -Fq 'FLAG{SALAMECHE}'
 cat notes/en_vigueur | grep -Fq 'FLAG{NINJASK}'
 cat notes/archive | grep -Fq 'FLAG{ONIX}'
+test "$(wc -l < manuel/guide)" -eq 360
 grep -Fq 'FLAG{ALTARIA}' manuel/guide
 grep -Fq 'FLAG{LUXRAY}' manuel/guide
+test "$(grep -Fn 'FLAG{ALTARIA}' manuel/guide | cut -d: -f1)" -eq 174
+test "$(grep -Fn 'FLAG{LUXRAY}' manuel/guide | cut -d: -f1)" -eq 251
 
+test "$(wc -l < journaux/rotation)" -eq 80
 head -n 1 journaux/rotation | grep -Fq 'FLAG{TOGEPI}'
-head -n 6 journaux/rotation | tail -n 1 | grep -Fq 'FLAG{MORPHEO}'
+! head journaux/rotation | grep -Fq 'FLAG{MORPHEO}'
+head -n 11 journaux/rotation | tail -n 1 | grep -Fq 'FLAG{MORPHEO}'
 tail -n 1 journaux/rotation | grep -Fq 'FLAG{RONFLEX}'
 tail -n 4 journaux/rotation | head -n 1 | grep -Fq 'FLAG{MARILL}'
 
