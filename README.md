@@ -1,14 +1,12 @@
 # Linux, pour de vrai
 
-Un parcours autonome pour des débutants en Linux. Les exercices et les données
-de cette version sont originaux. Les dernières missions ciblent AlmaLinux.
+Un parcours autonome pour des débutants en Linux sur une VM AlmaLinux.
 
 Les **Modules 01 à 03** proposent un format CTF : des flags à découvrir
 dans une archive dédiée par module, sans script de validation. Le premier porte
 sur la navigation et les noms de fichiers ; le second sur la lecture et la
 comparaison de leur contenu ; le troisième sur le traitement de données et les
-pipes. Les 42 missions du parcours précédent restent
-accessibles pendant la construction des autres modules.
+pipes. Chaque module dispose de sa propre archive et de sa progression.
 
 ## Utilisation
 
@@ -63,45 +61,17 @@ bonne réponse résulte d’une extraction, d’un tri, d’une normalisation ou
 comptage. Les pièges portent notamment sur le tri numérique et sur le fait que
 `uniq` seul ne rapproche pas les doublons éloignés.
 
-### Parcours de 42 missions · format précédent
-
-1. Télécharger `atelier-linux.tar.gz` depuis la page d'accueil (le lien mène
-   au fichier hébergé sur GitHub), puis déposer l'archive dans la VM Linux.
-2. Dans le dossier de téléchargement de la VM :
-
-   ```bash
-   tar -xzf atelier-linux.tar.gz
-   cd atelier-linux
-   ```
-
-3. Réaliser les missions dans l'ordre. Après chacune, lancer
-   `bash verifier.sh 01` en remplaçant le numéro. Reporter le code affiché
-   après « VALIDÉ » dans le site.
-
-Les missions travaillent dans `atelier-linux` ou consultent l'état de la VM.
-Elles ne demandent pas de droits administrateur. Le vérificateur contrôle les
-fichiers produits ; pour les missions 31 à 34, il exécute aussi les scripts
-écrits par l'apprenant sur les données de test. Pour repartir de zéro, extraire
-une nouvelle copie de l'archive.
-
 ## Contenu pédagogique
 
-- 42 missions pratiques de 4 à 18 minutes, réparties en neuf étapes ;
-- indices progressifs et solution masquée jusqu'à la demande de l'apprenant ;
-- vérification sur la VM, avec un retour sur le problème rencontré ;
-- 24 cartes de rappel qui reviennent après 1, 3, 7 puis 14 jours en cas de
-  bonne réponse, avec entraînement libre sur toutes les cartes ou uniquement
-  celles dont la dernière réponse était erronée ;
+- 36 défis CTF répartis en trois modules, avec des leurres pédagogiques ;
+- indices progressifs et validation des flags dans le navigateur ;
 - 28 fiches de cours en Markdown, consultables et recherchables ;
-- guide de survie consultable à tout moment.
+- guide de survie consultable à tout moment ;
+- section « Révisions » en attente de restructuration.
 
-La progression va des commandes de base aux droits, liens symboliques,
-empreintes, sauvegardes restaurées, journaux, processus, variables
-d'environnement et scripts Bash. Les missions 36 à 42 explorent AlmaLinux :
-distribution, RPM/DNF, unités systemd, journal, réseau et SELinux. Elles
-utilisent des commandes de consultation et ne demandent pas `sudo`. Il est
-préférable de répartir le parcours sur plusieurs séances pour profiter des
-révisions différées.
+Les fiches couvrent aussi des sujets d'administration qui feront l'objet de
+futurs modules. Leurs chemins d'exemple sont illustratifs et peuvent différer
+des archives CTF actuelles.
 
 Le site enregistre la progression dans le navigateur via `localStorage`. Les
 résultats ne sont pas envoyés à un serveur. Pour conserver sa progression,
@@ -110,7 +80,7 @@ site. L'archive de la VM et la progression du site sont indépendantes.
 
 ## Maintien et vérification
 
-Les missions et cartes sont définies dans `app.js`. Chaque fiche de cours est
+Les défis des modules sont définis dans `modules/`. Chaque fiche de cours est
 un fichier dans `cours/` ; `cours/_MODELE.md` montre la structure à suivre.
 Après modification ou ajout d'une fiche, régénérer `cours-data.js` avec :
 
@@ -119,13 +89,7 @@ node scripts/build-courses.cjs
 ```
 
 Ce fichier généré permet au site de rester utilisable en ouvrant directement
-`index.html`, sans serveur local. Les données de la VM et l'unique vérificateur
-`verifier.sh` se trouvent dans `atelier-linux/`. Après une modification de ce
-dossier, reconstruire l'archive depuis la racine du projet :
-
-```bash
-tar -czf atelier-linux.tar.gz atelier-linux
-```
+`index.html`, sans serveur local.
 
 Le site publié sur Vercel est construit par `node scripts/build-site.cjs` :
 les sources des modules sont dans `modules/01/`, `modules/02/` et `modules/03/`, tandis que `dist/` est une sortie
@@ -142,17 +106,10 @@ node scripts/build-module03.cjs
 ```
 
 Les tests `scripts/smoke-module01.sh`, `scripts/smoke-module02.sh` et
-`scripts/smoke-module03.sh` extraient
-les archives CTF et vérifient les flags avec les commandes du cours. Le test d'intégration
-`scripts/smoke-test.sh` extrait l'archive historique dans un dossier
-temporaire Linux, réalise les missions dans l'ordre et vérifie chaque résultat.
-Le lancer sous Linux avec `bash scripts/smoke-test.sh`. Sur une distribution
-sans RPM ou SELinux, les deux branches spécifiques sont vérifiées avec des
-réponses simulées ; elles restent à essayer sur la VM AlmaLinux des alternants.
-`node scripts/check-frontend.cjs` vérifie la construction des pages et la
-correspondance des codes de validation.
+`scripts/smoke-module03.sh` extraient les archives CTF et vérifient les flags
+avec les commandes du cours. `node scripts/check-frontend.cjs` vérifie la
+construction des pages et les données des modules.
 
 Pour les commandes propres à AlmaLinux, consulter également le
 [guide d'installation et d'administration AlmaLinux](https://wiki.almalinux.org/documentation/after-installation-guide.html)
 et la [documentation officielle des dépôts](https://wiki.almalinux.org/repos/AlmaLinux).
-# linux

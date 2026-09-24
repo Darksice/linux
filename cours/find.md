@@ -3,7 +3,6 @@ id: find
 title: find
 group: Fichiers et droits
 summary: Cherche des fichiers dans une arborescence.
-mission: 11
 ---
 
 ## Comprendre
@@ -28,4 +27,4 @@ Mets le motif entre guillemets pour le laisser à find.
 
 ## Pour s’entraîner
 
-Essaie la mission 11 dans la VM, puis reviens expliquer à voix haute ce que fait chaque option.
+Relis les exemples et explique à voix haute l’effet de chaque option. Les défis pratiques correspondants arriveront avec les prochains modules.

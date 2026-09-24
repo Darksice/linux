@@ -3,7 +3,6 @@ id: selinux
 title: getenforce
 group: Système et AlmaLinux
 summary: Affiche le mode courant de SELinux.
-mission: 42
 ---
 
 ## Comprendre
@@ -28,4 +27,4 @@ Enforcing applique les règles ; Permissive journalise sans bloquer ; Disabled d
 
 ## Pour s’entraîner
 
-Essaie la mission 42 dans la VM, puis reviens expliquer à voix haute ce que fait chaque option.
+Relis les exemples et explique à voix haute l’effet de chaque option. Les défis pratiques correspondants arriveront avec les prochains modules.

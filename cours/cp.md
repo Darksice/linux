@@ -3,7 +3,6 @@ id: cp
 title: cp
 group: Fichiers et droits
 summary: Copie un fichier sans retirer la source.
-mission: 02
 ---
 
 ## Comprendre
@@ -28,4 +27,4 @@ Si la destination existe, elle peut être remplacée.
 
 ## Pour s’entraîner
 
-Essaie la mission 02 dans la VM, puis reviens expliquer à voix haute ce que fait chaque option.
+Relis les exemples et explique à voix haute l’effet de chaque option. Les défis pratiques correspondants arriveront avec les prochains modules.

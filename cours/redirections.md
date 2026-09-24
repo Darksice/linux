@@ -3,7 +3,6 @@ id: redirections
 title: >  >>  2>
 group: Texte et flux
 summary: Envoie la sortie normale ou les erreurs vers un fichier.
-mission: 30
 ---
 
 ## Comprendre
@@ -28,4 +27,4 @@ La commande ci-dessus illustre une utilisation courante ; adapte les chemins à 
 
 ## Pour s’entraîner
 
-Essaie la mission 30 dans la VM, puis reviens expliquer à voix haute ce que fait chaque option.
+Relis les exemples et explique à voix haute l’effet de chaque option. Les défis pratiques correspondants arriveront avec les prochains modules.

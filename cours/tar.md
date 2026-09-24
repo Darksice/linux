@@ -3,7 +3,6 @@ id: tar
 title: tar
 group: Système et AlmaLinux
 summary: Crée, liste ou extrait une archive.
-mission: 20
 ---
 
 ## Comprendre
@@ -28,4 +27,4 @@ La commande ci-dessus illustre une utilisation courante ; adapte les chemins à 
 
 ## Pour s’entraîner
 
-Essaie la mission 20 dans la VM, puis reviens expliquer à voix haute ce que fait chaque option.
+Relis les exemples et explique à voix haute l’effet de chaque option. Les défis pratiques correspondants arriveront avec les prochains modules.

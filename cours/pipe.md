@@ -3,7 +3,6 @@ id: pipe
 title: | (tuyau)
 group: Texte et flux
 summary: Transmet la sortie d’une commande à l’entrée d’une autre.
-mission: 08
 ---
 
 ## Comprendre
@@ -28,4 +27,4 @@ Construis le pipeline étape par étape pour voir les données intermédiaires.
 
 ## Pour s’entraîner
 
-Essaie la mission 08 dans la VM, puis reviens expliquer à voix haute ce que fait chaque option.
+Reprends le Module 02 dans ta VM, puis explique à voix haute ce que fait chaque option.

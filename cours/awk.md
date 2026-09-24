@@ -3,7 +3,6 @@ id: awk
 title: awk
 group: Texte et flux
 summary: Sélectionne et traite des colonnes ligne par ligne.
-mission: 24
 ---
 
 ## Comprendre
@@ -28,4 +27,4 @@ $1 est la première colonne ; -F, définit la virgule comme séparateur.
 
 ## Pour s’entraîner
 
-Essaie la mission 24 dans la VM, puis reviens expliquer à voix haute ce que fait chaque option.
+Relis les exemples et explique à voix haute l’effet de chaque option. Les défis pratiques correspondants arriveront avec les prochains modules.

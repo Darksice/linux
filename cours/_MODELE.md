@@ -3,7 +3,6 @@ id: nom-de-la-commande
 title: Nom affiché
 group: Navigation
 summary: Une phrase qui dit à quoi sert la commande.
-mission: 01
 ---
 
 ## Comprendre
@@ -31,4 +30,4 @@ Mentionne une erreur fréquente, un risque ou la différence avec une commande v
 
 ## Pour s’entraîner
 
-Propose une petite manipulation vérifiable dans l’atelier, puis une question de rappel.
+Propose une petite manipulation vérifiable dans un module existant ou sur des fichiers de test, puis une question de rappel.

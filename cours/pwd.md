@@ -3,7 +3,6 @@ id: pwd
 title: pwd
 group: Navigation
 summary: Affiche le chemin complet du dossier courant.
-mission: 01
 ---
 
 ## Comprendre
@@ -28,4 +27,4 @@ Avant une commande qui écrit ou supprime, vérifie où tu te trouves.
 
 ## Pour s’entraîner
 
-Essaie la mission 01 dans la VM, puis reviens expliquer à voix haute ce que fait chaque option.
+Reprends le Module 01 dans ta VM, puis explique à voix haute ce que fait chaque option.

@@ -3,7 +3,6 @@ id: jobs
 title: Ctrl-Z / bg / fg
 group: Système et AlmaLinux
 summary: Suspend puis déplace un job entre premier plan et arrière-plan.
-mission: 27
 ---
 
 ## Comprendre
@@ -28,4 +27,4 @@ Ctrl-Z suspend ; Ctrl-C interrompt. Un job en arrière-plan peut continuer à tr
 
 ## Pour s’entraîner
 
-Essaie la mission 27 dans la VM, puis reviens expliquer à voix haute ce que fait chaque option.
+Relis les exemples et explique à voix haute l’effet de chaque option. Les défis pratiques correspondants arriveront avec les prochains modules.

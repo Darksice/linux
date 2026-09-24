@@ -51,7 +51,7 @@ function parse(file) {
   for (const heading of ['Comprendre','Commandes et options','Exemple commenté','Points de vigilance','Pour s’entraîner']) {
     if (!match[2].includes(`## ${heading}`)) throw new Error(`${file} : section « ${heading} » manquante.`);
   }
-  return {id:meta.id,label:meta.title,group:meta.group,summary:meta.summary,mission:meta.mission || '',html:markdown(match[2])};
+  return {id:meta.id,label:meta.title,group:meta.group,summary:meta.summary,html:markdown(match[2])};
 }
 
 const files = fs.readdirSync(folder).filter(file => file.endsWith('.md') && !file.startsWith('_')).sort();

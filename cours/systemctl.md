@@ -3,7 +3,6 @@ id: systemctl
 title: systemctl
 group: Système et AlmaLinux
 summary: Observe l’état des services et unités systemd.
-mission: 38
 ---
 
 ## Comprendre
@@ -28,4 +27,4 @@ status consulte ; restart modifie le service. Regarde les journaux avant toute a
 
 ## Pour s’entraîner
 
-Essaie la mission 38 dans la VM, puis reviens expliquer à voix haute ce que fait chaque option.
+Relis les exemples et explique à voix haute l’effet de chaque option. Les défis pratiques correspondants arriveront avec les prochains modules.

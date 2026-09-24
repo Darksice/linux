@@ -3,7 +3,6 @@ id: mkdir
 title: mkdir
 group: Fichiers et droits
 summary: Crée un dossier.
-mission: 03
 ---
 
 ## Comprendre
@@ -28,4 +27,4 @@ Le parent doit exister, sauf si tu utilises mkdir -p.
 
 ## Pour s’entraîner
 
-Essaie la mission 03 dans la VM, puis reviens expliquer à voix haute ce que fait chaque option.
+Relis les exemples et explique à voix haute l’effet de chaque option. Les défis pratiques correspondants arriveront avec les prochains modules.

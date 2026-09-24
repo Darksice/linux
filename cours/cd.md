@@ -3,7 +3,6 @@ id: cd
 title: cd
 group: Navigation
 summary: Change le dossier courant.
-mission: 01
 ---
 
 ## Comprendre
@@ -28,4 +27,4 @@ La commande ci-dessus illustre une utilisation courante ; adapte les chemins à 
 
 ## Pour s’entraîner
 
-Essaie la mission 01 dans la VM, puis reviens expliquer à voix haute ce que fait chaque option.
+Reprends le Module 01 dans ta VM, puis explique à voix haute ce que fait chaque option.

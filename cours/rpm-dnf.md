@@ -3,7 +3,6 @@ id: rpm-dnf
 title: rpm / dnf
 group: Système et AlmaLinux
 summary: Sur AlmaLinux, rpm interroge les paquets installés et dnf gère les dépôts.
-mission: 37
 ---
 
 ## Comprendre
@@ -28,4 +27,4 @@ Ces commandes d’inspection ne demandent pas de modifier les paquets.
 
 ## Pour s’entraîner
 
-Essaie la mission 37 dans la VM, puis reviens expliquer à voix haute ce que fait chaque option.
+Relis les exemples et explique à voix haute l’effet de chaque option. Les défis pratiques correspondants arriveront avec les prochains modules.

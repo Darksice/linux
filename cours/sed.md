@@ -3,7 +3,6 @@ id: sed
 title: sed
 group: Texte et flux
 summary: Transforme un flux de texte, notamment par substitution.
-mission: 23
 ---
 
 ## Comprendre
@@ -28,4 +27,4 @@ Sans -i, le fichier source reste inchangé ; redirige la sortie vers une copie.
 
 ## Pour s’entraîner
 
-Essaie la mission 23 dans la VM, puis reviens expliquer à voix haute ce que fait chaque option.
+Relis les exemples et explique à voix haute l’effet de chaque option. Les défis pratiques correspondants arriveront avec les prochains modules.

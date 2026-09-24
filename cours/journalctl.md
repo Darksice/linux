@@ -3,7 +3,6 @@ id: journalctl
 title: journalctl
 group: Système et AlmaLinux
 summary: Consulte le journal des services gérés par systemd.
-mission: 39
 ---
 
 ## Comprendre
@@ -28,4 +27,4 @@ Les droits du compte peuvent limiter les entrées visibles.
 
 ## Pour s’entraîner
 
-Essaie la mission 39 dans la VM, puis reviens expliquer à voix haute ce que fait chaque option.
+Relis les exemples et explique à voix haute l’effet de chaque option. Les défis pratiques correspondants arriveront avec les prochains modules.

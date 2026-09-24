@@ -3,7 +3,6 @@ id: less
 title: less
 group: Texte et flux
 summary: Parcourt un fichier page par page sans le modifier.
-mission: 21
 ---
 
 ## Comprendre
@@ -28,4 +27,4 @@ Utilise les flèches et q pour quitter.
 
 ## Pour s’entraîner
 
-Essaie la mission 21 dans la VM, puis reviens expliquer à voix haute ce que fait chaque option.
+Reprends le Module 02 dans ta VM, puis explique à voix haute ce que fait chaque option.

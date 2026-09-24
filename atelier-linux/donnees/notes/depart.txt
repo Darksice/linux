@@ -1,2 +1,0 @@
-Bienvenue dans l'atelier Linux.
-Chaque commande produit un effet que vous pouvez verifier.

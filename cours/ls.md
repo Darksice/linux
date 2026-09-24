@@ -3,7 +3,6 @@ id: ls
 title: ls
 group: Navigation
 summary: Liste les entrées d’un dossier et permet d’examiner leurs détails.
-mission: 02
 ---
 
 ## Comprendre
@@ -40,4 +39,4 @@ La deuxième commande affiche le contenu visible du dossier courant. Les deux co
 
 ## Pour s’entraîner
 
-Dans la VM, compare `ls donnees/notes`, `ls -a "donnees/Projet Alpha"` et `ls -la "donnees/Projet Alpha"`. Quelles informations supplémentaires apparaissent à chaque fois ? Essaie ensuite les missions 02 et 05.
+Dans le Module 01, compare `ls accueil`, `ls -a accueil` et `ls -la accueil`. Quelles informations supplémentaires apparaissent à chaque fois ?

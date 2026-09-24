@@ -3,7 +3,6 @@ id: du-df
 title: du / df
 group: Système et AlmaLinux
 summary: du mesure les fichiers ; df affiche l’espace disponible sur les systèmes de fichiers.
-mission: 18
 ---
 
 ## Comprendre
@@ -28,4 +27,4 @@ Un disque plein se diagnostique avec df ; un gros dossier se localise avec du.
 
 ## Pour s’entraîner
 
-Essaie la mission 18 dans la VM, puis reviens expliquer à voix haute ce que fait chaque option.
+Relis les exemples et explique à voix haute l’effet de chaque option. Les défis pratiques correspondants arriveront avec les prochains modules.

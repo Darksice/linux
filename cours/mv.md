@@ -3,7 +3,6 @@ id: mv
 title: mv
 group: Fichiers et droits
 summary: Déplace ou renomme un fichier ou dossier.
-mission: 04
 ---
 
 ## Comprendre
@@ -28,4 +27,4 @@ Contrôle le dossier cible : un déplacement peut être silencieux.
 
 ## Pour s’entraîner
 
-Essaie la mission 04 dans la VM, puis reviens expliquer à voix haute ce que fait chaque option.
+Relis les exemples et explique à voix haute l’effet de chaque option. Les défis pratiques correspondants arriveront avec les prochains modules.

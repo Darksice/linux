@@ -3,7 +3,6 @@ id: ip-ss
 title: ip / ss
 group: Système et AlmaLinux
 summary: ip inspecte interfaces et routes ; ss montre les sockets.
-mission: 41
 ---
 
 ## Comprendre
@@ -28,4 +27,4 @@ Un service actif peut ne pas écouter sur le port ou l’interface attendus.
 
 ## Pour s’entraîner
 
-Essaie la mission 41 dans la VM, puis reviens expliquer à voix haute ce que fait chaque option.
+Relis les exemples et explique à voix haute l’effet de chaque option. Les défis pratiques correspondants arriveront avec les prochains modules.

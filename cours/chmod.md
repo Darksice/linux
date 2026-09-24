@@ -3,7 +3,6 @@ id: chmod
 title: chmod
 group: Fichiers et droits
 summary: Règle les droits de lecture, d’écriture et d’exécution.
-mission: 17
 ---
 
 ## Comprendre
@@ -38,4 +37,4 @@ Sur un **dossier**, `x` signifie surtout pouvoir le traverser et accéder à une
 
 ## Pour s’entraîner
 
-Avant la mission 17, prédis les droits de `600`, `700` et `750` en écrivant les trois triplets. Lance ensuite les commandes de l’exemple dans l’atelier et vérifie ta prédiction avec `ls -ld` et `ls -l`.
+Sur un répertoire de test créé dans ta VM, prédis les droits de `600`, `700` et `750` en écrivant les trois triplets. Vérifie ensuite ta prédiction avec `ls -ld` et `ls -l`.

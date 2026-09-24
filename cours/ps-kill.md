@@ -3,7 +3,6 @@ id: ps-kill
 title: ps / kill
 group: Système et AlmaLinux
 summary: ps observe les processus ; kill envoie un signal à un PID.
-mission: 27
 ---
 
 ## Comprendre
@@ -28,4 +27,4 @@ Vérifie le PID et la commande avant de terminer un processus.
 
 ## Pour s’entraîner
 
-Essaie la mission 27 dans la VM, puis reviens expliquer à voix haute ce que fait chaque option.
+Relis les exemples et explique à voix haute l’effet de chaque option. Les défis pratiques correspondants arriveront avec les prochains modules.

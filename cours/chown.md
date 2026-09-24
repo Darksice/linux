@@ -3,7 +3,6 @@ id: chown
 title: chown
 group: Fichiers et droits
 summary: Change le propriétaire et, éventuellement, le groupe.
-mission:
 ---
 
 ## Comprendre
@@ -28,4 +27,4 @@ Changer de propriétaire demande généralement des droits administrateur. L’e
 
 ## Pour s’entraîner
 
-Sur ta VM, compare le propriétaire et le groupe affichés par `ls -l` et `stat` sur un fichier de test. Lis `man chown`, puis écris la commande qui changerait ces deux valeurs sans l’exécuter : l’atelier ne demande pas de droits administrateur.
+Sur ta VM, compare le propriétaire et le groupe affichés par `ls -l` et `stat` sur un fichier de test. Lis `man chown`, puis écris la commande qui changerait ces deux valeurs sans l’exécuter : cet exercice ne demande pas de droits administrateur.

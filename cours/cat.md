@@ -3,7 +3,6 @@ id: cat
 title: cat
 group: Texte et flux
 summary: Affiche le contenu des fichiers sur la sortie standard.
-mission: 07
 ---
 
 ## Comprendre
@@ -28,4 +27,4 @@ Pour un très long fichier, less est plus confortable.
 
 ## Pour s’entraîner
 
-Essaie la mission 07 dans la VM, puis reviens expliquer à voix haute ce que fait chaque option.
+Reprends le Module 02 dans ta VM, puis explique à voix haute ce que fait chaque option.

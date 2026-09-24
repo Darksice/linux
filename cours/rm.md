@@ -3,7 +3,6 @@ id: rm
 title: rm
 group: Fichiers et droits
 summary: Supprime le fichier indiqué.
-mission: 15
 ---
 
 ## Comprendre
@@ -28,4 +27,4 @@ Pas de corbeille habituelle : prévisualise les jokers avec echo ou ls.
 
 ## Pour s’entraîner
 
-Essaie la mission 15 dans la VM, puis reviens expliquer à voix haute ce que fait chaque option.
+Relis les exemples et explique à voix haute l’effet de chaque option. Les défis pratiques correspondants arriveront avec les prochains modules.

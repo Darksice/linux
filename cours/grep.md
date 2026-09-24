@@ -3,7 +3,6 @@ id: grep
 title: grep
 group: Texte et flux
 summary: Affiche les lignes d’un fichier qui correspondent à un motif.
-mission: 08
 ---
 
 ## Comprendre
@@ -28,4 +27,4 @@ La commande ci-dessus illustre une utilisation courante ; adapte les chemins à 
 
 ## Pour s’entraîner
 
-Essaie la mission 08 dans la VM, puis reviens expliquer à voix haute ce que fait chaque option.
+Relis les exemples et explique à voix haute l’effet de chaque option. Les défis pratiques correspondants arriveront avec les prochains modules.
