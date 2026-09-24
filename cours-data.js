@@ -12,28 +12,28 @@ const courseLessons = [
     "label": "cat",
     "group": "Texte et flux",
     "summary": "Affiche le contenu des fichiers sur la sortie standard.",
-    "html": "<h2>Comprendre</h2>\n<p>Affiche le contenu des fichiers sur la sortie standard.</p>\n<h2>Commandes et options</h2>\n<p>La forme de base est <code>cat fichier [autre-fichier]</code>.</p>\n<h2>Exemple commenté</h2>\n<pre><code>cat donnees/notes/consignes.txt</code></pre>\n<p>La commande ci-dessus illustre une utilisation courante ; adapte les chemins à ton dossier de travail.</p>\n<h2>Points de vigilance</h2>\n<p>Pour un très long fichier, less est plus confortable.</p>\n<h2>Pour s’entraîner</h2>\n<p>Reprends le Module 02 dans ta VM, puis explique à voix haute ce que fait chaque option.</p>"
+    "html": "<h2>Comprendre</h2>\n<p>Affiche le contenu des fichiers sur la sortie standard.</p>\n<h2>Commandes et options</h2>\n<p>La forme de base est <code>cat fichier [autre-fichier]</code>.</p>\n<h2>Exemple commenté</h2>\n<pre><code>cat donnees/notes/consignes.txt</code></pre>\n<p>La commande ci-dessus illustre une utilisation courante ; adapte les chemins à ton dossier de travail.</p>\n<h2>Points de vigilance</h2>\n<p>Pour un très long fichier, less est plus confortable.</p>\n<h2>Pour s’entraîner</h2>\n<p>Reprends le Module 02 sur ta machine Linux, puis explique à voix haute ce que fait chaque option.</p>"
   },
   {
     "id": "cd",
     "label": "cd",
     "group": "Navigation",
     "summary": "Change le dossier courant.",
-    "html": "<h2>Comprendre</h2>\n<p>Change le dossier courant.</p>\n<h2>Commandes et options</h2>\n<p>La forme de base est <code>cd chemin</code>.</p>\n<h2>Exemple commenté</h2>\n<pre><code>cd donnees/notes</code></pre>\n<p>La commande ci-dessus illustre une utilisation courante ; adapte les chemins à ton dossier de travail.</p>\n<h2>Points de vigilance</h2>\n<p>.. désigne le parent ; ~ désigne ton dossier personnel.</p>\n<h2>Pour s’entraîner</h2>\n<p>Reprends le Module 01 dans ta VM, puis explique à voix haute ce que fait chaque option.</p>"
+    "html": "<h2>Comprendre</h2>\n<p>Change le dossier courant.</p>\n<h2>Commandes et options</h2>\n<p>La forme de base est <code>cd chemin</code>.</p>\n<h2>Exemple commenté</h2>\n<pre><code>cd donnees/notes</code></pre>\n<p>La commande ci-dessus illustre une utilisation courante ; adapte les chemins à ton dossier de travail.</p>\n<h2>Points de vigilance</h2>\n<p>.. désigne le parent ; ~ désigne ton dossier personnel.</p>\n<h2>Pour s’entraîner</h2>\n<p>Reprends le Module 01 sur ta machine Linux, puis explique à voix haute ce que fait chaque option.</p>"
   },
   {
     "id": "chmod",
     "label": "chmod",
     "group": "Fichiers et droits",
     "summary": "Règle les droits de lecture, d’écriture et d’exécution.",
-    "html": "<h2>Comprendre</h2>\n<p><code>chmod</code> modifie les droits d’accès d’un fichier ou d’un dossier. Ces droits sont organisés en <strong>trois triplets</strong> : propriétaire (<code>u</code>), groupe (<code>g</code>) et autres utilisateurs (<code>o</code>). Dans chaque triplet, <code>r</code> signifie lecture, <code>w</code> écriture et <code>x</code> exécution.</p>\n<p>Le premier caractère de <code>ls -l</code> décrit le type (<code>-</code> pour fichier, <code>d</code> pour dossier). Les neuf caractères suivants représentent les trois triplets. Par exemple, <code>-rwxr-x---</code> signifie : propriétaire <code>rwx</code>, groupe <code>r-x</code>, autres <code>---</code>.</p>\n<h2>Commandes et options</h2>\n<ul><li>Forme symbolique : <code>chmod u+x fichier</code> ajoute <code>x</code> au propriétaire ; <code>chmod g-w fichier</code> retire <code>w</code> au groupe ; <code>chmod o= fichier</code> enlève tous les droits aux autres.</li><li>Forme numérique : chaque triplet devient un chiffre en additionnant <code>r = 4</code> (<code>2²</code>), <code>w = 2</code> (<code>2¹</code>) et <code>x = 1</code> (<code>2⁰</code>). Une absence de droit vaut <code>0</code>.</li><li><code>7 = 4 + 2 + 1</code> donne <code>rwx</code> ; <code>6 = 4 + 2</code> donne <code>rw-</code> ; <code>5 = 4 + 1</code> donne <code>r-x</code>.</li><li><code>chmod 600 fichier</code> donne <code>rw-------</code> ; <code>chmod 755 script.sh</code> donne <code>rwxr-xr-x</code> ; <code>chmod 700 dossier</code> donne <code>rwx------</code>.</li></ul>\n<h2>Exemple commenté</h2>\n<pre><code>mkdir travail/prive\ncp donnees/config/app.conf travail/prive/app.conf\nchmod 700 travail/prive\nchmod 600 travail/prive/app.conf\nls -ld travail/prive\nls -l travail/prive/app.conf</code></pre>\n<p>Le dossier reçoit <code>7</code> pour son propriétaire : il peut le lister, y créer des entrées et le traverser. Le fichier reçoit <code>6</code> : son propriétaire peut le lire et le modifier, mais pas l’exécuter. Dans les deux cas, groupe et autres n’ont aucun droit.</p>\n<h2>Points de vigilance</h2>\n<p>Sur un <strong>dossier</strong>, <code>x</code> signifie surtout pouvoir le traverser et accéder à une entrée dont on connaît le nom ; <code>r</code> permet de lister ses noms ; <code>w</code> permet d’y créer ou supprimer des entrées, généralement avec <code>x</code>. Sur un <strong>fichier</strong>, <code>x</code> autorise son exécution. <code>chmod</code> ne change pas le propriétaire : c’est le rôle de <code>chown</code>. Évite <code>chmod -R 777</code> : il ouvre largement tout un arbre, y compris les fichiers qui n’ont pas besoin d’être exécutables.</p>\n<h2>Pour s’entraîner</h2>\n<p>Sur un répertoire de test créé dans ta VM, prédis les droits de <code>600</code>, <code>700</code> et <code>750</code> en écrivant les trois triplets. Vérifie ensuite ta prédiction avec <code>ls -ld</code> et <code>ls -l</code>.</p>"
+    "html": "<h2>Comprendre</h2>\n<p><code>chmod</code> modifie les droits d’accès d’un fichier ou d’un dossier. Ces droits sont organisés en <strong>trois triplets</strong> : propriétaire (<code>u</code>), groupe (<code>g</code>) et autres utilisateurs (<code>o</code>). Dans chaque triplet, <code>r</code> signifie lecture, <code>w</code> écriture et <code>x</code> exécution.</p>\n<p>Le premier caractère de <code>ls -l</code> décrit le type (<code>-</code> pour fichier, <code>d</code> pour dossier). Les neuf caractères suivants représentent les trois triplets. Par exemple, <code>-rwxr-x---</code> signifie : propriétaire <code>rwx</code>, groupe <code>r-x</code>, autres <code>---</code>.</p>\n<h2>Commandes et options</h2>\n<ul><li>Forme symbolique : <code>chmod u+x fichier</code> ajoute <code>x</code> au propriétaire ; <code>chmod g-w fichier</code> retire <code>w</code> au groupe ; <code>chmod o= fichier</code> enlève tous les droits aux autres.</li><li>Forme numérique : chaque triplet devient un chiffre en additionnant <code>r = 4</code> (<code>2²</code>), <code>w = 2</code> (<code>2¹</code>) et <code>x = 1</code> (<code>2⁰</code>). Une absence de droit vaut <code>0</code>.</li><li><code>7 = 4 + 2 + 1</code> donne <code>rwx</code> ; <code>6 = 4 + 2</code> donne <code>rw-</code> ; <code>5 = 4 + 1</code> donne <code>r-x</code>.</li><li><code>chmod 600 fichier</code> donne <code>rw-------</code> ; <code>chmod 755 script.sh</code> donne <code>rwxr-xr-x</code> ; <code>chmod 700 dossier</code> donne <code>rwx------</code>.</li></ul>\n<h2>Exemple commenté</h2>\n<pre><code>mkdir travail/prive\ncp donnees/config/app.conf travail/prive/app.conf\nchmod 700 travail/prive\nchmod 600 travail/prive/app.conf\nls -ld travail/prive\nls -l travail/prive/app.conf</code></pre>\n<p>Le dossier reçoit <code>7</code> pour son propriétaire : il peut le lister, y créer des entrées et le traverser. Le fichier reçoit <code>6</code> : son propriétaire peut le lire et le modifier, mais pas l’exécuter. Dans les deux cas, groupe et autres n’ont aucun droit.</p>\n<h2>Points de vigilance</h2>\n<p>Sur un <strong>dossier</strong>, <code>x</code> signifie surtout pouvoir le traverser et accéder à une entrée dont on connaît le nom ; <code>r</code> permet de lister ses noms ; <code>w</code> permet d’y créer ou supprimer des entrées, généralement avec <code>x</code>. Sur un <strong>fichier</strong>, <code>x</code> autorise son exécution. <code>chmod</code> ne change pas le propriétaire : c’est le rôle de <code>chown</code>. Évite <code>chmod -R 777</code> : il ouvre largement tout un arbre, y compris les fichiers qui n’ont pas besoin d’être exécutables.</p>\n<h2>Pour s’entraîner</h2>\n<p>Sur un répertoire de test créé sur ta machine Linux, prédis les droits de <code>600</code>, <code>700</code> et <code>750</code> en écrivant les trois triplets. Vérifie ensuite ta prédiction avec <code>ls -ld</code> et <code>ls -l</code>.</p>"
   },
   {
     "id": "chown",
     "label": "chown",
     "group": "Fichiers et droits",
     "summary": "Change le propriétaire et, éventuellement, le groupe.",
-    "html": "<h2>Comprendre</h2>\n<p>Change le propriétaire et, éventuellement, le groupe.</p>\n<h2>Commandes et options</h2>\n<p>La forme de base est <code>chown utilisateur:groupe fichier</code>.</p>\n<h2>Exemple commenté</h2>\n<pre><code>chown alice:admins rapport.txt</code></pre>\n<p>La commande ci-dessus illustre une utilisation courante ; adapte les chemins à ton dossier de travail.</p>\n<h2>Points de vigilance</h2>\n<p>Changer de propriétaire demande généralement des droits administrateur. L’exemple est une syntaxe, pas une commande à lancer dans l’atelier.</p>\n<h2>Pour s’entraîner</h2>\n<p>Sur ta VM, compare le propriétaire et le groupe affichés par <code>ls -l</code> et <code>stat</code> sur un fichier de test. Lis <code>man chown</code>, puis écris la commande qui changerait ces deux valeurs sans l’exécuter : cet exercice ne demande pas de droits administrateur.</p>"
+    "html": "<h2>Comprendre</h2>\n<p>Change le propriétaire et, éventuellement, le groupe.</p>\n<h2>Commandes et options</h2>\n<p>La forme de base est <code>chown utilisateur:groupe fichier</code>.</p>\n<h2>Exemple commenté</h2>\n<pre><code>chown alice:admins rapport.txt</code></pre>\n<p>La commande ci-dessus illustre une utilisation courante ; adapte les chemins à ton dossier de travail.</p>\n<h2>Points de vigilance</h2>\n<p>Changer de propriétaire demande généralement des droits administrateur. L’exemple est une syntaxe, pas une commande à lancer dans l’atelier.</p>\n<h2>Pour s’entraîner</h2>\n<p>Sur ta machine Linux, compare le propriétaire et le groupe affichés par <code>ls -l</code> et <code>stat</code> sur un fichier de test. Lis <code>man chown</code>, puis écris la commande qui changerait ces deux valeurs sans l’exécuter : cet exercice ne demande pas de droits administrateur.</p>"
   },
   {
     "id": "cp",
@@ -45,7 +45,7 @@ const courseLessons = [
   {
     "id": "du-df",
     "label": "du / df",
-    "group": "Système et AlmaLinux",
+    "group": "Système et administration",
     "summary": "du mesure les fichiers ; df affiche l’espace disponible sur les systèmes de fichiers.",
     "html": "<h2>Comprendre</h2>\n<p>du mesure les fichiers ; df affiche l’espace disponible sur les systèmes de fichiers.</p>\n<h2>Commandes et options</h2>\n<p>La forme de base est <code>du -sh dossier  |  df -h</code>.</p>\n<h2>Exemple commenté</h2>\n<pre><code>du -sh donnees</code></pre>\n<p>La commande ci-dessus illustre une utilisation courante ; adapte les chemins à ton dossier de travail.</p>\n<h2>Points de vigilance</h2>\n<p>Un disque plein se diagnostique avec df ; un gros dossier se localise avec du.</p>\n<h2>Pour s’entraîner</h2>\n<p>Relis les exemples et explique à voix haute l’effet de chaque option. Les défis pratiques correspondants arriveront avec les prochains modules.</p>"
   },
@@ -66,21 +66,21 @@ const courseLessons = [
   {
     "id": "ip-ss",
     "label": "ip / ss",
-    "group": "Système et AlmaLinux",
+    "group": "Système et administration",
     "summary": "ip inspecte interfaces et routes ; ss montre les sockets.",
     "html": "<h2>Comprendre</h2>\n<p>ip inspecte interfaces et routes ; ss montre les sockets.</p>\n<h2>Commandes et options</h2>\n<p>La forme de base est <code>ip -br address  |  ss -lnt</code>.</p>\n<h2>Exemple commenté</h2>\n<pre><code>ss -lnt</code></pre>\n<p>La commande ci-dessus illustre une utilisation courante ; adapte les chemins à ton dossier de travail.</p>\n<h2>Points de vigilance</h2>\n<p>Un service actif peut ne pas écouter sur le port ou l’interface attendus.</p>\n<h2>Pour s’entraîner</h2>\n<p>Relis les exemples et explique à voix haute l’effet de chaque option. Les défis pratiques correspondants arriveront avec les prochains modules.</p>"
   },
   {
     "id": "jobs",
     "label": "Ctrl-Z / bg / fg",
-    "group": "Système et AlmaLinux",
+    "group": "Système et administration",
     "summary": "Suspend puis déplace un job entre premier plan et arrière-plan.",
     "html": "<h2>Comprendre</h2>\n<p>Suspend puis déplace un job entre premier plan et arrière-plan.</p>\n<h2>Commandes et options</h2>\n<p>La forme de base est <code>Ctrl-Z  puis  bg  ou  fg</code>.</p>\n<h2>Exemple commenté</h2>\n<pre><code>sleep 300  # puis Ctrl-Z, bg, fg</code></pre>\n<p>La commande ci-dessus illustre une utilisation courante ; adapte les chemins à ton dossier de travail.</p>\n<h2>Points de vigilance</h2>\n<p>Ctrl-Z suspend ; Ctrl-C interrompt. Un job en arrière-plan peut continuer à travailler.</p>\n<h2>Pour s’entraîner</h2>\n<p>Relis les exemples et explique à voix haute l’effet de chaque option. Les défis pratiques correspondants arriveront avec les prochains modules.</p>"
   },
   {
     "id": "journalctl",
     "label": "journalctl",
-    "group": "Système et AlmaLinux",
+    "group": "Système et administration",
     "summary": "Consulte le journal des services gérés par systemd.",
     "html": "<h2>Comprendre</h2>\n<p>Consulte le journal des services gérés par systemd.</p>\n<h2>Commandes et options</h2>\n<p>La forme de base est <code>journalctl -u unite -n 20 --no-pager</code>.</p>\n<h2>Exemple commenté</h2>\n<pre><code>journalctl -u sshd -n 20 --no-pager</code></pre>\n<p>La commande ci-dessus illustre une utilisation courante ; adapte les chemins à ton dossier de travail.</p>\n<h2>Points de vigilance</h2>\n<p>Les droits du compte peuvent limiter les entrées visibles.</p>\n<h2>Pour s’entraîner</h2>\n<p>Relis les exemples et explique à voix haute l’effet de chaque option. Les défis pratiques correspondants arriveront avec les prochains modules.</p>"
   },
@@ -89,7 +89,7 @@ const courseLessons = [
     "label": "less",
     "group": "Texte et flux",
     "summary": "Parcourt un fichier page par page sans le modifier.",
-    "html": "<h2>Comprendre</h2>\n<p>Parcourt un fichier page par page sans le modifier.</p>\n<h2>Commandes et options</h2>\n<p>La forme de base est <code>less fichier</code>.</p>\n<h2>Exemple commenté</h2>\n<pre><code>less donnees/logs/incidents.log</code></pre>\n<p>La commande ci-dessus illustre une utilisation courante ; adapte les chemins à ton dossier de travail.</p>\n<h2>Points de vigilance</h2>\n<p>Utilise les flèches et q pour quitter.</p>\n<h2>Pour s’entraîner</h2>\n<p>Reprends le Module 02 dans ta VM, puis explique à voix haute ce que fait chaque option.</p>"
+    "html": "<h2>Comprendre</h2>\n<p>Parcourt un fichier page par page sans le modifier.</p>\n<h2>Commandes et options</h2>\n<p>La forme de base est <code>less fichier</code>.</p>\n<h2>Exemple commenté</h2>\n<pre><code>less donnees/logs/incidents.log</code></pre>\n<p>La commande ci-dessus illustre une utilisation courante ; adapte les chemins à ton dossier de travail.</p>\n<h2>Points de vigilance</h2>\n<p>Utilise les flèches et q pour quitter.</p>\n<h2>Pour s’entraîner</h2>\n<p>Reprends le Module 02 sur ta machine Linux, puis explique à voix haute ce que fait chaque option.</p>"
   },
   {
     "id": "ln",
@@ -110,7 +110,7 @@ const courseLessons = [
     "label": "man",
     "group": "Navigation",
     "summary": "Ouvre le manuel détaillé d’une commande.",
-    "html": "<h2>Comprendre</h2>\n<p>Ouvre le manuel détaillé d’une commande.</p>\n<h2>Commandes et options</h2>\n<p>La forme de base est <code>man commande</code>.</p>\n<h2>Exemple commenté</h2>\n<pre><code>man ls</code></pre>\n<p>La commande ci-dessus illustre une utilisation courante ; adapte les chemins à ton dossier de travail.</p>\n<h2>Points de vigilance</h2>\n<p>Dans le manuel : / cherche un mot, n passe au résultat suivant, q quitte.</p>\n<h2>Pour s’entraîner</h2>\n<p>Reprends le Module 01 dans ta VM, puis explique à voix haute ce que fait chaque option.</p>"
+    "html": "<h2>Comprendre</h2>\n<p>Ouvre le manuel détaillé d’une commande.</p>\n<h2>Commandes et options</h2>\n<p>La forme de base est <code>man commande</code>.</p>\n<h2>Exemple commenté</h2>\n<pre><code>man ls</code></pre>\n<p>La commande ci-dessus illustre une utilisation courante ; adapte les chemins à ton dossier de travail.</p>\n<h2>Points de vigilance</h2>\n<p>Dans le manuel : / cherche un mot, n passe au résultat suivant, q quitte.</p>\n<h2>Pour s’entraîner</h2>\n<p>Reprends le Module 01 sur ta machine Linux, puis explique à voix haute ce que fait chaque option.</p>"
   },
   {
     "id": "mkdir",
@@ -131,12 +131,12 @@ const courseLessons = [
     "label": "| (tuyau)",
     "group": "Texte et flux",
     "summary": "Transmet la sortie d’une commande à l’entrée d’une autre.",
-    "html": "<h2>Comprendre</h2>\n<p>Transmet la sortie d’une commande à l’entrée d’une autre.</p>\n<h2>Commandes et options</h2>\n<p>La forme de base est <code>commande1 | commande2</code>.</p>\n<h2>Exemple commenté</h2>\n<pre><code>grep ERREUR journal.log | wc -l</code></pre>\n<p>La commande ci-dessus illustre une utilisation courante ; adapte les chemins à ton dossier de travail.</p>\n<h2>Points de vigilance</h2>\n<p>Construis le pipeline étape par étape pour voir les données intermédiaires.</p>\n<h2>Pour s’entraîner</h2>\n<p>Reprends le Module 02 dans ta VM, puis explique à voix haute ce que fait chaque option.</p>"
+    "html": "<h2>Comprendre</h2>\n<p>Transmet la sortie d’une commande à l’entrée d’une autre.</p>\n<h2>Commandes et options</h2>\n<p>La forme de base est <code>commande1 | commande2</code>.</p>\n<h2>Exemple commenté</h2>\n<pre><code>grep ERREUR journal.log | wc -l</code></pre>\n<p>La commande ci-dessus illustre une utilisation courante ; adapte les chemins à ton dossier de travail.</p>\n<h2>Points de vigilance</h2>\n<p>Construis le pipeline étape par étape pour voir les données intermédiaires.</p>\n<h2>Pour s’entraîner</h2>\n<p>Reprends le Module 02 sur ta machine Linux, puis explique à voix haute ce que fait chaque option.</p>"
   },
   {
     "id": "ps-kill",
     "label": "ps / kill",
-    "group": "Système et AlmaLinux",
+    "group": "Système et administration",
     "summary": "ps observe les processus ; kill envoie un signal à un PID.",
     "html": "<h2>Comprendre</h2>\n<p>ps observe les processus ; kill envoie un signal à un PID.</p>\n<h2>Commandes et options</h2>\n<p>La forme de base est <code>ps -p PID  |  kill PID</code>.</p>\n<h2>Exemple commenté</h2>\n<pre><code>ps -p 1234 -o pid,comm</code></pre>\n<p>La commande ci-dessus illustre une utilisation courante ; adapte les chemins à ton dossier de travail.</p>\n<h2>Points de vigilance</h2>\n<p>Vérifie le PID et la commande avant de terminer un processus.</p>\n<h2>Pour s’entraîner</h2>\n<p>Relis les exemples et explique à voix haute l’effet de chaque option. Les défis pratiques correspondants arriveront avec les prochains modules.</p>"
   },
@@ -145,7 +145,7 @@ const courseLessons = [
     "label": "pwd",
     "group": "Navigation",
     "summary": "Affiche le chemin complet du dossier courant.",
-    "html": "<h2>Comprendre</h2>\n<p>Affiche le chemin complet du dossier courant.</p>\n<h2>Commandes et options</h2>\n<p>La forme de base est <code>pwd</code>.</p>\n<h2>Exemple commenté</h2>\n<pre><code>pwd</code></pre>\n<p>La commande ci-dessus illustre une utilisation courante ; adapte les chemins à ton dossier de travail.</p>\n<h2>Points de vigilance</h2>\n<p>Avant une commande qui écrit ou supprime, vérifie où tu te trouves.</p>\n<h2>Pour s’entraîner</h2>\n<p>Reprends le Module 01 dans ta VM, puis explique à voix haute ce que fait chaque option.</p>"
+    "html": "<h2>Comprendre</h2>\n<p>Affiche le chemin complet du dossier courant.</p>\n<h2>Commandes et options</h2>\n<p>La forme de base est <code>pwd</code>.</p>\n<h2>Exemple commenté</h2>\n<pre><code>pwd</code></pre>\n<p>La commande ci-dessus illustre une utilisation courante ; adapte les chemins à ton dossier de travail.</p>\n<h2>Points de vigilance</h2>\n<p>Avant une commande qui écrit ou supprime, vérifie où tu te trouves.</p>\n<h2>Pour s’entraîner</h2>\n<p>Reprends le Module 01 sur ta machine Linux, puis explique à voix haute ce que fait chaque option.</p>"
   },
   {
     "id": "redirections",
@@ -164,9 +164,9 @@ const courseLessons = [
   {
     "id": "rpm-dnf",
     "label": "rpm / dnf",
-    "group": "Système et AlmaLinux",
-    "summary": "Sur AlmaLinux, rpm interroge les paquets installés et dnf gère les dépôts.",
-    "html": "<h2>Comprendre</h2>\n<p>Sur AlmaLinux, rpm interroge les paquets installés et dnf gère les dépôts.</p>\n<h2>Commandes et options</h2>\n<p>La forme de base est <code>rpm -q paquet  |  dnf repolist --enabled</code>.</p>\n<h2>Exemple commenté</h2>\n<pre><code>rpm -q bash</code></pre>\n<p>La commande ci-dessus illustre une utilisation courante ; adapte les chemins à ton dossier de travail.</p>\n<h2>Points de vigilance</h2>\n<p>Ces commandes d’inspection ne demandent pas de modifier les paquets.</p>\n<h2>Pour s’entraîner</h2>\n<p>Relis les exemples et explique à voix haute l’effet de chaque option. Les défis pratiques correspondants arriveront avec les prochains modules.</p>"
+    "group": "Système et administration",
+    "summary": "Sur les distributions basées sur RPM, rpm interroge les paquets installés et dnf gère les dépôts.",
+    "html": "<h2>Comprendre</h2>\n<p>Sur les distributions basées sur RPM, rpm interroge les paquets installés et dnf gère les dépôts.</p>\n<h2>Commandes et options</h2>\n<p>La forme de base est <code>rpm -q paquet  |  dnf repolist --enabled</code>.</p>\n<h2>Exemple commenté</h2>\n<pre><code>rpm -q bash</code></pre>\n<p>La commande ci-dessus illustre une utilisation courante ; adapte les chemins à ton dossier de travail.</p>\n<h2>Points de vigilance</h2>\n<p>Ces commandes d’inspection ne demandent pas de modifier les paquets.</p>\n<h2>Pour s’entraîner</h2>\n<p>Relis les exemples et explique à voix haute l’effet de chaque option. Les défis pratiques correspondants arriveront avec les prochains modules.</p>"
   },
   {
     "id": "sed",
@@ -178,21 +178,21 @@ const courseLessons = [
   {
     "id": "selinux",
     "label": "getenforce",
-    "group": "Système et AlmaLinux",
+    "group": "Système et administration",
     "summary": "Affiche le mode courant de SELinux.",
     "html": "<h2>Comprendre</h2>\n<p>Affiche le mode courant de SELinux.</p>\n<h2>Commandes et options</h2>\n<p>La forme de base est <code>getenforce</code>.</p>\n<h2>Exemple commenté</h2>\n<pre><code>getenforce</code></pre>\n<p>La commande ci-dessus illustre une utilisation courante ; adapte les chemins à ton dossier de travail.</p>\n<h2>Points de vigilance</h2>\n<p>Enforcing applique les règles ; Permissive journalise sans bloquer ; Disabled désactive SELinux.</p>\n<h2>Pour s’entraîner</h2>\n<p>Relis les exemples et explique à voix haute l’effet de chaque option. Les défis pratiques correspondants arriveront avec les prochains modules.</p>"
   },
   {
     "id": "systemctl",
     "label": "systemctl",
-    "group": "Système et AlmaLinux",
+    "group": "Système et administration",
     "summary": "Observe l’état des services et unités systemd.",
     "html": "<h2>Comprendre</h2>\n<p>Observe l’état des services et unités systemd.</p>\n<h2>Commandes et options</h2>\n<p>La forme de base est <code>systemctl status unite</code>.</p>\n<h2>Exemple commenté</h2>\n<pre><code>systemctl status sshd</code></pre>\n<p>La commande ci-dessus illustre une utilisation courante ; adapte les chemins à ton dossier de travail.</p>\n<h2>Points de vigilance</h2>\n<p>status consulte ; restart modifie le service. Regarde les journaux avant toute action.</p>\n<h2>Pour s’entraîner</h2>\n<p>Relis les exemples et explique à voix haute l’effet de chaque option. Les défis pratiques correspondants arriveront avec les prochains modules.</p>"
   },
   {
     "id": "tar",
     "label": "tar",
-    "group": "Système et AlmaLinux",
+    "group": "Système et administration",
     "summary": "Crée, liste ou extrait une archive.",
     "html": "<h2>Comprendre</h2>\n<p>Crée, liste ou extrait une archive.</p>\n<h2>Commandes et options</h2>\n<p>La forme de base est <code>tar -czf archive.tar.gz dossier</code>.</p>\n<h2>Exemple commenté</h2>\n<pre><code>tar -tzf sauvegarde.tar.gz</code></pre>\n<p>La commande ci-dessus illustre une utilisation courante ; adapte les chemins à ton dossier de travail.</p>\n<h2>Points de vigilance</h2>\n<p>-c crée, -t liste, -x extrait ; vérifie le contenu avant restauration.</p>\n<h2>Pour s’entraîner</h2>\n<p>Relis les exemples et explique à voix haute l’effet de chaque option. Les défis pratiques correspondants arriveront avec les prochains modules.</p>"
   }

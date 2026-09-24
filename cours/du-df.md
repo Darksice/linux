@@ -1,7 +1,7 @@
 ---
 id: du-df
 title: du / df
-group: Système et AlmaLinux
+group: Système et administration
 summary: du mesure les fichiers ; df affiche l’espace disponible sur les systèmes de fichiers.
 ---
 

@@ -1,5 +1,6 @@
 // Compile les fiches Markdown en un fichier JS utilisable aussi en file://.
 const fs = require('node:fs');
+const os = require('node:os');
 const path = require('node:path');
 
 const root = path.resolve(__dirname, '..');
@@ -57,5 +58,6 @@ function parse(file) {
 const files = fs.readdirSync(folder).filter(file => file.endsWith('.md') && !file.startsWith('_')).sort();
 const lessons = files.map(parse);
 if (new Set(lessons.map(lesson => lesson.id)).size !== lessons.length) throw new Error('Identifiants de cours répétés.');
-fs.writeFileSync(path.join(root, 'cours-data.js'), `// Généré par node scripts/build-courses.cjs — modifier les fichiers dans cours/.\nconst courseLessons = ${JSON.stringify(lessons, null, 2)};\n`, 'utf8');
+const output = `// Généré par node scripts/build-courses.cjs — modifier les fichiers dans cours/.\nconst courseLessons = ${JSON.stringify(lessons, null, 2)};\n`;
+fs.writeFileSync(path.join(root, 'cours-data.js'), output.replace(/\n/g, os.EOL), 'utf8');
 console.log(`${lessons.length} fiches compilées dans cours-data.js.`);

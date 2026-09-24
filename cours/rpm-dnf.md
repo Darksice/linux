@@ -1,13 +1,13 @@
 ---
 id: rpm-dnf
 title: rpm / dnf
-group: Système et AlmaLinux
-summary: Sur AlmaLinux, rpm interroge les paquets installés et dnf gère les dépôts.
+group: Système et administration
+summary: Sur les distributions basées sur RPM, rpm interroge les paquets installés et dnf gère les dépôts.
 ---
 
 ## Comprendre
 
-Sur AlmaLinux, rpm interroge les paquets installés et dnf gère les dépôts.
+Sur les distributions basées sur RPM, rpm interroge les paquets installés et dnf gère les dépôts.
 
 ## Commandes et options
 

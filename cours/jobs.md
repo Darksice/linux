@@ -1,7 +1,7 @@
 ---
 id: jobs
 title: Ctrl-Z / bg / fg
-group: Système et AlmaLinux
+group: Système et administration
 summary: Suspend puis déplace un job entre premier plan et arrière-plan.
 ---
 

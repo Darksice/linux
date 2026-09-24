@@ -1,7 +1,7 @@
 ---
 id: ps-kill
 title: ps / kill
-group: Système et AlmaLinux
+group: Système et administration
 summary: ps observe les processus ; kill envoie un signal à un PID.
 ---
 

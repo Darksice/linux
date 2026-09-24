@@ -1,7 +1,7 @@
 ---
 id: tar
 title: tar
-group: Système et AlmaLinux
+group: Système et administration
 summary: Crée, liste ou extrait une archive.
 ---
 

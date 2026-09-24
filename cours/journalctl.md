@@ -1,7 +1,7 @@
 ---
 id: journalctl
 title: journalctl
-group: Système et AlmaLinux
+group: Système et administration
 summary: Consulte le journal des services gérés par systemd.
 ---
 

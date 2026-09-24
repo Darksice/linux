@@ -27,4 +27,4 @@ La commande ci-dessus illustre une utilisation courante ; adapte les chemins à 
 
 ## Pour s’entraîner
 
-Reprends le Module 01 dans ta VM, puis explique à voix haute ce que fait chaque option.
+Reprends le Module 01 sur ta machine Linux, puis explique à voix haute ce que fait chaque option.

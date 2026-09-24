@@ -66,7 +66,7 @@ const module01 = {
     },
     {
       id: '07', title: 'La bonne combinaison', command: 'man · ls',
-      story: 'Le répertoire final contient un fichier visible, un fichier caché et un répertoire caché. Un seul correspond exactement à la demande. Si man ls manque sur la VM, utilise ls --help et signale-le au formateur.',
+      story: 'Le répertoire final contient un fichier visible, un fichier caché et un répertoire caché. Un seul correspond exactement à la demande. Si man ls manque sur la machine Linux, utilise ls --help et signale-le au formateur.',
       question: 'Retrouve la bonne combinaison d\'options nécessaires pour identifier le flag du répertoire caché dans final. Consulte man ls en cas de problème.',
       hints: ['Il faut afficher les noms cachés et leur type en même temps. Les options courtes de ls peuvent se combiner.', 'ls -la final. Cherche une ligne dont le nom commence par un point et dont le premier caractère est d.'],
       decoy: 'FLAG{DARDARGNAN}',

@@ -1,7 +1,7 @@
 ---
 id: ip-ss
 title: ip / ss
-group: Système et AlmaLinux
+group: Système et administration
 summary: ip inspecte interfaces et routes ; ss montre les sockets.
 ---
 

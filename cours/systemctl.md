@@ -1,7 +1,7 @@
 ---
 id: systemctl
 title: systemctl
-group: Système et AlmaLinux
+group: Système et administration
 summary: Observe l’état des services et unités systemd.
 ---
 

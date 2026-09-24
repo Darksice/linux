@@ -27,4 +27,4 @@ Pour un très long fichier, less est plus confortable.
 
 ## Pour s’entraîner
 
-Reprends le Module 02 dans ta VM, puis explique à voix haute ce que fait chaque option.
+Reprends le Module 02 sur ta machine Linux, puis explique à voix haute ce que fait chaque option.

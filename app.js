@@ -1,18 +1,52 @@
 const lessons = courseLessons;
 const ctfModules = [module01, module02, module03];
+const quizzes = commandQuizzes;
+const blocks = learningBlocks;
 const ctfArchiveUrl = mod => `https://raw.githubusercontent.com/Darksice/linux/main/${mod.archive}`;
 
 const stateKey = 'linux-pour-de-vrai-v1';
 let saved;
 try { saved = JSON.parse(localStorage.getItem(stateKey) || '{}'); } catch { saved = {}; }
-const state = {ctfDone: saved.ctfDone && typeof saved.ctfDone === 'object' ? saved.ctfDone : {}, sidebarHidden: saved.sidebarHidden === true};
+const state = {
+  ctfDone: saved.ctfDone && typeof saved.ctfDone === 'object' ? saved.ctfDone : {},
+  quizDone: saved.quizDone && typeof saved.quizDone === 'object' ? saved.quizDone : {},
+  sidebarHidden: saved.sidebarHidden === true,
+  blockOpen: saved.blockOpen === true
+};
 const ctfActive = {};
 const ctfHints = {};
+const quizActive = {};
+const quizFeedback = {};
 let ctfFeedback = '';
 let ctfResetPending = false;
 
 function persist(){try{localStorage.setItem(stateKey,JSON.stringify(state));}catch{}}
 function ctfCompleted(mod){return Array.isArray(state.ctfDone[mod.id]) ? state.ctfDone[mod.id] : []}
+function quizCompleted(quiz){return Array.isArray(state.quizDone[quiz.id]) ? state.quizDone[quiz.id] : []}
+function quizCurrent(quiz){
+  if(quizActive[quiz.id]===undefined)quizActive[quiz.id]=Math.max(0,quiz.questions.findIndex((_,index)=>!quizCompleted(quiz).includes(index)));
+  return quiz.questions[quizActive[quiz.id]] || quiz.questions[0];
+}
+function quizTotalDone(){return quizzes.reduce((total,quiz)=>total+quizCompleted(quiz).length,0)}
+function quizTotalQuestions(){return quizzes.reduce((total,quiz)=>total+quiz.questions.length,0)}
+function validateQuizAnswers(question,selected){
+  const answers=[...selected].map(Number).sort((a,b)=>a-b);
+  const expected=question.options.map((option,index)=>option.correct?index:-1).filter(index=>index>=0);
+  return answers.length===expected.length&&answers.every((value,index)=>value===expected[index]);
+}
+function lessonForCommand(id){return lessons.find(lesson=>lesson.id===id)}
+function modulesForCommand(id){return ctfModules.filter(mod=>quizzes.find(quiz=>quiz.id===id)?.moduleIds.includes(mod.id))}
+function lessonIsInBlock(id){return blocks.some(block=>block.sequences.some(sequence=>sequence.commandIds.includes(id)))}
+function renderLessonContent(lesson){
+  if(!lessonIsInBlock(lesson.id))return lesson.html;
+  return lesson.html.replace(/<pre><code>([\s\S]*?)<\/code><\/pre>/g,(_,code)=>terminal(code.split('\n').map(line=>line?`<span class="prompt">$</span> ${line}`:'').join('\n')));
+}
+function commandLinks(id){
+  const lesson=lessonForCommand(id);
+  const quiz=quizzes.find(item=>item.id===id);
+  if(!quiz)return '';
+  return `<div class="learning-command"><div><code>${escapeHtml(quiz.label)}</code><span>${escapeHtml(quiz.summary)}</span></div><div class="learning-command-actions">${lesson?`<button class="ghost" data-route="fiche-${escapeHtml(lesson.id)}">Cours</button>`:'<span class="content-pending">Cours à venir</span>'}<button class="secondary" data-route="qcm-${escapeHtml(quiz.id)}">QCM ${quizCompleted(quiz).length}/${quiz.questions.length}</button></div></div>`;
+}
 function validateCtfFlag(mod, challenge, input){
   const value=input.trim().toUpperCase();
   if(value!==challenge.flag.toUpperCase())return {valid:false,message:value===challenge.decoy?.toUpperCase()?challenge.decoyFeedback:'Mauvais flag. Vérifie la question, si besoin regarde l\'indice !'};
@@ -42,16 +76,28 @@ function ctfCurrent(mod){
 function getRoute(){const h=decodeURIComponent(location.hash.slice(1));return h || 'accueil'}
 function routeTo(route){location.hash = route; if(getRoute()===route) render()}
 function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-function terminal(lines){return `<div class="terminal"><div class="terminal-bar"><span class="terminal-dot"></span><span class="terminal-dot"></span><span class="terminal-dot"></span><span class="terminal-title">terminal · VM Linux</span></div><pre>${lines}</pre></div>`}
+function terminal(lines){return `<div class="terminal"><div class="terminal-bar"><span class="terminal-dot"></span><span class="terminal-dot"></span><span class="terminal-dot"></span><span class="terminal-title">terminal · machine Linux</span></div><pre>${lines}</pre></div>`}
 function renderNav(){
-  document.getElementById('module-nav').innerHTML=ctfModules.map(mod=>`<button class="module-nav-item ${getRoute()==='module-'+mod.id?'active':''}" data-route="module-${mod.id}" aria-current="${getRoute()==='module-'+mod.id?'page':'false'}"><span class="module-nav-id">${escapeHtml(mod.id)}</span><span class="module-nav-text">${escapeHtml(mod.title)}</span><span class="module-nav-count">${ctfCompleted(mod).length}/${mod.challenges.length}</span></button>`).join('');
+  const route=getRoute();
+  document.getElementById('module-nav').innerHTML=`<div class="block-nav-row ${route==='bloc-01'?'active':''}"><button class="block-nav-main" data-route="bloc-01" aria-current="${route==='bloc-01'?'page':'false'}"><span class="module-nav-id">01</span><span class="module-nav-text">Les bases</span></button><button class="block-nav-toggle" data-action="toggle-block" aria-expanded="${state.blockOpen}" aria-controls="block-01-modules" aria-label="${state.blockOpen?'Replier':'Déplier'} les modules du Bloc 01"><span aria-hidden="true">⌄</span></button></div><div id="block-01-modules" class="module-nav-children ${state.blockOpen?'open':''}" ${state.blockOpen?'':'hidden'}>${ctfModules.map(mod=>`<button class="module-nav-item ${route==='module-'+mod.id?'active':''}" data-route="module-${mod.id}" aria-current="${route==='module-'+mod.id?'page':'false'}"><span class="module-nav-id">${escapeHtml(mod.id)}</span><span class="module-nav-text">${escapeHtml(mod.title)}</span><span class="module-nav-count">${ctfCompleted(mod).length}/${mod.challenges.length}</span></button>`).join('')}</div>`;
 }
 
 function renderHome(){
-  return `<section class="hero"><div><p class="eyebrow">UN PARCOURS POUR APPRENDRE EN FAISANT</p><h1>Le terminal,<br><em>ça s’apprend.</em></h1><p class="lead">Explore les modules CTF dans ta VM AlmaLinux : une archive par thème, des flags à découvrir et des pièges qui apprennent à lire précisément.</p></div><div class="hero-card"><h2>Prêt à ouvrir le terminal ?</h2><p>Apprends à te repérer, lire les fichiers puis traiter leurs données dans ta VM AlmaLinux.</p><button class="primary" data-route="module-01">Entrer dans le Module 01 →</button></div></section>
-  <section class="ctf-howto"><div><p class="eyebrow">COMMENT ÇA MARCHE ?</p><h2>Une archive, des défis, des flags.</h2></div><ol><li>Télécharge l’archive du module et explore-la dans ta VM Linux.</li><li>Pour chaque défi, utilise les <strong>commandes indiquées en haut à droite</strong> de la question : elles désignent les outils à pratiquer.</li><li>Repère le flag demandé, saisis-le sur le site et ouvre un indice si tu bloques. Ta progression reste dans ce navigateur.</li></ol></section>
-  ${ctfModules.map(mod=>`<section class="ctf-home-card"><div><p class="eyebrow">MODULE CTF · ${escapeHtml(mod.id)}</p><h2>${escapeHtml(mod.id)} · ${escapeHtml(mod.title)}</h2><p>${escapeHtml(mod.description)}</p><div class="ctf-home-meta"><span>${ctfCompleted(mod).length} / ${mod.challenges.length} flags trouvés</span><span>Archive dédiée · indices progressifs</span></div></div><button class="secondary" data-route="module-${escapeHtml(mod.id)}">${ctfCompleted(mod).length?'Reprendre le module':'Commencer le module'} →</button></section>`).join('')}
-  <section class="course-promo"><div><p class="eyebrow">BESOIN D’UNE EXPLICATION ?</p><h2>${lessons.length} fiches de cours express</h2><p>Des commandes, leurs options et des exemples commentés, à consulter pendant les modules ou plus tard au travail.</p></div><button class="secondary" data-view="cours">Parcourir les fiches →</button></section>`;
+  const block=blocks[0];
+  return `<section class="hero"><div><p class="eyebrow">COMPRENDRE · VÉRIFIER · PRATIQUER</p><h1>Le terminal,<br><em>ça s’apprend.</em></h1><p class="lead">Avance dans un parcours guidé qui relie les fiches de cours, les QCM et les modules pratiques sur ta machine Linux.</p></div><div class="hero-card"><h2>Commencer par les bases</h2><p>Le premier bloc te guide de la navigation dans le terminal jusqu’au traitement de données.</p><button class="primary" data-route="bloc-01">Découvrir le Bloc 01 →</button></div></section>
+  <section class="learning-overview"><div><p class="eyebrow">BLOC 01</p><h2>${escapeHtml(block.title)}</h2><p>${escapeHtml(block.description)}</p></div><div class="learning-overview-stats"><span><strong>${ctfModules.length}</strong> modules</span><span><strong>${quizzes.length}</strong> QCM</span><span><strong>${quizTotalDone()}/${quizTotalQuestions()}</strong> questions réussies</span></div><button class="secondary" data-route="bloc-01">Voir le parcours →</button></section>
+  <section class="ctf-howto"><div><p class="eyebrow">DEUX FAÇONS D’APPRENDRE</p><h2>Suis le parcours ou pioche ce qu’il te faut.</h2></div><ol><li>Le <strong>bloc guidé</strong> conseille un ordre entre cours, QCM et pratique.</li><li>Les catalogues <strong>Cours</strong> et <strong>QCM</strong> restent accessibles directement.</li><li>Ta progression dans les QCM et les modules reste enregistrée dans ce navigateur.</li></ol></section>
+  <div class="library-shortcuts"><button class="library-card" data-view="cours"><span>COURS</span><strong>${lessons.length} fiches express</strong><small>Retrouver directement une commande →</small></button><button class="library-card" data-view="revision"><span>RÉVISIONS</span><strong>${quizTotalQuestions()} questions</strong><small>Choisir librement un QCM →</small></button></div>`;
+}
+
+function renderBlock(block){
+  if(!block)return renderHome();
+  const flagsDone=ctfModules.reduce((total,mod)=>total+ctfCompleted(mod).length,0);
+  const flagsTotal=ctfModules.reduce((total,mod)=>total+mod.challenges.length,0);
+  return `<div class="breadcrumbs"><button data-route="accueil">Accueil</button><span>›</span><span>Bloc ${escapeHtml(block.id)}</span></div><p class="eyebrow">PARCOURS GUIDÉ · BLOC ${escapeHtml(block.id)}</p><h1 class="page-title">${escapeHtml(block.title)}</h1><p class="page-intro">${escapeHtml(block.description)} L’ordre proposé est conseillé, mais aucune étape n’est verrouillée.</p>
+  <div class="block-progress"><div><span>QCM réussis</span><strong>${quizTotalDone()} / ${quizTotalQuestions()}</strong></div><div><span>Flags trouvés</span><strong>${flagsDone} / ${flagsTotal}</strong></div></div>
+  <div class="learning-path">${block.sequences.map((sequence,index)=>{const mod=ctfModules.find(item=>item.id===sequence.moduleId);return `<section class="learning-sequence"><div class="learning-sequence-head"><div><p class="eyebrow">ÉTAPE ${String(index+1).padStart(2,'0')}</p><h2>Préparer le Module ${escapeHtml(mod.id)}</h2><p>${escapeHtml(mod.description)}</p></div><span>${ctfCompleted(mod).length}/${mod.challenges.length} flags</span></div><div class="learning-command-list">${sequence.commandIds.map(commandLinks).join('')}</div><div class="learning-module-callout"><div><strong>Passer à la pratique</strong><span>${escapeHtml(mod.title)} · ${mod.challenges.length} défis CTF</span></div><button class="primary" data-route="module-${escapeHtml(mod.id)}">${ctfCompleted(mod).length?'Reprendre':'Commencer'} le Module ${escapeHtml(mod.id)} →</button></div></section>`}).join('')}</div>
+  <section class="box-coming"><div><p class="eyebrow">APRÈS LE BLOC</p><h2>Box finale</h2><p>Une mise en situation plus libre réunira les compétences des trois modules. Sa conception commencera après leur validation complète.</p></div><button class="ghost" data-route="box-01">Voir la page d’attente →</button></section>`;
 }
 
 function renderCtfModule(mod){
@@ -62,14 +108,16 @@ function renderCtfModule(mod){
   const hintsShown=ctfHints[key] || 0;
   const solved=done.includes(current.id);
   const percent=Math.round(done.length/mod.challenges.length*100);
-  return `<div class="breadcrumbs"><button data-route="accueil">Accueil</button><span>›</span><span>Module ${mod.id}</span></div>
+  const sequence=blocks.flatMap(block=>block.sequences).find(item=>item.moduleId===mod.id);
+  return `<div class="breadcrumbs"><button data-route="accueil">Accueil</button><span>›</span><button data-route="bloc-01">Bloc 01</button><span>›</span><span>Module ${mod.id}</span></div>
   <p class="eyebrow">MODULE ${escapeHtml(mod.id)} · EXPLORATION CTF</p><h1 class="page-title">${escapeHtml(mod.title)}</h1><p class="page-intro">${escapeHtml(mod.description)} ${escapeHtml(mod.intro)}</p>
+  <details class="module-resources"><summary>Revoir les cours et QCM de ce module</summary><div class="learning-command-list">${sequence.commandIds.map(commandLinks).join('')}</div></details>
   <section class="ctf-setup"><div><div class="ctf-setup-top"><span>TON TERRAIN DE JEU</span><span>${done.length} / ${mod.challenges.length} flags</span></div><div class="progress-track"><div class="progress-fill" style="width:${percent}%"></div></div><p>Sur ta machine Linux, télécharge l’archive de ce module depuis GitHub. Extrais-la puis ouvre <code>${escapeHtml(mod.folder)}</code>. Lis bien chaque question avant de répondre.</p><a class="secondary download-link" href="${ctfArchiveUrl(mod)}">Télécharger l’archive du Module ${escapeHtml(mod.id)} ↓</a></div>${terminal(`<span class="prompt">$</span> tar -xzf ${escapeHtml(mod.archive)}\n<span class="prompt">$</span> cd ${escapeHtml(mod.folder)}`)}</section>
-  <div class="ctf-reset"><button class="ghost" data-action="ctf-reset-request">↻ Recommencer le module</button>${ctfResetPending?`<div class="ctf-reset-confirm" role="group" aria-label="Confirmer la remise à zéro"><p>Effacer les flags validés et les indices affichés du Module ${escapeHtml(mod.id)} ? L’archive dans ta VM ne sera pas modifiée.</p><button class="secondary" data-action="ctf-reset-confirm">Oui, recommencer</button><button class="ghost" data-action="ctf-reset-cancel">Annuler</button></div>`:''}</div>
+  <div class="ctf-reset"><button class="ghost" data-action="ctf-reset-request">↻ Recommencer le module</button>${ctfResetPending?`<div class="ctf-reset-confirm" role="group" aria-label="Confirmer la remise à zéro"><p>Effacer les flags validés et les indices affichés du Module ${escapeHtml(mod.id)} ? L’archive sur ta machine Linux ne sera pas modifiée.</p><button class="secondary" data-action="ctf-reset-confirm">Oui, recommencer</button><button class="ghost" data-action="ctf-reset-cancel">Annuler</button></div>`:''}</div>
   ${done.length===mod.challenges.length?'<div class="ctf-complete" role="status">✓ Module terminé ! Tu peux rejouer chaque défi et expliquer comment tu as écarté les leurres.</div>':''}
   <div class="ctf-layout"><nav class="ctf-map" aria-label="Défis du module"><div class="ctf-map-title">LES DÉFIS <span>${done.length}/${mod.challenges.length}</span></div>${mod.challenges.map((challenge,i)=>`<button class="ctf-map-item ${i===index?'active':''} ${done.includes(challenge.id)?'done':''}" data-ctf-step="${i}" aria-current="${i===index?'step':'false'}"><span class="ctf-map-number">${String(i+1).padStart(2,'0')}</span><span>${escapeHtml(challenge.title)}</span><span class="ctf-map-check">${done.includes(challenge.id)?'✓':'→'}</span></button>`).join('')}</nav>
   <section class="panel ctf-challenge"><div class="ctf-challenge-meta"><span>DÉFI ${String(index+1).padStart(2,'0')} / ${mod.challenges.length}</span><span>${escapeHtml(current.command)}</span></div><h2>${escapeHtml(current.title)}</h2><p class="ctf-story">${escapeHtml(current.story)}</p><div class="ctf-question"><span>TA MISSION</span><p>${escapeHtml(current.question)}</p></div>
-  ${solved?`<div class="ctf-solved"><strong>✓ Flag trouvé</strong><p>${escapeHtml(current.success)}</p></div>`:`<form id="ctf-form" class="ctf-form"><label for="ctf-flag">Flag découvert dans la VM</label><div><input id="ctf-flag" name="flag" placeholder="FLAG{...}" autocomplete="off" autocapitalize="off" spellcheck="false" required><button class="primary" type="submit">Valider le flag →</button></div><p class="feedback ${ctfFeedback?'error':''}" role="status">${escapeHtml(ctfFeedback)}</p></form>`}
+  ${solved?`<div class="ctf-solved"><strong>✓ Flag trouvé</strong><p>${escapeHtml(current.success)}</p></div>`:`<form id="ctf-form" class="ctf-form"><label for="ctf-flag">Flag découvert sur la machine Linux</label><div><input id="ctf-flag" name="flag" placeholder="FLAG{...}" autocomplete="off" autocapitalize="off" spellcheck="false" required><button class="primary" type="submit">Valider le flag →</button></div><p class="feedback ${ctfFeedback?'error':''}" role="status">${escapeHtml(ctfFeedback)}</p></form>`}
   <div class="ctf-hints"><button class="ghost" data-action="ctf-hint" ${hintsShown>=current.hints.length?'disabled':''}>${hintsShown>=current.hints.length?'Tous les indices affichés':'Voir un indice'}</button>${current.hints.slice(0,hintsShown).map((hint,i)=>`<div class="hint-box"><div class="hint-label">INDICE ${i+1}</div>${escapeHtml(hint)}</div>`).join('')}</div>
   <div class="next-row"><button class="ghost" data-ctf-step="${Math.max(0,index-1)}" ${index===0?'disabled':''}>← Défi précédent</button><button class="secondary" data-ctf-step="${Math.min(mod.challenges.length-1,index+1)}" ${index===mod.challenges.length-1?'disabled':''}>Défi suivant →</button></div></section></div>`;
 }
@@ -83,7 +131,7 @@ function renderGuide(){return `<div class="breadcrumbs"><button data-route="accu
   <section class="panel"><h2>Rechercher de l’aide</h2><dl><dt>man ls</dt><dd>Ouvre le manuel de ls ; q pour quitter.</dd><dt>commande --help</dt><dd>Affiche souvent une aide courte.</dd><dt>Tab</dt><dd>Complète un nom de fichier ou de commande.</dd><dt>↑ / ↓</dt><dd>Parcourt les commandes déjà saisies.</dd><dt>Ctrl-R</dt><dd>Recherche dans l’historique du shell.</dd></dl></section>
   <section class="panel"><h2>Stockage et intégrité</h2><dl><dt>du -sh d</dt><dd>Taille occupée par un dossier.</dd><dt>df -h</dt><dd>Place libre des systèmes de fichiers.</dd><dt>sha256sum</dt><dd>Calcule une empreinte de fichier.</dd><dt>stat</dt><dd>Affiche métadonnées et droits précis.</dd></dl></section>
   <section class="panel"><h2>Diagnostic</h2><dl><dt>tail -n 20</dt><dd>Dernières lignes d’un fichier.</dd><dt>grep -n -C 2</dt><dd>Résultats avec numéros et contexte.</dd><dt>sed</dt><dd>Transforme du texte.</dd><dt>awk</dt><dd>Traite colonnes et regroupements.</dd><dt>ps / kill</dt><dd>Observe un processus et lui envoie un signal.</dd></dl></section>
-  <section class="panel"><h2>AlmaLinux</h2><dl><dt>rpm -q</dt><dd>Interroge les paquets installés.</dd><dt>dnf repolist</dt><dd>Affiche les dépôts configurés.</dd><dt>systemctl</dt><dd>Observe les unités et services.</dd><dt>journalctl</dt><dd>Consulte le journal système.</dd><dt>ip / ss</dt><dd>Inspecte interfaces et sockets.</dd><dt>getenforce</dt><dd>Affiche le mode SELinux.</dd></dl></section></div>
+  <section class="panel"><h2>Administration système</h2><dl><dt>rpm -q</dt><dd>Interroge les paquets installés.</dd><dt>dnf repolist</dt><dd>Affiche les dépôts configurés.</dd><dt>systemctl</dt><dd>Observe les unités et services.</dd><dt>journalctl</dt><dd>Consulte le journal système.</dd><dt>ip / ss</dt><dd>Inspecte interfaces et sockets.</dd><dt>getenforce</dt><dd>Affiche le mode SELinux.</dd></dl></section></div>
   <div class="alert" style="margin-top:22px">Attention : <code>rm</code> et <code>></code> peuvent supprimer un résultat existant. Avant d’appuyer sur Entrée, vérifie le dossier courant, les chemins et les jokers.</div><p style="margin-top:20px"><button class="secondary" data-view="cours">Ouvrir les fiches de cours →</button></p>`}
 
 function renderCourseList(query=''){
@@ -98,28 +146,55 @@ function renderCourse(){return `<div class="breadcrumbs"><button data-route="acc
 function renderLesson(id){
   const l=lessons.find(item=>item.id===id);
   if(!l)return renderCourse();
-  return `<div class="breadcrumbs"><button data-route="accueil">Accueil</button><span>›</span><button data-view="cours">Cours express</button><span>›</span><span>${escapeHtml(l.label)}</span></div><p class="eyebrow">FICHE DE COURS · ${escapeHtml(l.group).toUpperCase()}</p><h1 class="page-title">${escapeHtml(l.label)}</h1><p class="page-intro">${escapeHtml(l.summary)} Les chemins des exemples sont illustratifs : adapte-les aux archives disponibles.</p><article class="panel lesson-article">${l.html}</article><div class="next-row"><button class="ghost" data-view="cours">← Toutes les fiches</button></div>`;
+  const quiz=quizzes.find(item=>item.id===id);
+  const related=modulesForCommand(id);
+  return `<div class="breadcrumbs"><button data-route="accueil">Accueil</button><span>›</span><button data-view="cours">Cours express</button><span>›</span><span>${escapeHtml(l.label)}</span></div><p class="eyebrow">FICHE DE COURS · ${escapeHtml(l.group).toUpperCase()}</p><h1 class="page-title">${escapeHtml(l.label)}</h1><p class="page-intro">${escapeHtml(l.summary)} Les chemins des exemples sont illustratifs : adapte-les aux archives disponibles.</p><article class="panel lesson-article">${renderLessonContent(l)}</article>${quiz?`<section class="lesson-next"><div><p class="eyebrow">ÉTAPE SUIVANTE</p><h2>Vérifier que tu as compris ${escapeHtml(l.label)}</h2><p>${quiz.questions.length} questions avec plusieurs réponses possibles et une explication après validation.</p></div><button class="primary" data-route="qcm-${escapeHtml(quiz.id)}">Faire le QCM →</button></section>`:''}${related.length?`<div class="lesson-practice"><span>Cette commande est mise en pratique dans :</span>${related.map(mod=>`<button class="ghost" data-route="module-${escapeHtml(mod.id)}">Module ${escapeHtml(mod.id)}</button>`).join('')}</div>`:''}<div class="next-row"><button class="ghost" data-view="cours">← Toutes les fiches</button></div>`;
 }
 
-function renderQuiz(){return `<div class="breadcrumbs"><button data-route="accueil">Accueil</button><span>›</span><span>Révisions</span></div><p class="eyebrow">À VENIR</p><h1 class="page-title">Révisions</h1><div class="empty-state"><h2>Cette section sera restructurée plus tard.</h2><p>Les anciennes cartes liées aux 42 missions ont été retirées. Tu peux continuer à pratiquer avec les modules CTF et leurs indices.</p><button class="secondary" data-route="accueil">Voir les modules →</button></div>`}
+function renderQuiz(){
+  return `<div class="breadcrumbs"><button data-route="accueil">Accueil</button><span>›</span><span>QCM et révisions</span></div><p class="eyebrow">CATALOGUE LIBRE</p><h1 class="page-title">QCM et révisions</h1><p class="page-intro">Choisis directement une commande ou suis l’ordre conseillé du Bloc 01. Chaque question peut avoir plusieurs bonnes réponses.</p><div class="progress-summary"><div><small>PROGRESSION GLOBALE</small><strong>${quizTotalDone()} / ${quizTotalQuestions()} questions réussies</strong></div><button class="secondary" data-route="bloc-01">Voir le parcours guidé →</button></div><div class="quiz-catalog">${quizzes.map(quiz=>`<button class="quiz-catalog-card" data-route="qcm-${escapeHtml(quiz.id)}"><span class="quiz-catalog-command">${escapeHtml(quiz.label)}</span><span>${escapeHtml(quiz.summary)}</span><span class="quiz-catalog-meta">${quizCompleted(quiz).length}/${quiz.questions.length} réussies · Module${quiz.moduleIds.length>1?'s':''} ${quiz.moduleIds.join(', ')}</span></button>`).join('')}</div>`;
+}
+
+function renderCommandQuiz(id){
+  const quiz=quizzes.find(item=>item.id===id);
+  if(!quiz)return renderQuiz();
+  const question=quizCurrent(quiz);
+  const index=quiz.questions.indexOf(question);
+  const completed=quizCompleted(quiz);
+  const solved=completed.includes(index);
+  const feedback=quizFeedback[quiz.id];
+  const selected=feedback?.selected || [];
+  return `<div class="breadcrumbs"><button data-route="accueil">Accueil</button><span>›</span><button data-view="revision">QCM</button><span>›</span><span>${escapeHtml(quiz.label)}</span></div><p class="eyebrow">QCM · UNE OU PLUSIEURS BONNES RÉPONSES</p><h1 class="page-title">Réviser <code>${escapeHtml(quiz.label)}</code></h1><p class="page-intro">${escapeHtml(quiz.summary)}</p>
+  <div class="quiz-layout"><nav class="quiz-map" aria-label="Questions du QCM">${quiz.questions.map((_,questionIndex)=>`<button class="${questionIndex===index?'active':''} ${completed.includes(questionIndex)?'done':''}" data-quiz-step="${questionIndex}" aria-current="${questionIndex===index?'step':'false'}"><span>${String(questionIndex+1).padStart(2,'0')}</span><strong>Question ${questionIndex+1}</strong><i>${completed.includes(questionIndex)?'✓':'→'}</i></button>`).join('')}</nav>
+  <section class="panel quiz-question"><div class="quiz-meta"><span>QUESTION ${index+1} / ${quiz.questions.length}</span><span>${completed.length} réussie${completed.length>1?'s':''}</span></div><h2>${escapeHtml(question.prompt)}</h2><p class="quiz-instruction">Coche toutes les réponses qui te semblent justes.</p><form id="quiz-form"><div class="quiz-options">${question.options.map((option,optionIndex)=>{const chosen=selected.includes(optionIndex);const resultClass=feedback?(option.correct?'correct':chosen?'incorrect':''):'';return `<label class="quiz-option ${chosen?'selected':''} ${resultClass}"><input type="checkbox" name="answer" value="${optionIndex}" ${chosen?'checked':''} ${solved?'disabled':''}><span>${escapeHtml(option.text)}</span></label>`}).join('')}</div>${solved?'<div class="quiz-success" role="status">✓ Question réussie.</div>':`<button class="primary" type="submit">Valider mes réponses →</button>`}</form>
+  ${feedback?`<div class="quiz-explanations ${feedback.valid?'valid':'invalid'}" role="status"><strong>${feedback.valid?'Bonne réponse.':'Pas encore. Compare tes choix avec les explications :'}</strong>${question.options.map(option=>`<p><span>${option.correct?'✓':'×'}</span><b>${escapeHtml(option.text)}</b> — ${escapeHtml(option.explanation)}</p>`).join('')}</div>`:''}
+  <div class="next-row"><button class="ghost" data-quiz-step="${Math.max(0,index-1)}" ${index===0?'disabled':''}>← Question précédente</button><button class="secondary" data-quiz-step="${Math.min(quiz.questions.length-1,index+1)}" ${index===quiz.questions.length-1?'disabled':''}>Question suivante →</button></div></section></div>
+  <div class="quiz-footer-actions"><button class="ghost" data-action="quiz-reset">↻ Recommencer ce QCM</button>${lessonForCommand(quiz.id)?`<button class="ghost" data-route="fiche-${escapeHtml(quiz.id)}">Relire le cours</button>`:''}${quiz.moduleIds.map(moduleId=>`<button class="ghost" data-route="module-${escapeHtml(moduleId)}">Ouvrir le Module ${escapeHtml(moduleId)}</button>`).join('')}</div>`;
+}
+
+function renderBox(){return `<div class="breadcrumbs"><button data-route="accueil">Accueil</button><span>›</span><button data-route="bloc-01">Bloc 01</button><span>›</span><span>Box finale</span></div><p class="eyebrow">SYNTHÈSE DU BLOC 01</p><h1 class="page-title">Box finale</h1><div class="empty-state"><h2>Cette épreuve arrivera plus tard.</h2><p>Elle réunira les notions des Modules 01 à 03 dans une situation plus libre et moins guidée. Nous la concevrons après avoir validé les cours, les QCM et les trois modules du premier bloc.</p><button class="secondary" data-route="bloc-01">Retour au Bloc 01 →</button></div>`}
 
 function render(){
   const route=getRoute();renderNav();applySidebarState();
   const view=document.getElementById('view');
   if(route==='accueil')view.innerHTML=renderHome();
+  else if(route.startsWith('bloc-'))view.innerHTML=renderBlock(blocks.find(block=>route==='bloc-'+block.id));
   else if(route.startsWith('module-')){const mod=ctfModules.find(m=>route==='module-'+m.id);view.innerHTML=mod?renderCtfModule(mod):renderHome()}
   else if(route==='guide')view.innerHTML=renderGuide();
   else if(route==='cours')view.innerHTML=renderCourse();
   else if(route.startsWith('fiche-'))view.innerHTML=renderLesson(route.slice(6));
   else if(route==='revision')view.innerHTML=renderQuiz();
+  else if(route.startsWith('qcm-'))view.innerHTML=renderCommandQuiz(route.slice(4));
+  else if(route==='box-01')view.innerHTML=renderBox();
   else view.innerHTML=renderHome();
-  document.title=`${route==='accueil'?'Parcours Linux':route.startsWith('module-')?ctfModules.find(m=>route==='module-'+m.id)?.title||'Module CTF':route==='guide'?'Guide de survie':route==='cours'?'Cours express':route.startsWith('fiche-')?lessons.find(l=>route==='fiche-'+l.id)?.label||'Cours express':route==='revision'?'Révisions':'Parcours Linux'} — Linux, pour de vrai`;
+  document.title=`${route==='accueil'?'Parcours Linux':route.startsWith('bloc-')?'Les bases du terminal':route.startsWith('module-')?ctfModules.find(m=>route==='module-'+m.id)?.title||'Module CTF':route==='guide'?'Guide de survie':route==='cours'?'Cours express':route.startsWith('fiche-')?lessons.find(l=>route==='fiche-'+l.id)?.label||'Cours express':route==='revision'?'QCM et révisions':route.startsWith('qcm-')?`QCM ${quizzes.find(q=>route==='qcm-'+q.id)?.label||''}`:route==='box-01'?'Box finale':'Parcours Linux'} — Linux, pour de vrai`;
 }
 
 document.addEventListener('click',e=>{
   const nav=e.target.closest('[data-route],[data-view]');if(nav){const dest=nav.dataset.route||nav.dataset.view;ctfFeedback='';ctfResetPending=false;routeTo(dest);window.scrollTo({top:0,behavior:'smooth'});return}
   const ctfStep=e.target.closest('[data-ctf-step]');if(ctfStep){const mod=ctfModules.find(m=>getRoute()==='module-'+m.id);if(mod)ctfActive[mod.id]=Number(ctfStep.dataset.ctfStep);ctfFeedback='';ctfResetPending=false;render();return}
-  const action=e.target.closest('[data-action]');if(action){const mod=ctfModules.find(m=>getRoute()==='module-'+m.id);if(action.dataset.action==='toggle-sidebar'){state.sidebarHidden=!state.sidebarHidden;persist();applySidebarState()}if(action.dataset.action==='setup'){document.getElementById('installation')?.scrollIntoView({behavior:'smooth'})}if(action.dataset.action==='ctf-hint'&&mod){const challenge=ctfCurrent(mod);const key=`${mod.id}-${challenge.id}`;ctfHints[key]=Math.min((ctfHints[key]||0)+1,challenge.hints.length);render()}if(action.dataset.action==='ctf-reset-request'&&mod){ctfResetPending=true;render()}if(action.dataset.action==='ctf-reset-cancel'){ctfResetPending=false;render()}if(action.dataset.action==='ctf-reset-confirm'&&mod&&ctfResetPending){resetCtfModule(mod);render()}return}
+  const quizStep=e.target.closest('[data-quiz-step]');if(quizStep){const quiz=quizzes.find(item=>getRoute()==='qcm-'+item.id);if(quiz){quizActive[quiz.id]=Number(quizStep.dataset.quizStep);delete quizFeedback[quiz.id];render()}return}
+  const action=e.target.closest('[data-action]');if(action){const mod=ctfModules.find(m=>getRoute()==='module-'+m.id);const quiz=quizzes.find(item=>getRoute()==='qcm-'+item.id);if(action.dataset.action==='toggle-sidebar'){state.sidebarHidden=!state.sidebarHidden;persist();applySidebarState()}if(action.dataset.action==='toggle-block'){state.blockOpen=!state.blockOpen;persist();renderNav()}if(action.dataset.action==='setup'){document.getElementById('installation')?.scrollIntoView({behavior:'smooth'})}if(action.dataset.action==='ctf-hint'&&mod){const challenge=ctfCurrent(mod);const key=`${mod.id}-${challenge.id}`;ctfHints[key]=Math.min((ctfHints[key]||0)+1,challenge.hints.length);render()}if(action.dataset.action==='ctf-reset-request'&&mod){ctfResetPending=true;render()}if(action.dataset.action==='ctf-reset-cancel'){ctfResetPending=false;render()}if(action.dataset.action==='ctf-reset-confirm'&&mod&&ctfResetPending){resetCtfModule(mod);render()}if(action.dataset.action==='quiz-reset'&&quiz){delete state.quizDone[quiz.id];quizActive[quiz.id]=0;delete quizFeedback[quiz.id];persist();render()}return}
 });
 
 document.addEventListener('submit',e=>{
@@ -134,6 +209,19 @@ document.addEventListener('submit',e=>{
       ctfFeedback=result.message;
       const target=e.target.querySelector('.feedback');target.textContent=ctfFeedback;target.className='feedback error';
     }
+    return;
+  }
+  if(e.target.id==='quiz-form'){
+    e.preventDefault();
+    const quiz=quizzes.find(item=>getRoute()==='qcm-'+item.id);
+    if(!quiz)return;
+    const question=quizCurrent(quiz);
+    const index=quiz.questions.indexOf(question);
+    const selected=new FormData(e.target).getAll('answer').map(Number).sort((a,b)=>a-b);
+    const valid=validateQuizAnswers(question,selected);
+    quizFeedback[quiz.id]={valid,selected};
+    if(valid){if(!Array.isArray(state.quizDone[quiz.id]))state.quizDone[quiz.id]=[];if(!state.quizDone[quiz.id].includes(index))state.quizDone[quiz.id].push(index);persist()}
+    render();
     return;
   }
 });

@@ -6,7 +6,7 @@ const root = path.resolve(__dirname, '..');
 require('./build-courses.cjs');
 const output = path.join(root, 'dist');
 fs.mkdirSync(output, {recursive:true});
-for (const name of ['index.html', 'styles.css', 'app.js', 'cours-data.js']) {
+for (const name of ['index.html', 'styles.css', 'app.js', 'cours-data.js', 'quiz-data.js']) {
   fs.copyFileSync(path.join(root, name), path.join(output, name));
 }
 for (const id of ['01', '02', '03']) {

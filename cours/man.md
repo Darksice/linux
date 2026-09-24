@@ -27,4 +27,4 @@ Dans le manuel : / cherche un mot, n passe au résultat suivant, q quitte.
 
 ## Pour s’entraîner
 
-Reprends le Module 01 dans ta VM, puis explique à voix haute ce que fait chaque option.
+Reprends le Module 01 sur ta machine Linux, puis explique à voix haute ce que fait chaque option.

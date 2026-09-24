@@ -37,4 +37,4 @@ Sur un **dossier**, `x` signifie surtout pouvoir le traverser et accéder à une
 
 ## Pour s’entraîner
 
-Sur un répertoire de test créé dans ta VM, prédis les droits de `600`, `700` et `750` en écrivant les trois triplets. Vérifie ensuite ta prédiction avec `ls -ld` et `ls -l`.
+Sur un répertoire de test créé sur ta machine Linux, prédis les droits de `600`, `700` et `750` en écrivant les trois triplets. Vérifie ensuite ta prédiction avec `ls -ld` et `ls -l`.

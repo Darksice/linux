@@ -1,7 +1,7 @@
 ---
 id: selinux
 title: getenforce
-group: Système et AlmaLinux
+group: Système et administration
 summary: Affiche le mode courant de SELinux.
 ---
 
