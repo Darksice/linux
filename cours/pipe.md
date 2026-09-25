@@ -19,12 +19,8 @@ La forme de base est `commande1 | commande2`.
 grep ERREUR journal.log | wc -l
 ```
 
-La commande ci-dessus illustre une utilisation courante ; adapte les chemins à ton dossier de travail.
+La commande ci-dessus illustre une utilisation courante. Adapte les chemins à ton dossier de travail.
 
 ## Points de vigilance
 
 Construis le pipeline étape par étape pour voir les données intermédiaires.
-
-## Pour s’entraîner
-
-Reprends le Module 02 sur ta machine Linux, puis explique à voix haute ce que fait chaque option.

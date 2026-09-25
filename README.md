@@ -67,7 +67,7 @@ comptage. Les pièges portent notamment sur le tri numérique et sur le fait que
 - indices progressifs et validation des flags dans le navigateur ;
 - 28 fiches de cours en Markdown, consultables et recherchables ;
 - un premier bloc guidé reliant cours, QCM et Modules 01 à 03 ;
-- 16 QCM de deux questions chacun, avec plusieurs bonnes réponses possibles et
+- 16 QCM totalisant 34 questions, avec plusieurs bonnes réponses possibles et
   une explication après validation ;
 - guide de survie consultable à tout moment ;
 - page d'attente pour la future box de synthèse du premier bloc.

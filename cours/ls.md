@@ -2,41 +2,109 @@
 id: ls
 title: ls
 group: Navigation
-summary: Liste les entrées d’un dossier et permet d’examiner leurs détails.
+summary: Liste le contenu d’un dossier et affiche les entrées cachées ou leurs détails.
 ---
 
 ## Comprendre
 
-`ls` affiche les noms des fichiers et des dossiers. Sans argument, il regarde le dossier courant. Avec un chemin, il regarde ce dossier sans changer ta position : `pwd` reste identique.
+`ls` affiche les entrées contenues dans un dossier. Une entrée peut être un fichier, un dossier ou un lien. Sans chemin, la commande examine le dossier courant.
 
-Les noms commençant par un point, comme `.secret`, sont cachés dans l’affichage ordinaire. Ils existent toujours : le point est simplement une convention de nommage.
+Contrairement à `cd`, `ls` ne change jamais le dossier courant. Tu peux examiner un autre emplacement avec `ls chemin` puis lancer `pwd`. Le chemin affiché par `pwd` reste identique.
+
+Par défaut, les noms commençant par un point comme `.secret` sont masqués. Ils existent bien sur le système. Le point placé au début du nom est une convention utilisée par Linux pour identifier les entrées cachées.
 
 ## Commandes et options
 
-- `ls` : montre les entrées visibles du dossier courant.
-- `ls dossier` : montre les entrées visibles d’un autre dossier.
-- `ls -a` : inclut les noms cachés, ainsi que `.` (dossier courant) et `..` (parent).
-- `ls -l` : affiche une ligne détaillée par entrée : type, droits, propriétaire, groupe, taille, date et nom.
-- `ls -la` : combine les détails et les noms cachés.
-- `ls -lh` : rend les tailles plus lisibles, par exemple en K ou M.
+### Lister le dossier courant
+
+```bash
+ls
+```
+
+`ls` affiche les entrées visibles du dossier courant. La commande montre leurs noms sans entrer dans les sous-dossiers et sans modifier les fichiers.
+
+Si le terminal n’affiche rien, le dossier ne contient aucune entrée visible. Il peut cependant contenir des entrées cachées.
+
+### Lister un autre dossier
+
+```bash
+ls rep1
+ls rep1/rep2
+```
+
+`ls rep1` affiche les entrées visibles de `rep1` sans quitter le dossier courant. Le second exemple suit le chemin relatif `rep1/rep2` et affiche le contenu visible de `rep2`.
+
+Le chemin peut aussi être absolu. `ls /etc` examine toujours le dossier `/etc`, quelle que soit la position actuelle.
+
+### Afficher les détails
+
+```bash
+ls -l
+ls -l rep1
+```
+
+L’option `-l` utilise un format long. Chaque entrée occupe une ligne qui présente les informations suivantes.
+
+- Le type de l’entrée et ses droits apparaissent au début de la ligne. Le premier caractère vaut notamment `d` pour un dossier et `-` pour un fichier ordinaire.
+- Le nombre de liens est affiché après les droits.
+- Le propriétaire et le groupe sont indiqués dans les colonnes suivantes.
+- La taille est affichée en octets.
+- La date de dernière modification précède le nom.
+
+La ligne `total` placée au début du résultat représente l’espace occupé par les entrées listées. Elle ne donne pas leur nombre.
+
+### Afficher les entrées cachées
+
+```bash
+ls -a
+ls -a rep1
+```
+
+L’option `-a` affiche toutes les entrées, y compris celles dont le nom commence par un point. Le résultat contient aussi `.` pour le dossier examiné et `..` pour son dossier parent.
+
+### Combiner les détails et les entrées cachées
+
+```bash
+ls -la
+ls -la rep1
+```
+
+Les options courtes peuvent être regroupées. `ls -la` combine donc le format long de `-l` avec l’affichage complet de `-a`. La forme `ls -al` produit le même résultat.
 
 ## Exemple commenté
 
+Imagine que tu te trouves dans `/home/alice/atelier`. Ce dossier contient `notes.txt` et le dossier `rep1`. Dans `rep1`, le fichier `.secret` est caché.
+
 ```bash
-pwd
-ls
-ls "donnees/Projet Alpha"
-ls -a "donnees/Projet Alpha"
-ls -l donnees/notes
-ls -la "donnees/Projet Alpha"
+$ pwd
+/home/alice/atelier
+$ ls
+notes.txt  rep1
+$ ls rep1
+config.txt
+$ ls -a rep1
+.  ..  .secret  config.txt
+$ ls -l rep1
+total 4
+-rw-r--r-- 1 alice alice 128 24 sept. 10:30 config.txt
+$ ls -la rep1
+total 8
+drwxr-xr-x 2 alice alice 4096 24 sept. 10:30 .
+drwxr-xr-x 3 alice alice 4096 24 sept. 10:20 ..
+-rw------- 1 alice alice   42 24 sept. 10:25 .secret
+-rw-r--r-- 1 alice alice  128 24 sept. 10:30 config.txt
 ```
 
-La deuxième commande affiche le contenu visible du dossier courant. Les deux commandes sur `Projet Alpha` permettent de comparer l’affichage normal et celui avec `-a` : `.secret` apparaît seulement dans le second. `-l` ajoute des détails sans montrer automatiquement les fichiers cachés ; `-la` fait les deux.
+La première commande `ls` affiche les deux entrées visibles du dossier courant. `ls rep1` examine ensuite un autre dossier sans utiliser `cd`. Le fichier `.secret` devient visible uniquement avec `-a`.
+
+`ls -l rep1` ajoute les détails mais ne montre toujours pas `.secret`. Il faut combiner les deux options avec `ls -la rep1` pour obtenir les détails de toutes les entrées.
 
 ## Points de vigilance
 
-`ls -l` appliqué à un dossier affiche normalement son **contenu**, pas la ligne du dossier lui-même. Pour examiner les droits du dossier, utilise `ls -ld dossier`. Mets entre guillemets un chemin qui contient des espaces.
+`ls -l rep1` affiche le contenu détaillé de `rep1`, pas les informations du dossier `rep1` lui-même. La commande `ls -ld rep1` permet d’examiner le dossier sans lister son contenu.
 
-## Pour s’entraîner
+Un dossier peut sembler vide avec `ls` tout en contenant des entrées cachées. Utilise `ls -a` pour le vérifier.
 
-Dans le Module 01, compare `ls accueil`, `ls -a accueil` et `ls -la accueil`. Quelles informations supplémentaires apparaissent à chaque fois ?
+Linux distingue les majuscules et les minuscules. `ls Documents` et `ls documents` peuvent donc viser deux dossiers différents.
+
+Un chemin contenant des espaces doit être protégé. Utilise par exemple `ls "Mes documents"` ou `ls Mes\ documents`.

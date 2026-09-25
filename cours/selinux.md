@@ -19,12 +19,8 @@ La forme de base est `getenforce`.
 getenforce
 ```
 
-La commande ci-dessus illustre une utilisation courante ; adapte les chemins à ton dossier de travail.
+La commande ci-dessus illustre une utilisation courante. Adapte les chemins à ton dossier de travail.
 
 ## Points de vigilance
 
-Enforcing applique les règles ; Permissive journalise sans bloquer ; Disabled désactive SELinux.
-
-## Pour s’entraîner
-
-Relis les exemples et explique à voix haute l’effet de chaque option. Les défis pratiques correspondants arriveront avec les prochains modules.
+`Enforcing` applique les règles. `Permissive` journalise sans bloquer. `Disabled` désactive SELinux.

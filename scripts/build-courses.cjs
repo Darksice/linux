@@ -49,7 +49,7 @@ function parse(file) {
   }));
   for (const key of ['id','title','group','summary']) if (!meta[key]) throw new Error(`${file} : ${key} manquant.`);
   if (`${meta.id}.md` !== file) throw new Error(`${file} : le nom doit correspondre à l’id.`);
-  for (const heading of ['Comprendre','Commandes et options','Exemple commenté','Points de vigilance','Pour s’entraîner']) {
+  for (const heading of ['Comprendre','Commandes et options','Exemple commenté','Points de vigilance']) {
     if (!match[2].includes(`## ${heading}`)) throw new Error(`${file} : section « ${heading} » manquante.`);
   }
   return {id:meta.id,label:meta.title,group:meta.group,summary:meta.summary,html:markdown(match[2])};

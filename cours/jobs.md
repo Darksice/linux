@@ -19,12 +19,8 @@ La forme de base est `Ctrl-Z  puis  bg  ou  fg`.
 sleep 300  # puis Ctrl-Z, bg, fg
 ```
 
-La commande ci-dessus illustre une utilisation courante ; adapte les chemins à ton dossier de travail.
+La commande ci-dessus illustre une utilisation courante. Adapte les chemins à ton dossier de travail.
 
 ## Points de vigilance
 
-Ctrl-Z suspend ; Ctrl-C interrompt. Un job en arrière-plan peut continuer à travailler.
-
-## Pour s’entraîner
-
-Relis les exemples et explique à voix haute l’effet de chaque option. Les défis pratiques correspondants arriveront avec les prochains modules.
+`Ctrl-Z` suspend le job et `Ctrl-C` l’interrompt. Un job en arrière-plan peut continuer à travailler.

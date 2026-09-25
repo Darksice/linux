@@ -19,12 +19,8 @@ La forme de base est `pwd`.
 pwd
 ```
 
-La commande ci-dessus illustre une utilisation courante ; adapte les chemins à ton dossier de travail.
+La commande ci-dessus illustre une utilisation courante. Adapte les chemins à ton dossier de travail.
 
 ## Points de vigilance
 
 Avant une commande qui écrit ou supprime, vérifie où tu te trouves.
-
-## Pour s’entraîner
-
-Reprends le Module 01 sur ta machine Linux, puis explique à voix haute ce que fait chaque option.

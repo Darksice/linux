@@ -19,12 +19,8 @@ La forme de base est `less fichier`.
 less donnees/logs/incidents.log
 ```
 
-La commande ci-dessus illustre une utilisation courante ; adapte les chemins à ton dossier de travail.
+La commande ci-dessus illustre une utilisation courante. Adapte les chemins à ton dossier de travail.
 
 ## Points de vigilance
 
-Utilise les flèches et q pour quitter.
-
-## Pour s’entraîner
-
-Reprends le Module 02 sur ta machine Linux, puis explique à voix haute ce que fait chaque option.
+Utilise les flèches et `q` pour quitter.

@@ -19,12 +19,8 @@ La forme de base est `commande > fichier  |  commande >> fichier  |  commande 2>
 grep ERREUR journal.log > erreurs.txt
 ```
 
-La commande ci-dessus illustre une utilisation courante ; adapte les chemins à ton dossier de travail.
+La commande ci-dessus illustre une utilisation courante. Adapte les chemins à ton dossier de travail.
 
 ## Points de vigilance
 
-> remplace le contenu, >> ajoute à la fin, 2> capture les erreurs.
-
-## Pour s’entraîner
-
-Relis les exemples et explique à voix haute l’effet de chaque option. Les défis pratiques correspondants arriveront avec les prochains modules.
+`>` remplace le contenu, `>>` ajoute à la fin et `2>` capture les erreurs.

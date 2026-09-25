@@ -19,12 +19,8 @@ La forme de base est `systemctl status unite`.
 systemctl status sshd
 ```
 
-La commande ci-dessus illustre une utilisation courante ; adapte les chemins à ton dossier de travail.
+La commande ci-dessus illustre une utilisation courante. Adapte les chemins à ton dossier de travail.
 
 ## Points de vigilance
 
-status consulte ; restart modifie le service. Regarde les journaux avant toute action.
-
-## Pour s’entraîner
-
-Relis les exemples et explique à voix haute l’effet de chaque option. Les défis pratiques correspondants arriveront avec les prochains modules.
+`status` consulte le service tandis que `restart` le redémarre. Regarde les journaux avant toute action.

@@ -1,0 +1,36 @@
+Globale :
+Je trouve la facon d'écrire "text : text" fait trop IA réduit fortement l'utilisation des : et arrete l'utilisation des ;
+
+Fiche de cours cd :
+
+Partie comprendre :
+
+Je ferai apparaitre que pwd affiche le chemin absolue
+
+Partie Revenir dans son dossier personnel :
+
+c'est bien mais je metterai que cd et cd ~ utilis en réalité ce $HOME donc peut etre présenter celui la en premier pour mettre les autres apres
+
+Partie Revenir au dossier précédent :
+
+Pareil il me semble que ça utilise la variable d'env $OLDPWD, on peut le faire apparaitre. Je supprimerai la deuxieme phrases "en répétant cette commande ..." car dans la réalité on repete jamais cette commande.
+
+Partie Exemple commenté
+
+L'exemple est top mais je ferai apparaitre pour les pwd le retour de la commande car la c'est juste pas parlant
+
+Partie Points de vigilance :
+
+je dirai que Documents et documents sont 2 dossiers différents pas peuvent être
+
+cd suivi d'un nom incorrect produit "No such file or directory" car cd vide marche
+
+Pareil le shell répond et pas peut répondre Perm denied c'est une certiture
+
+Je retirai le dernier point ou alors je dirai que dans un script il faut utiliser ~ ou $HOME si on veut que cela marche pour plusierus utilisateurs
+
+
+
+Pour la partie s'entrainer :
+
+je pense qu'on peut supprimer cette partie pour les cours car ils vont l'utiliser dans les QCM / modules

@@ -39,7 +39,17 @@ function modulesForCommand(id){return ctfModules.filter(mod=>quizzes.find(quiz=>
 function lessonIsInBlock(id){return blocks.some(block=>block.sequences.some(sequence=>sequence.commandIds.includes(id)))}
 function renderLessonContent(lesson){
   if(!lessonIsInBlock(lesson.id))return lesson.html;
-  return lesson.html.replace(/<pre><code>([\s\S]*?)<\/code><\/pre>/g,(_,code)=>terminal(code.split('\n').map(line=>line?`<span class="prompt">$</span> ${line}`:'').join('\n')));
+  return lesson.html.replace(/<pre><code>([\s\S]*?)<\/code><\/pre>/g,(_,code)=>{
+    const lines=code.split('\n');
+    const showsOutput=lines.some(line=>line.startsWith('$ '));
+    const content=lines.map(line=>{
+      if(!line)return '';
+      if(!showsOutput)return `<span class="prompt">$</span> ${line}`;
+      if(line.startsWith('$ '))return `<span class="prompt">$</span> ${line.slice(2)}`;
+      return `<span class="terminal-output">${line}</span>`;
+    }).join('\n');
+    return terminal(content);
+  });
 }
 function commandLinks(id){
   const lesson=lessonForCommand(id);
@@ -148,7 +158,7 @@ function renderLesson(id){
   if(!l)return renderCourse();
   const quiz=quizzes.find(item=>item.id===id);
   const related=modulesForCommand(id);
-  return `<div class="breadcrumbs"><button data-route="accueil">Accueil</button><span>›</span><button data-view="cours">Cours express</button><span>›</span><span>${escapeHtml(l.label)}</span></div><p class="eyebrow">FICHE DE COURS · ${escapeHtml(l.group).toUpperCase()}</p><h1 class="page-title">${escapeHtml(l.label)}</h1><p class="page-intro">${escapeHtml(l.summary)} Les chemins des exemples sont illustratifs : adapte-les aux archives disponibles.</p><article class="panel lesson-article">${renderLessonContent(l)}</article>${quiz?`<section class="lesson-next"><div><p class="eyebrow">ÉTAPE SUIVANTE</p><h2>Vérifier que tu as compris ${escapeHtml(l.label)}</h2><p>${quiz.questions.length} questions avec plusieurs réponses possibles et une explication après validation.</p></div><button class="primary" data-route="qcm-${escapeHtml(quiz.id)}">Faire le QCM →</button></section>`:''}${related.length?`<div class="lesson-practice"><span>Cette commande est mise en pratique dans :</span>${related.map(mod=>`<button class="ghost" data-route="module-${escapeHtml(mod.id)}">Module ${escapeHtml(mod.id)}</button>`).join('')}</div>`:''}<div class="next-row"><button class="ghost" data-view="cours">← Toutes les fiches</button></div>`;
+  return `<div class="breadcrumbs"><button data-route="accueil">Accueil</button><span>›</span><button data-view="cours">Cours express</button><span>›</span><span>${escapeHtml(l.label)}</span></div><p class="eyebrow">FICHE DE COURS · ${escapeHtml(l.group).toUpperCase()}</p><h1 class="page-title">${escapeHtml(l.label)}</h1><p class="page-intro">${escapeHtml(l.summary)}</p><article class="panel lesson-article">${renderLessonContent(l)}</article>${quiz?`<section class="lesson-next"><div><p class="eyebrow">ÉTAPE SUIVANTE</p><h2>Vérifier que tu as compris ${escapeHtml(l.label)}</h2><p>${quiz.questions.length} questions avec plusieurs réponses possibles et une explication après validation.</p></div><button class="primary" data-route="qcm-${escapeHtml(quiz.id)}">Faire le QCM →</button></section>`:''}${related.length?`<div class="lesson-practice"><span>Cette commande est mise en pratique dans :</span>${related.map(mod=>`<button class="ghost" data-route="module-${escapeHtml(mod.id)}">Module ${escapeHtml(mod.id)}</button>`).join('')}</div>`:''}<div class="next-row"><button class="ghost" data-view="cours">← Toutes les fiches</button></div>`;
 }
 
 function renderQuiz(){

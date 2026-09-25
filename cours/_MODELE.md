@@ -11,9 +11,9 @@ Explique le besoin auquel répond la commande et ce qu’elle change ou ne chang
 
 ## Commandes et options
 
-- `commande` : comportement de base.
-- `commande -a` : première option utile, avec sa signification.
-- `commande -l` : deuxième option utile, avec sa signification.
+- `commande` donne le comportement de base.
+- `commande -a` ajoute une première option utile et explique sa signification.
+- `commande -l` ajoute une deuxième option utile et explique sa signification.
 
 ## Exemple commenté
 
@@ -27,7 +27,3 @@ Décris le résultat attendu de chaque ligne, sans supposer que le lecteur conna
 ## Points de vigilance
 
 Mentionne une erreur fréquente, un risque ou la différence avec une commande voisine.
-
-## Pour s’entraîner
-
-Propose une petite manipulation vérifiable dans un module existant ou sur des fichiers de test, puis une question de rappel.

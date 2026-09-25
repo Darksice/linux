@@ -17,21 +17,39 @@ const commandQuizzes = [
     id: 'cd', label: 'cd', summary: 'Changer de répertoire et interpréter les chemins.', moduleIds: ['01'],
     questions: [
       {
-        prompt: 'Quelles commandes permettent de quitter le répertoire courant ?',
+        prompt: 'Tu te trouves dans /home/alice/rep1 et le dossier rep2 existe. Quelles affirmations sont exactes ?',
         options: [
-          {text: 'cd ..', correct: true, explanation: 'Elle rejoint le répertoire parent.'},
-          {text: 'cd ~', correct: true, explanation: 'Elle rejoint le répertoire personnel.'},
-          {text: 'cd sous-dossier', correct: true, explanation: 'Elle entre dans un autre répertoire si ce chemin existe.'},
-          {text: 'pwd', correct: false, explanation: 'pwd affiche le chemin courant sans le modifier.'}
+          {text: 'cd .. rejoint /home/alice.', correct: true, explanation: '.. représente le dossier parent de /home/alice/rep1.'},
+          {text: 'cd . reste dans /home/alice/rep1.', correct: true, explanation: '. représente le dossier courant.'},
+          {text: 'cd rep2 rejoint /home/alice/rep1/rep2.', correct: true, explanation: 'rep2 est interprété depuis le dossier courant.'},
+          {text: 'pwd rejoint /home/alice.', correct: false, explanation: 'pwd affiche le chemin absolu sans changer de dossier.'}
         ]
       },
       {
         prompt: 'Quelles affirmations sur les chemins utilisés avec cd sont exactes ?',
         options: [
-          {text: 'Un chemin commençant par / est absolu.', correct: true, explanation: 'Il part de la racine du système.'},
-          {text: 'Un chemin sans / initial peut être relatif au répertoire courant.', correct: true, explanation: 'Il est résolu depuis l’emplacement actuel.'},
-          {text: '.. représente le répertoire parent.', correct: true, explanation: 'Il permet de remonter d’un niveau.'},
-          {text: '~ représente toujours la racine /.', correct: false, explanation: '~ désigne le répertoire personnel de l’utilisateur.'}
+          {text: '/etc est un chemin absolu.', correct: true, explanation: 'Le premier / indique que le chemin part de la racine.'},
+          {text: '../rep2 est un chemin relatif.', correct: true, explanation: 'Il est calculé depuis le dossier courant en passant par son parent.'},
+          {text: 'La destination de rep1/rep2 dépend du dossier courant.', correct: true, explanation: 'Ce chemin ne commence pas par / et reste donc relatif.'},
+          {text: 'Tous les chemins valides commencent par /.', correct: false, explanation: 'Les chemins relatifs ne commencent pas par /.'}
+        ]
+      },
+      {
+        prompt: 'Quelles affirmations sur le dossier personnel et le dossier précédent sont exactes ?',
+        options: [
+          {text: 'cd sans argument rejoint le dossier indiqué par $HOME.', correct: true, explanation: 'Sans chemin, cd utilise le dossier personnel.'},
+          {text: 'cd "$HOME" rejoint le dossier personnel.', correct: true, explanation: '$HOME contient son chemin absolu.'},
+          {text: 'cd - utilise $OLDPWD et affiche le chemin rejoint.', correct: true, explanation: '$OLDPWD mémorise le dossier occupé avant le dernier changement.'},
+          {text: 'cd "~" rejoint le dossier personnel.', correct: false, explanation: 'Entre guillemets, ~ reste un nom littéral et n’est pas développé par le shell.'}
+        ]
+      },
+      {
+        prompt: 'Un dossier nommé Mes documents existe dans le dossier courant. Quelles commandes permettent de le rejoindre ?',
+        options: [
+          {text: 'cd "Mes documents"', correct: true, explanation: 'Les guillemets conservent le nom complet comme un seul argument.'},
+          {text: 'cd Mes\\ documents', correct: true, explanation: 'La barre oblique inverse protège l’espace.'},
+          {text: 'cd Mes documents', correct: false, explanation: 'Sans protection, le shell transmet deux arguments séparés à cd.'},
+          {text: 'cd "Mes Documents"', correct: false, explanation: 'Les guillemets gèrent correctement l’espace, mais Linux distingue documents de Documents.'}
         ]
       }
     ]
@@ -44,7 +62,7 @@ const commandQuizzes = [
         options: [
           {text: '-a', correct: true, explanation: 'Elle inclut les entrées cachées.'},
           {text: '-l', correct: true, explanation: 'Elle affiche le format détaillé, notamment les droits.'},
-          {text: '-h avec -l', correct: true, explanation: 'Elle rend les tailles plus lisibles.'},
+          {text: '-la', correct: true, explanation: 'Elle combine le format détaillé et l’affichage des entrées cachées.'},
           {text: '-q pour quitter', correct: false, explanation: 'q sert notamment à quitter less ou man, pas ls.'}
         ]
       },

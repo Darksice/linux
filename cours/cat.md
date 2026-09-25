@@ -19,12 +19,8 @@ La forme de base est `cat fichier [autre-fichier]`.
 cat donnees/notes/consignes.txt
 ```
 
-La commande ci-dessus illustre une utilisation courante ; adapte les chemins à ton dossier de travail.
+La commande ci-dessus illustre une utilisation courante. Adapte les chemins à ton dossier de travail.
 
 ## Points de vigilance
 
-Pour un très long fichier, less est plus confortable.
-
-## Pour s’entraîner
-
-Reprends le Module 02 sur ta machine Linux, puis explique à voix haute ce que fait chaque option.
+Pour un très long fichier, `less` est plus confortable.
