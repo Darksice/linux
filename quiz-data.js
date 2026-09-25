@@ -5,7 +5,7 @@ const learningBlocks = [
     title: 'Les bases du terminal',
     description: 'Se repérer, lire des fichiers et transformer des données avec les commandes essentielles du terminal.',
     sequences: [
-      {moduleId: '01', commandIds: ['cd', 'ls', 'pwd', 'man']},
+      {moduleId: '01', commandIds: ['man', 'pwd', 'cd', 'ls']},
       {moduleId: '02', commandIds: ['cat', 'less', 'head', 'tail', 'file', 'diff', 'pipe']},
       {moduleId: '03', commandIds: ['cut', 'sort', 'uniq', 'wc', 'tr', 'pipe', 'cat']}
     ]
@@ -70,9 +70,27 @@ const commandQuizzes = [
         prompt: 'Que peut-on déduire de la sortie de ls -l ?',
         options: [
           {text: 'Le premier caractère indique le type de l’entrée.', correct: true, explanation: 'd indique par exemple un répertoire.'},
-          {text: 'Les triplets suivants représentent des droits.', correct: true, explanation: 'Ils concernent propriétaire, groupe et autres.'},
+          {text: 'Le nombre placé après les droits indique les liens physiques vers l’inode.', correct: true, explanation: 'Ce champ correspond au nombre de liens physiques associés à l’inode.'},
           {text: 'Le propriétaire et le groupe sont affichés.', correct: true, explanation: 'Ils apparaissent dans les colonnes du format long.'},
-          {text: 'Toutes les entrées cachées sont forcément affichées.', correct: false, explanation: 'Il faut aussi ajouter -a pour les inclure.'}
+          {text: 'La ligne total indique le nombre d’entrées.', correct: false, explanation: 'Elle représente l’espace alloué, généralement en blocs de 1 Kio.'}
+        ]
+      },
+      {
+        prompt: 'Le dossier rep1 contient config.txt et le fichier caché .secret. Quelles commandes affichent .secret ?',
+        options: [
+          {text: 'ls -a rep1', correct: true, explanation: '-a inclut les entrées dont le nom commence par un point.'},
+          {text: 'ls -la rep1', correct: true, explanation: '-la affiche toutes les entrées avec leurs détails.'},
+          {text: 'ls rep1', correct: false, explanation: 'Sans -a, les entrées cachées restent masquées.'},
+          {text: 'ls -l rep1', correct: false, explanation: '-l ajoute des détails sans afficher les entrées cachées.'}
+        ]
+      },
+      {
+        prompt: 'Quelles affirmations décrivent correctement le comportement de ls ?',
+        options: [
+          {text: 'ls rep1 affiche le contenu visible de rep1 sans changer le dossier courant.', correct: true, explanation: 'ls examine le chemin indiqué mais ne déplace pas le terminal.'},
+          {text: 'ls -l rep1 détaille le contenu visible de rep1.', correct: true, explanation: 'Sans -d, ls appliqué à un dossier liste son contenu.'},
+          {text: 'ls -ld rep1 affiche les informations du dossier rep1 lui-même.', correct: true, explanation: '-d demande de décrire le dossier au lieu de parcourir son contenu.'},
+          {text: 'Une sortie vide de ls prouve que le dossier ne contient aucune entrée.', correct: false, explanation: 'Le dossier peut encore contenir des entrées cachées visibles avec -a.'}
         ]
       }
     ]

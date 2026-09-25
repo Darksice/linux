@@ -46,12 +46,12 @@ ls -l rep1
 L’option `-l` utilise un format long. Chaque entrée occupe une ligne qui présente les informations suivantes.
 
 - Le type de l’entrée et ses droits apparaissent au début de la ligne. Le premier caractère vaut notamment `d` pour un dossier et `-` pour un fichier ordinaire.
-- Le nombre de liens est affiché après les droits.
+- Le nombre de liens physiques vers l’inode est affiché après les droits. Un inode contient les métadonnées qui identifient l’entrée sur le système de fichiers.
 - Le propriétaire et le groupe sont indiqués dans les colonnes suivantes.
 - La taille est affichée en octets.
 - La date de dernière modification précède le nom.
 
-La ligne `total` placée au début du résultat représente l’espace occupé par les entrées listées. Elle ne donne pas leur nombre.
+La ligne `total` placée au début du résultat représente l’espace réellement alloué aux entrées listées. Sur un système GNU/Linux courant, cette valeur est généralement exprimée en blocs de 1 Kio. Elle ne donne ni le nombre d’entrées ni la simple somme des tailles affichées.
 
 ### Afficher les entrées cachées
 
@@ -60,7 +60,7 @@ ls -a
 ls -a rep1
 ```
 
-L’option `-a` affiche toutes les entrées, y compris celles dont le nom commence par un point. Le résultat contient aussi `.` pour le dossier examiné et `..` pour son dossier parent.
+L’option `-a` affiche toutes les entrées, y compris celles dont le nom commence par un point. Le résultat contient aussi `.` pour le dossier courant et `..` pour son dossier parent. Avec `ls -a rep1`, `.` désigne `rep1`, même si le dossier courant du terminal ne change pas.
 
 ### Combiner les détails et les entrées cachées
 
@@ -73,7 +73,7 @@ Les options courtes peuvent être regroupées. `ls -la` combine donc le format l
 
 ## Exemple commenté
 
-Imagine que tu te trouves dans `/home/alice/atelier`. Ce dossier contient `notes.txt` et le dossier `rep1`. Dans `rep1`, le fichier `.secret` est caché.
+Imagine que tu te trouves dans `/home/alice/atelier`. Ce dossier contient `notes.txt` et le dossier `rep1`. `rep1` contient le fichier visible `config.txt` et le fichier caché `.secret`.
 
 ```bash
 $ pwd
@@ -88,7 +88,7 @@ $ ls -l rep1
 total 4
 -rw-r--r-- 1 alice alice 128 24 sept. 10:30 config.txt
 $ ls -la rep1
-total 8
+total 16
 drwxr-xr-x 2 alice alice 4096 24 sept. 10:30 .
 drwxr-xr-x 3 alice alice 4096 24 sept. 10:20 ..
 -rw------- 1 alice alice   42 24 sept. 10:25 .secret
@@ -105,6 +105,6 @@ La première commande `ls` affiche les deux entrées visibles du dossier courant
 
 Un dossier peut sembler vide avec `ls` tout en contenant des entrées cachées. Utilise `ls -a` pour le vérifier.
 
-Linux distingue les majuscules et les minuscules. `ls Documents` et `ls documents` peuvent donc viser deux dossiers différents.
+Linux distingue les majuscules et les minuscules. `ls Documents` et `ls documents` visent donc deux dossiers différents.
 
 Un chemin contenant des espaces doit être protégé. Utilise par exemple `ls "Mes documents"` ou `ls Mes\ documents`.
