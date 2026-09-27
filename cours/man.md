@@ -24,13 +24,13 @@ man pwd
 
 La forme générale est `man commande`. `man ls` ouvre la documentation de `ls` et `man pwd` celle de `pwd`.
 
-Les rubriques `NAME`, `SYNOPSIS`, `DESCRIPTION` et `OPTIONS` sont particulièrement utiles. `SYNOPSIS` montre la manière correcte d’écrire la commande. Les éléments placés entre crochets sont généralement facultatifs.
+Les rubriques `NAME`, `SYNOPSIS` et `DESCRIPTION` sont particulièrement utiles. `SYNOPSIS` montre la manière correcte d’écrire la commande. Les éléments placés entre crochets sont généralement facultatifs. La description présente le fonctionnement de la commande et détaille généralement les options disponibles.
 
 ### Se déplacer dans une page
 
-Utilise les flèches ou les touches `Page précédente` et `Page suivante` pour parcourir le texte. La barre d’espace avance également d’un écran.
+Les flèches `↑` et `↓` déplacent l’affichage ligne par ligne. La molette de la souris permet également de faire défiler le texte lorsque le terminal la prend en charge.
 
-Ces touches sont utilisées pendant que la page est ouverte. Il ne faut pas les saisir après l’invite `$`.
+Pour avancer plus rapidement, la barre d’espace ou la touche `Page suivante` descend d’un écran. La touche `Page précédente` remonte d’un écran.
 
 ### Rechercher dans la page
 
@@ -46,10 +46,9 @@ Appuie sur `q` pour fermer la page et revenir à l’invite de commande.
 
 ```bash
 man -k dossier
-apropos dossier
 ```
 
-`man -k mot` recherche ce mot dans les noms et les descriptions courtes des pages. `apropos mot` effectue la même recherche. Ces commandes sont utiles lorsque tu connais le sujet, mais pas encore le nom de la commande.
+`man -k mot` recherche ce mot dans les noms et les descriptions courtes des pages. Cette commande est utile lorsque tu connais le sujet, mais pas encore le nom de la commande.
 
 ### Choisir une section précise
 

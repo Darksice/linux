@@ -41,7 +41,22 @@ pwd -P
 
 `pwd -P` affiche le chemin physique réel. Les liens symboliques sont remplacés par les dossiers vers lesquels ils pointent.
 
-Pour débuter, `pwd` sans option suffit dans la plupart des situations. La différence entre `-L` et `-P` devient utile lorsqu’un parcours contient des liens symboliques.
+Pour débuter, `pwd` sans option suffit dans la plupart des situations. La différence entre `-L` et `-P` devient utile lorsqu’un parcours contient des liens symboliques. Leur création et leur fonctionnement seront expliqués dans la fiche consacrée à `ln`.
+
+### Lire l’invite du terminal
+
+Dans le shell, à gauche de l’endroit où tu saisis une commande, plusieurs informations sont généralement affichées. Cet ensemble s’appelle l’**invite de commande**. Son apparence varie selon la machine et sa configuration.
+
+Dans l’invite `alice@machine:~/atelier$` :
+
+- `alice` est le nom de l’utilisatrice connectée ;
+- `machine` est le nom de l’ordinateur ;
+- `~/atelier` représente le dossier courant, ici le dossier `atelier` placé dans le dossier personnel d’Alice ;
+- `$` marque la fin de l’invite pour un compte utilisateur ordinaire.
+
+La commande s’écrit **après** cette invite. Dans `alice@machine:~/atelier$ pwd`, seule la partie `pwd` a été saisie par l’utilisatrice. Il ne faut donc pas recopier `alice@machine:~/atelier$` lorsque le cours présente une commande.
+
+Le symbole `#` peut remplacer `$` lorsqu’un shell possède les droits du superutilisateur `root`. Il signale un contexte plus puissant dans lequel une erreur peut avoir davantage de conséquences.
 
 ## Exemple commenté
 
@@ -52,7 +67,7 @@ $ pwd
 
 Le premier `/` représente la racine du système. `home` contient les dossiers personnels, `alice` est le dossier personnel de l’utilisatrice et `atelier` est le dossier courant.
 
-Le terminal peut parfois afficher seulement `~/atelier` dans son invite. `pwd` fournit la forme absolue complète `/home/alice/atelier`.
+L’invite du terminal peut afficher seulement `~/atelier` pour représenter le dossier courant. `pwd` fournit la forme absolue complète `/home/alice/atelier`.
 
 Avec un lien symbolique nommé `raccourci` qui pointe vers `/srv/projet`, les deux options peuvent produire des résultats différents.
 

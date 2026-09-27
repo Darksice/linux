@@ -115,6 +115,15 @@ const commandQuizzes = [
           {text: 'Il peut aider à construire un chemin absolu.', correct: true, explanation: 'Sa sortie fournit le point de départ complet.'},
           {text: 'Il liste les fichiers cachés.', correct: false, explanation: 'C’est le rôle de ls -a.'}
         ]
+      },
+      {
+        prompt: 'Dans l’invite alice@machine:~/atelier$ pwd, quelles interprétations sont correctes ?',
+        options: [
+          {text: 'alice est le nom de l’utilisatrice connectée.', correct: true, explanation: 'Le nom placé avant @ identifie généralement le compte utilisé.'},
+          {text: '~/atelier représente le dossier courant affiché par l’invite.', correct: true, explanation: '~ représente ici le dossier personnel et atelier est le dossier courant.'},
+          {text: 'pwd est la commande saisie après l’invite.', correct: true, explanation: 'La commande commence après le symbole $ qui termine l’invite.'},
+          {text: 'Il faut recopier alice@machine:~/atelier$ pour exécuter pwd.', correct: false, explanation: 'Cette partie est affichée automatiquement par le shell ; seule la commande pwd doit être saisie.'}
+        ]
       }
     ]
   },
@@ -125,7 +134,7 @@ const commandQuizzes = [
         prompt: 'Quelles actions sont généralement disponibles dans une page man ?',
         options: [
           {text: 'Appuyer sur q pour quitter.', correct: true, explanation: 'Le pager se ferme avec q.'},
-          {text: 'Utiliser /mot pour rechercher.', correct: true, explanation: 'La recherche parcourt la page du manuel.'},
+          {text: 'Utiliser /mot pour rechercher « mot ».', correct: true, explanation: 'La recherche parcourt la page du manuel pour trouver ce terme.'},
           {text: 'Utiliser n pour aller au résultat suivant.', correct: true, explanation: 'n poursuit la recherche courante.'},
           {text: 'Modifier directement la commande documentée.', correct: false, explanation: 'man consulte une documentation, il ne modifie pas la commande.'}
         ]
@@ -135,7 +144,7 @@ const commandQuizzes = [
         options: [
           {text: 'man ls', correct: true, explanation: 'Elle ouvre la page de manuel de ls.'},
           {text: 'ls --help', correct: true, explanation: 'Elle affiche une aide plus courte.'},
-          {text: 'apropos list', correct: true, explanation: 'Elle peut rechercher des pages de manuel liées à un terme.'},
+          {text: 'man -k list', correct: true, explanation: 'Elle recherche ce terme dans les noms et descriptions courtes des pages de manuel.'},
           {text: 'pwd ls', correct: false, explanation: 'pwd ne prend pas ls comme commande à documenter.'}
         ]
       }

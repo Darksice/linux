@@ -1,29 +1,9 @@
-Pour le cours ls :
+Globalement :
 
-Pour la partie Afficher les détails :
+On va mettre pipe dans le module 2, on peut le supprimer du module 3 car deja vu dans le module 2.
+Je pense qu'on peut retirer des exempla 
 
-Le nombre de liens est affiché après les droits. à transformer en nombre de lien physique vers l'inode ?
-La ligne total c'est l'espace occupé souvent exprimé en Kio plutot non ?
+Pour le cours | :
 
+Je sais qu'en francais on dit tuyau mais ici on ne dira que pipe tu peux donc remplacer le mot 
 
-Pour la partie Afficher les entrées cachées :
-
-. c'est plus le dossier courant que le dossier examiné
-
-Pour la partie Exemple commenté :
-
-Tu ne parles pas de config.txt qui est dans rep1 il faudrait le mentionner au début 
-
-
-Pour la partie Points de vigilance:
-
-ls Documents et ls documents peuvent donc viser non c'est vise et pas peuvent viser
-
-Pour la partie QCM de ls :
-
-En ayant ce nouveau format sur le cours penses-tu qu'il faut augmenter le nombre de question ? Si oui tu peux le faire
-
-
-Pour le cours pwd et man tu peux reprendre le meme format que pour ls et cd. Je pense d'ailleurs que l'ordre des cours doit-être man puis pzd puis cd pui ls tu en penses quoi ?
-
-Pour l'instant ne change pas le QCM de pwd et man j'attend de voir si tu modifies le cours ou pas 
