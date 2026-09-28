@@ -182,15 +182,15 @@ const commandQuizzes = [
           {text: 'Naviguer avec les flèches ou Page suivante.', correct: true, explanation: 'less permet de parcourir le document.'},
           {text: 'Rechercher avec /mot.', correct: true, explanation: 'La recherche cible le texte affiché.'},
           {text: 'Quitter avec q.', correct: true, explanation: 'q ferme le pager.'},
-          {text: 'Enregistrer automatiquement les modifications.', correct: false, explanation: 'less est avant tout un outil de consultation.'}
+          {text: 'g permet d’aller à la fin du document.', correct: false, explanation: 'g rejoint le début du document ; G en majuscule rejoint la fin.'}
         ]
       },
       {
-        prompt: 'Dans quels cas less est-il préférable à cat ?',
+        prompt: 'Quelles actions sont possibles dans less ?',
         options: [
           {text: 'Lire un fichier très long.', correct: true, explanation: 'La navigation évite de faire défiler tout le terminal.'},
           {text: 'Rechercher plusieurs occurrences dans un document.', correct: true, explanation: 'La recherche interactive est intégrée.'},
-          {text: 'Revenir au début ou à la fin du document avec g ou G.', correct: true, explanation: 'g rejoint le début et G la fin.'},
+          {text: '/mot permet de rechercher la prochaine occurrence de mot avant le curseur.', correct: false, explanation: '/mot cherche vers l’avant, après la position actuelle ; ?mot cherche vers l’arrière.'},
           {text: 'Compter exactement les lignes.', correct: false, explanation: 'wc -l est conçu pour ce comptage.'}
         ]
       }
@@ -200,12 +200,12 @@ const commandQuizzes = [
     id: 'head', label: 'head', summary: 'Sélectionner le début d’un flux ou d’un fichier.', moduleIds: ['02'],
     questions: [
       {
-        prompt: 'Quelles commandes affichent une partie située au début de fichier.txt ?',
+        prompt: 'Quelles commandes affichent une partie située au début d’un fichier ?',
         options: [
           {text: 'head fichier.txt', correct: true, explanation: 'Par défaut, head affiche les dix premières lignes.'},
-          {text: 'head -n 5 fichier.txt', correct: true, explanation: 'Elle affiche les cinq premières lignes.'},
+          {text: 'head -n 5 fichier', correct: true, explanation: 'Elle affiche les cinq premières lignes ; le nom du fichier n’a pas besoin d’extension.'},
           {text: 'head -n 2 fichier.txt', correct: true, explanation: 'L’option -n limite la sortie aux deux premières lignes.'},
-          {text: 'tail -n 5 fichier.txt', correct: false, explanation: 'tail cible la fin du fichier.'}
+          {text: 'head -N 5 fichier.txt', correct: false, explanation: 'L’option correcte est -n en minuscule ; -N n’est pas reconnue par head.'}
         ]
       },
       {

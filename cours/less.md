@@ -56,7 +56,7 @@ Après l’ouverture, saisis `/PROCÉDURE ACTIVE` pour rejoindre directement la 
 
 ## Points de vigilance
 
-Les touches `/`, `?`, `n`, `G` et `q` sont utilisées dans le lecteur. Elles ne doivent pas être saisies après l’invite `$`.
+Les touches `/`, `?`, `n`, `N`, `g`, `G` et `q` sont utilisées dans le lecteur.
 
 `less` sert à consulter. Il n’enregistre pas de modification dans le fichier.
 

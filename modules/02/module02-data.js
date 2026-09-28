@@ -90,7 +90,7 @@ const module02 = {
       id: '09', title: 'Sans extension', command: 'file · cat',
       story: 'Trois objets n’ont pas d’extension. Leur nom ne suffit pas à savoir lesquels sont un document, une page HTML ou un script.',
       question: 'Dans objets, quel flag contient le document texte qui n’est ni une page HTML ni un script ?',
-      hints: ['file détecte le type d’après le contenu plutôt que l’extension.', 'Essaie file objets/*, puis lis avec cat le fichier décrit comme du texte sans mention HTML ou shell script.'],
+      hints: ['file détecte le type d’après le contenu plutôt que l’extension.', 'Examine séparément les trois fichiers avec file objets/element-a, file objets/element-b et file objets/element-c, puis lis avec cat le document texte qui n’est ni HTML ni un script.'],
       decoy: 'FLAG{MAGIKARP}',
       decoyFeedback: 'Ce flag est dans la page HTML, pas dans le document texte demandé.',
       success: 'Une extension absente ou trompeuse ne dit pas tout : file inspecte le contenu.',

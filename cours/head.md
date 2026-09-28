@@ -43,4 +43,4 @@ La sortie contient exactement les trois premières lignes. Les lignes suivantes 
 
 ## Points de vigilance
 
-`head -n 11` affiche les onze premières lignes. Il n’affiche pas uniquement la ligne 11 : repère la dernière ligne de sa sortie.
+`head -n 11` affiche les onze premières lignes. Il n’affiche pas uniquement la ligne 11.

@@ -49,4 +49,4 @@ Inverse les deux arguments et les ajouts deviennent des suppressions. Garde touj
 
 Les lignes `---` et `+++` sont les en-têtes du format unifié. Elles ne représentent pas directement du contenu supprimé ou ajouté.
 
-Un caractère `+` ou `-` présent plus loin dans le contenu n’est pas forcément un marqueur. Le marqueur de `diff` occupe la première colonne de la ligne.
+Un caractère `+` ou `-` présent plus loin dans le contenu n’est pas forcément un marqueur. Le marqueur de `diff` est le premier caractère de la ligne.

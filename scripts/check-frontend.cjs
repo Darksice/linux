@@ -129,6 +129,12 @@ const guideLines=fs.readFileSync(path.join(ctfSource02,'manuel','guide'),'utf8')
 const rotationLines=fs.readFileSync(path.join(ctfSource02,'journaux','rotation'),'utf8').trimEnd().split(/\r?\n/);
 assert.equal(guideLines.length,360);
 assert.equal(rotationLines.length,80);
+rotationLines.forEach((line,index)=>{
+  const hour=String(8+Math.floor(index/60)).padStart(2,'0');
+  const minute=String(index%60).padStart(2,'0');
+  assert.match(line,new RegExp(`^${String(index+1).padStart(2,'0')} 2026-09-23T${hour}:${minute}:00 `));
+});
+assert.doesNotMatch(vm.runInContext("module02.challenges[8].hints.join(' ')",context),/\*/);
 assert.match(guideLines[173],/FLAG\{ALTARIA\}/);
 assert.match(guideLines[250],/FLAG\{LUXRAY\}/);
 assert.doesNotMatch(rotationLines.slice(0,10).join('\n'),/FLAG\{MORPHEO\}/);
@@ -233,12 +239,15 @@ assert.doesNotMatch(element('view').innerHTML,/À retenir/);
 context.location.hash='#fiche-chown';
 vm.runInContext('render()',context);
 assert.match(element('view').innerHTML,/chown utilisateur:groupe fichier/);
-for(const [id,pattern] of [['cat',/cat -n/],['less',/PROCÉDURE ACTIVE/],['head',/head -n 11/],['tail',/tail -f/],['file',/file objets\/\*/],['diff',/diff -u/],['pipe',/head -n 8.*\| tail -n 1/],['cut',/cut -d: -f3/],['sort',/sort -t: -k2,2n/],['uniq',/uniq -c/],['wc',/wc -l/],['tr',/tr -s/]]){
+for(const [id,pattern] of [['cat',/cat -n/],['less',/PROCÉDURE ACTIVE/],['head',/head -n 11/],['tail',/tail -f/],['file',/file objets\/document/],['diff',/diff -u/],['pipe',/head -n 8.*\| tail -n 1/],['cut',/cut -d: -f3/],['sort',/sort -t: -k2,2n/],['uniq',/uniq -c/],['wc',/wc -l/],['tr',/tr -s/]]){
   context.location.hash=`#fiche-${id}`;
   vm.runInContext('render()',context);
   assert.match(element('view').innerHTML,pattern);
   assert.match(element('view').innerHTML,/terminal · machine Linux/);
 }
+const fileLesson=vm.runInContext("lessons.find(lesson=>lesson.id==='file').html",context);
+assert.doesNotMatch(fileLesson,/\*/);
+for(const name of ['page','script','document'])assert.match(fileLesson,new RegExp(`file objets/${name}`));
 assert.ok(vm.runInContext("module02.commands.includes('|') && !module03.commands.includes('|')",context));
 assert.equal(vm.runInContext("blocks[0].sequences.filter(sequence=>sequence.commandIds.includes('pipe')).length",context),1);
 const catLesson=vm.runInContext("lessons.find(lesson=>lesson.id==='cat').html",context);
@@ -253,6 +262,10 @@ assert.match(element('view').innerHTML,/qcm-pwd/);
 assert.equal(vm.runInContext("quizzes.find(quiz=>quiz.id==='cd').questions.length",context),4);
 assert.equal(vm.runInContext("quizzes.find(quiz=>quiz.id==='cat').questions[1].options[0].correct",context),false);
 assert.match(vm.runInContext("quizzes.find(quiz=>quiz.id==='cat').questions[1].options[0].text",context),/cat -N fichier/);
+assert.equal(vm.runInContext("quizzes.find(quiz=>quiz.id==='head').questions[0].options[1].correct",context),true);
+assert.match(vm.runInContext("quizzes.find(quiz=>quiz.id==='head').questions[0].options[1].text",context),/head -n 5 fichier$/);
+assert.equal(vm.runInContext("quizzes.find(quiz=>quiz.id==='head').questions[0].options[3].correct",context),false);
+assert.match(vm.runInContext("quizzes.find(quiz=>quiz.id==='head').questions[0].options[3].text",context),/head -N 5 fichier\.txt/);
 assert.equal(vm.runInContext("quizzes.find(quiz=>quiz.id==='ls').questions.length",context),4);
 assert.equal(vm.runInContext("quizzes.find(quiz=>quiz.id==='pwd').questions.length",context),3);
 assert.match(vm.runInContext("quizzes.find(quiz=>quiz.id==='man').questions.flatMap(question=>question.options.map(option=>option.text)).join(' ')",context),/man -k list/);

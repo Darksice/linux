@@ -21,14 +21,6 @@ file objets/document
 
 Le résultat contient le nom du fichier puis une description de son type.
 
-### Examiner plusieurs fichiers
-
-```bash
-file objets/*
-```
-
-Le joker `*` est développé par le shell. `file` examine chaque entrée visible correspondante et affiche une ligne de résultat par fichier.
-
 ### Afficher seulement la description
 
 ```bash
@@ -49,10 +41,12 @@ Après avoir confirmé que le fichier contient du texte, `cat` ou `less` permet 
 ## Exemple commenté
 
 ```bash
-$ file objets/*
-objets/page:      HTML document, Unicode text, UTF-8 text
-objets/script:    Bourne-Again shell script, ASCII text executable
-objets/document:  Unicode text, UTF-8 text
+$ file objets/page
+objets/page: HTML document, Unicode text, UTF-8 text
+$ file objets/script
+objets/script: Bourne-Again shell script, ASCII text executable
+$ file objets/document
+objets/document: Unicode text, UTF-8 text
 ```
 
 Le nom et l’extension ne sont pas nécessaires pour distinguer les trois contenus. `document` est le fichier texte qui n’est décrit ni comme une page HTML ni comme un script.
@@ -62,5 +56,3 @@ Le nom et l’extension ne sont pas nécessaires pour distinguer les trois conte
 `file` identifie un format probable. Il ne réalise pas une analyse antivirus et ne prouve pas qu’un fichier peut être exécuté sans danger.
 
 Une extension peut être trompeuse. Renommer un fichier en `.txt` ne transforme pas son contenu.
-
-Le joker `*` n’inclut pas les noms cachés. Il peut aussi désigner des dossiers, que `file` décrira comme tels.
