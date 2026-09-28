@@ -45,14 +45,6 @@ wc -l comptage/candidats/*
 
 `wc` affiche une ligne par fichier puis une ligne `total` lorsque plusieurs fichiers sont mesurés.
 
-### Compter le résultat d’un pipeline
-
-```bash
-sort comptage/personnes | uniq | wc -l
-```
-
-`sort` rapproche les noms identiques, `uniq` n’en garde qu’un par groupe et `wc -l` compte les noms distincts restants.
-
 ## Exemple commenté
 
 ```bash

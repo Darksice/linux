@@ -46,14 +46,6 @@ sort -t: -k2,2n tri/charges
 
 `-t:` choisit `:` comme séparateur de champs. `-k2,2` limite la clé au deuxième champ. Le suffixe `n` demande une comparaison numérique de cette clé.
 
-### Préparer les données pour uniq
-
-```bash
-sort doublons/brut | uniq -d
-```
-
-Le tri rapproche les lignes identiques. `uniq -d` peut alors détecter tous les doublons du flux.
-
 ## Exemple commenté
 
 ```bash
@@ -79,4 +71,4 @@ Un tri textuel et un tri numérique peuvent produire des résultats très diffé
 
 `-k2` peut continuer la comparaison jusqu’à la fin de la ligne. Utilise `-k2,2` pour limiter précisément la clé au deuxième champ.
 
-`sort` ne modifie pas le fichier par défaut. Une redirection est nécessaire pour enregistrer le résultat dans un autre fichier.
+`sort` ne modifie pas le fichier par défaut : le résultat est affiché dans le terminal.

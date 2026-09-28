@@ -11,7 +11,7 @@ Sur les distributions basées sur RPM, rpm interroge les paquets installés et d
 
 ## Commandes et options
 
-La forme de base est `rpm -q paquet  |  dnf repolist --enabled`.
+Utilise `rpm -q paquet` pour interroger un paquet installé et `dnf repolist --enabled` pour voir les dépôts actifs.
 
 ## Exemple commenté
 

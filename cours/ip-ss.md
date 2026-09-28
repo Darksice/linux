@@ -11,7 +11,7 @@ summary: ip inspecte les interfaces et les routes tandis que ss montre les socke
 
 ## Commandes et options
 
-La forme de base est `ip -br address  |  ss -lnt`.
+Utilise `ip -br address` pour les adresses et `ss -lnt` pour les sockets en écoute.
 
 ## Exemple commenté
 

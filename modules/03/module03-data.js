@@ -2,11 +2,11 @@
 const module03 = {
   id: '03',
   title: 'Transformer et compter des données',
-  description: 'Extrais des colonnes, trie, élimine les doublons, compte et normalise des données avec des pipes.',
+  description: 'Extrais des colonnes, trie, élimine les doublons, compte et normalise des données en combinant les commandes déjà vues.',
   archive: 'module03-linux.tar.gz',
   folder: 'atelier-module-03',
   intro: 'Les fichiers contiennent plusieurs flags plausibles. La bonne réponse se déduit d’une sélection, d’un tri ou d’un comptage ; le premier flag aperçu n’est pas forcément le bon.',
-  commands: ['cut', 'sort', 'uniq', 'wc', 'tr', '|'],
+  commands: ['cut', 'sort', 'uniq', 'wc', 'tr'],
   challenges: [
     {
       id: '01', title: 'Le bon champ', command: 'cat · cut',

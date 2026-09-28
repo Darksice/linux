@@ -9,7 +9,7 @@ summary: Remplace, supprime ou compresse des caractères dans un flux.
 
 `tr`, abréviation de **translate**, transforme des caractères reçus sur l’entrée standard. La commande travaille caractère par caractère et écrit le résultat sur la sortie standard.
 
-Contrairement à de nombreuses commandes, `tr` ne reçoit généralement pas de nom de fichier. Le contenu lui est transmis avec un pipe ou une redirection d’entrée.
+Contrairement à de nombreuses commandes, `tr` ne reçoit généralement pas de nom de fichier. Le contenu lui est transmis par l’entrée standard, ici grâce à un pipe déjà vu dans le Module 02.
 
 ## Commandes et options
 
@@ -40,7 +40,7 @@ L’option `-s` réduit chaque suite d’espaces consécutifs à un seul espace.
 ### Supprimer des caractères
 
 ```bash
-tr -d '\r' < fichier
+cat fichier | tr -d '\r'
 ```
 
 L’option `-d` supprime les caractères indiqués. `\r` représente un retour chariot que l’on peut rencontrer dans des fichiers créés sous Windows.

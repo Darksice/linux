@@ -11,7 +11,7 @@ summary: du mesure les fichiers et df affiche l’espace disponible sur les syst
 
 ## Commandes et options
 
-La forme de base est `du -sh dossier  |  df -h`.
+Utilise `du -sh dossier` pour mesurer un dossier et `df -h` pour voir l’espace disponible.
 
 ## Exemple commenté
 

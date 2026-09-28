@@ -233,12 +233,18 @@ assert.doesNotMatch(element('view').innerHTML,/À retenir/);
 context.location.hash='#fiche-chown';
 vm.runInContext('render()',context);
 assert.match(element('view').innerHTML,/chown utilisateur:groupe fichier/);
-for(const [id,pattern] of [['cat',/cat -n/],['less',/PROCÉDURE ACTIVE/],['head',/head -n 8/],['tail',/tail -f/],['file',/file objets\/\*/],['diff',/diff -u/],['pipe',/sort \| uniq -c/],['cut',/cut -d: -f3/],['sort',/sort -t: -k2,2n/],['uniq',/uniq -c/],['wc',/wc -l/],['tr',/tr -s/]]){
+for(const [id,pattern] of [['cat',/cat -n/],['less',/PROCÉDURE ACTIVE/],['head',/head -n 11/],['tail',/tail -f/],['file',/file objets\/\*/],['diff',/diff -u/],['pipe',/head -n 8.*\| tail -n 1/],['cut',/cut -d: -f3/],['sort',/sort -t: -k2,2n/],['uniq',/uniq -c/],['wc',/wc -l/],['tr',/tr -s/]]){
   context.location.hash=`#fiche-${id}`;
   vm.runInContext('render()',context);
   assert.match(element('view').innerHTML,pattern);
   assert.match(element('view').innerHTML,/terminal · machine Linux/);
 }
+assert.ok(vm.runInContext("module02.commands.includes('|') && !module03.commands.includes('|')",context));
+assert.equal(vm.runInContext("blocks[0].sequences.filter(sequence=>sequence.commandIds.includes('pipe')).length",context),1);
+const catLesson=vm.runInContext("lessons.find(lesson=>lesson.id==='cat').html",context);
+assert.doesNotMatch(catLesson,/\||redirection|<code>file<\/code>/);
+const catQuiz=vm.runInContext("quizzes.find(quiz=>quiz.id==='cat').questions",context);
+assert.doesNotMatch(JSON.stringify(catQuiz),/pipe|redirection|cat source &gt; source/);
 context.location.hash='#revision';
 vm.runInContext('render()',context);
 assert.match(element('view').innerHTML,/QCM et révisions/);

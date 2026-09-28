@@ -9,7 +9,7 @@ summary: Parcourt et recherche un texte long sans modifier le fichier.
 
 `less` ouvre un fichier dans un lecteur interactif appelé **pager**. Le texte est affiché écran par écran au lieu de défiler entièrement dans le terminal.
 
-La commande permet de se déplacer et de rechercher une expression sans modifier le fichier. Elle convient aux longs documents, aux journaux et aux sorties volumineuses d’autres commandes.
+La commande permet de se déplacer et de rechercher une expression sans modifier le fichier. Elle convient aux longs documents et aux journaux.
 
 ## Commandes et options
 
@@ -40,14 +40,6 @@ Saisis `?` suivi du texte recherché pour chercher vers le début du document. C
 ### Quitter
 
 Appuie sur `q` pour fermer le lecteur et revenir au terminal.
-
-### Lire la sortie d’une commande
-
-```bash
-diff -u ancien actuel | less
-```
-
-`less` peut recevoir un flux depuis un pipe. Ici, la comparaison produite par `diff` devient consultable écran par écran.
 
 ## Exemple commenté
 

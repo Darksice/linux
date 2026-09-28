@@ -30,14 +30,6 @@ tail -n 4 journaux/rotation
 
 `tail -n 1` isole la dernière ligne. `tail -n 4` affiche les quatre dernières lignes.
 
-### Lire un flux
-
-```bash
-head -n 8 flux/chronologie | tail -n 1
-```
-
-`tail` reçoit ici les huit lignes sélectionnées par `head`. Il garde la dernière de ce groupe et isole donc la ligne 8 du fichier d’origine.
-
 ### Suivre les nouvelles lignes
 
 ```bash
@@ -63,5 +55,3 @@ La commande affiche les quatre dernières lignes. La première ligne visible est
 `tail -n 4` affiche un groupe de quatre lignes. Il ne sélectionne pas la quatrième ligne du fichier.
 
 `tail -f` reste actif jusqu’à son interruption. `Ctrl-C` arrête la commande sans supprimer le fichier suivi.
-
-Comme avec `head`, une redirection vers le fichier source avec `>` détruirait son contenu avant la lecture.

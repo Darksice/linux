@@ -1,13 +1,13 @@
 ---
 id: pipe
-title: | (tuyau)
+title: | (pipe)
 group: Texte et flux
 summary: Transmet la sortie standard d’une commande à l’entrée standard d’une autre.
 ---
 
 ## Comprendre
 
-Le caractère `|`, appelé **pipe** ou **tuyau**, relie deux commandes. La sortie standard de la commande placée à gauche devient l’entrée standard de celle placée à droite.
+Le caractère `|`, appelé **pipe**, relie deux commandes. La sortie standard de la commande placée à gauche devient l’entrée standard de celle placée à droite.
 
 Chaque commande accomplit une étape simple. Leur enchaînement construit un traitement plus précis sans créer de fichier temporaire.
 
@@ -28,14 +28,6 @@ head -n 8 flux/chronologie | tail -n 1
 ```
 
 La première commande garde les huit premières lignes. La seconde garde la dernière ligne reçue. Le résultat correspond à la ligne 8 du fichier.
-
-### Enchaîner plusieurs traitements
-
-```bash
-cut -d: -f2 pipeline/incidents | tr '[:lower:]' '[:upper:]' | sort | uniq -c
-```
-
-Le flux passe de gauche à droite. `cut` extrait une colonne, `tr` normalise la casse, `sort` rapproche les valeurs identiques et `uniq -c` compte leurs occurrences.
 
 ### Parcourir une sortie longue
 

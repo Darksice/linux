@@ -29,14 +29,6 @@ diff -u config/service-ancien config/service-actuel
 
 L’option `-u` produit un résultat plus lisible avec du contexte autour des changements. Les lignes précédées de `-` appartiennent à l’ancienne version. Les lignes précédées de `+` appartiennent à la nouvelle version. Une ligne commençant par un espace sert de contexte.
 
-### Parcourir une longue comparaison
-
-```bash
-diff -u config/volume-ancien config/volume-actuel | less
-```
-
-Le pipe envoie la comparaison à `less`. Tu peux alors rechercher une section avec `/mot` et quitter avec `q`.
-
 ## Exemple commenté
 
 ```bash

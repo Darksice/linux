@@ -47,14 +47,6 @@ cut -c1-8 colonnes/fiche
 
 L’option `-c` travaille avec les positions des caractères au lieu d’un délimiteur. Cet exemple conserve les huit premiers caractères de chaque ligne.
 
-### Lire un flux
-
-```bash
-cat normalisation/espaces | tr -s ' ' | cut -d' ' -f3
-```
-
-`cut` reçoit ici un texte dont les espaces ont été normalisés par `tr`. Il extrait ensuite le troisième champ.
-
 ## Exemple commenté
 
 Imagine que `colonnes/fiche` contient trois champs séparés par `:`.

@@ -11,7 +11,7 @@ Envoie la sortie normale ou les erreurs vers un fichier.
 
 ## Commandes et options
 
-La forme de base est `commande > fichier  |  commande >> fichier  |  commande 2> erreurs`.
+Les formes courantes sont `commande > fichier`, `commande >> fichier` et `commande 2> erreurs`.
 
 ## Exemple commenté
 

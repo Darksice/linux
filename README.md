@@ -5,8 +5,9 @@ Un parcours autonome pour des débutants sur une machine Linux.
 Les **Modules 01 à 03** proposent un format CTF : des flags à découvrir
 dans une archive dédiée par module, sans script de validation. Le premier porte
 sur la navigation et les noms de fichiers ; le second sur la lecture et la
-comparaison de leur contenu ; le troisième sur le traitement de données et les
-pipes. Chaque module dispose de sa propre archive et de sa progression.
+comparaison de leur contenu, avec une introduction au pipe ; le troisième sur
+le traitement de données en réutilisant le pipe. Chaque module dispose de sa
+propre archive et de sa progression.
 
 ## Utilisation
 
@@ -55,8 +56,8 @@ tar -xzf module03-linux.tar.gz
 cd atelier-module-03
 ```
 
-Les quinze défis utilisent `cut`, `sort`, `uniq`, `wc`, `tr` et `|`, en réutilisant
-notamment `cat`, `head` et `tail`. Les fichiers proposent plusieurs flags : la
+Les quinze défis introduisent `cut`, `sort`, `uniq`, `wc` et `tr`, en réutilisant
+notamment le pipe, `cat`, `head` et `tail`. Les fichiers proposent plusieurs flags : la
 bonne réponse résulte d’une extraction, d’un tri, d’une normalisation ou d’un
 comptage. Les pièges portent notamment sur le tri numérique et sur le fait que
 `uniq` seul ne rapproche pas les doublons éloignés.

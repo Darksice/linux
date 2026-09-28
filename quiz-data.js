@@ -7,7 +7,7 @@ const learningBlocks = [
     sequences: [
       {moduleId: '01', commandIds: ['man', 'pwd', 'cd', 'ls']},
       {moduleId: '02', commandIds: ['cat', 'less', 'head', 'tail', 'file', 'diff', 'pipe']},
-      {moduleId: '03', commandIds: ['cut', 'sort', 'uniq', 'wc', 'tr', 'pipe', 'cat']}
+      {moduleId: '03', commandIds: ['cut', 'sort', 'uniq', 'wc', 'tr']}
     ]
   }
 ];
@@ -151,24 +151,24 @@ const commandQuizzes = [
     ]
   },
   {
-    id: 'cat', label: 'cat', summary: 'Afficher ou concaténer rapidement du contenu texte.', moduleIds: ['02', '03'],
+    id: 'cat', label: 'cat', summary: 'Afficher ou concaténer rapidement du contenu texte.', moduleIds: ['02'],
     questions: [
       {
         prompt: 'Quels usages correspondent à cat ?',
         options: [
           {text: 'Afficher un petit fichier texte.', correct: true, explanation: 'cat écrit son contenu sur la sortie standard.'},
           {text: 'Concaténer plusieurs fichiers dans la sortie.', correct: true, explanation: 'Les fichiers sont lus dans l’ordre indiqué.'},
-          {text: 'Envoyer un contenu dans un pipe.', correct: true, explanation: 'La sortie standard peut alimenter une autre commande.'},
+          {text: 'Modifier directement le contenu du fichier lu.', correct: false, explanation: 'cat lit le fichier sans le modifier.'},
           {text: 'Parcourir confortablement un fichier de milliers de lignes.', correct: false, explanation: 'less est plus adapté à une lecture interactive.'}
         ]
       },
       {
-        prompt: 'Quelles précautions sont justes avec cat et les redirections ?',
+        prompt: 'Quelles affirmations sur cat sont exactes ?',
         options: [
-          {text: '> remplace le contenu de la destination.', correct: true, explanation: 'Une destination existante est tronquée.'},
-          {text: '>> ajoute à la fin de la destination.', correct: true, explanation: 'Le contenu existant est conservé.'},
-          {text: 'cat fichier ne modifie pas le fichier.', correct: true, explanation: 'Sans redirection, cat ne fait que le lire.'},
-          {text: 'cat source > source est une copie sûre.', correct: false, explanation: 'Le shell vide la destination avant que cat ne puisse la lire.'}
+          {text: 'cat fichier affiche tout le contenu du fichier.', correct: true, explanation: 'cat lit le fichier du début à la fin.'},
+          {text: 'cat -n fichier numérote les lignes affichées.', correct: true, explanation: 'L’option -n ajoute les numéros dans la sortie.'},
+          {text: 'cat partie1 partie2 affiche les contenus dans cet ordre.', correct: true, explanation: 'cat lit successivement les fichiers donnés.'},
+          {text: 'cat est le meilleur choix pour parcourir un très long document.', correct: false, explanation: 'less permet de naviguer plus confortablement dans un document long.'}
         ]
       }
     ]
@@ -190,7 +190,7 @@ const commandQuizzes = [
         options: [
           {text: 'Lire un fichier très long.', correct: true, explanation: 'La navigation évite de faire défiler tout le terminal.'},
           {text: 'Rechercher plusieurs occurrences dans un document.', correct: true, explanation: 'La recherche interactive est intégrée.'},
-          {text: 'Examiner la sortie longue d’une commande avec cmd | less.', correct: true, explanation: 'less peut recevoir son entrée depuis un pipe.'},
+          {text: 'Revenir au début ou à la fin du document avec g ou G.', correct: true, explanation: 'g rejoint le début et G la fin.'},
           {text: 'Compter exactement les lignes.', correct: false, explanation: 'wc -l est conçu pour ce comptage.'}
         ]
       }
@@ -204,16 +204,16 @@ const commandQuizzes = [
         options: [
           {text: 'head fichier.txt', correct: true, explanation: 'Par défaut, head affiche les dix premières lignes.'},
           {text: 'head -n 5 fichier.txt', correct: true, explanation: 'Elle affiche les cinq premières lignes.'},
-          {text: 'cat fichier.txt | head -n 2', correct: true, explanation: 'head limite ici le flux aux deux premières lignes.'},
+          {text: 'head -n 2 fichier.txt', correct: true, explanation: 'L’option -n limite la sortie aux deux premières lignes.'},
           {text: 'tail -n 5 fichier.txt', correct: false, explanation: 'tail cible la fin du fichier.'}
         ]
       },
       {
         prompt: 'Quelles affirmations sur head sont correctes ?',
         options: [
-          {text: 'head peut lire un fichier ou l’entrée standard.', correct: true, explanation: 'Il fonctionne directement ou dans un pipeline.'},
+          {text: 'head affiche dix lignes par défaut.', correct: true, explanation: 'Sans option, il sélectionne les dix premières lignes.'},
           {text: '-n permet de choisir un nombre de lignes.', correct: true, explanation: 'Par exemple, -n 3 limite la sortie à trois lignes.'},
-          {text: 'Sa sortie peut alimenter tail.', correct: true, explanation: 'head et tail peuvent être combinés pour viser une ligne.'},
+          {text: 'head -n 11 affiche uniquement la ligne 11.', correct: false, explanation: 'Cette commande affiche les onze premières lignes.'},
           {text: 'head modifie le début du fichier.', correct: false, explanation: 'Il sélectionne une sortie sans modifier la source.'}
         ]
       }
@@ -232,12 +232,12 @@ const commandQuizzes = [
         ]
       },
       {
-        prompt: 'Quelles combinaisons peuvent aider à isoler une ligne précise ?',
+        prompt: 'Quelles affirmations sur tail sont exactes ?',
         options: [
-          {text: 'head -n 11 fichier | tail -n 1', correct: true, explanation: 'Elle conserve les onze premières lignes puis la dernière de ce groupe.'},
-          {text: 'tail -n 4 fichier | head -n 1', correct: true, explanation: 'Elle prend les quatre dernières lignes puis la première de ce groupe.'},
-          {text: 'cat fichier | tail -n 1', correct: true, explanation: 'Elle affiche la dernière ligne du flux.'},
-          {text: 'tail fichier > fichier', correct: false, explanation: 'Cette redirection tronquerait dangereusement le fichier source.'}
+          {text: 'tail -n 1 fichier affiche sa dernière ligne.', correct: true, explanation: 'La valeur 1 limite la sortie à une ligne située à la fin.'},
+          {text: 'tail -n 4 fichier affiche ses quatre dernières lignes.', correct: true, explanation: 'Les lignes restent dans leur ordre d’origine.'},
+          {text: 'tail -f journal.log suit les lignes ajoutées.', correct: true, explanation: 'L’option -f continue à afficher les nouveautés.'},
+          {text: 'tail -n 4 fichier affiche uniquement sa quatrième ligne.', correct: false, explanation: 'Elle affiche quatre lignes depuis la fin, pas la quatrième ligne du fichier.'}
         ]
       }
     ]
@@ -289,7 +289,7 @@ const commandQuizzes = [
     ]
   },
   {
-    id: 'pipe', label: '|', summary: 'Relier la sortie d’une commande à l’entrée d’une autre.', moduleIds: ['02', '03'],
+    id: 'pipe', label: '|', summary: 'Relier la sortie d’une commande à l’entrée d’une autre.', moduleIds: ['02'],
     questions: [
       {
         prompt: 'Quelles affirmations sur le pipe | sont correctes ?',
@@ -304,8 +304,8 @@ const commandQuizzes = [
         prompt: 'Quels exemples forment des pipelines cohérents ?',
         options: [
           {text: 'cat journal | head -n 5', correct: true, explanation: 'head reçoit le contenu produit par cat.'},
-          {text: 'sort noms | uniq', correct: true, explanation: 'Le tri rapproche les doublons avant uniq.'},
-          {text: 'cut -d: -f2 fichier | sort', correct: true, explanation: 'La colonne extraite est ensuite triée.'},
+          {text: 'head -n 8 journal | tail -n 1', correct: true, explanation: 'tail reçoit les huit lignes retenues par head et garde la dernière.'},
+          {text: 'diff -u ancien actuel | less', correct: true, explanation: 'less permet de parcourir la sortie de diff.'},
           {text: 'cd dossier | pwd pour changer le shell courant', correct: false, explanation: 'cd s’exécute dans un processus du pipeline et ne change pas le shell appelant.'}
         ]
       }
