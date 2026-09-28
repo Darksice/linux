@@ -165,7 +165,7 @@ const commandQuizzes = [
       {
         prompt: 'Quelles affirmations sur cat sont exactes ?',
         options: [
-          {text: 'cat fichier affiche tout le contenu du fichier.', correct: true, explanation: 'cat lit le fichier du début à la fin.'},
+          {text: 'cat -N fichier numérote les lignes affichées.', correct: false, explanation: 'L’option correcte est -n en minuscule ; -N n’est pas reconnue par cat.'},
           {text: 'cat -n fichier numérote les lignes affichées.', correct: true, explanation: 'L’option -n ajoute les numéros dans la sortie.'},
           {text: 'cat partie1 partie2 affiche les contenus dans cet ordre.', correct: true, explanation: 'cat lit successivement les fichiers donnés.'},
           {text: 'cat est le meilleur choix pour parcourir un très long document.', correct: false, explanation: 'less permet de naviguer plus confortablement dans un document long.'}

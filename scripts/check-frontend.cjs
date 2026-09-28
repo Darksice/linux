@@ -251,6 +251,8 @@ assert.match(element('view').innerHTML,/QCM et révisions/);
 assert.match(element('view').innerHTML,/37 questions/);
 assert.match(element('view').innerHTML,/qcm-pwd/);
 assert.equal(vm.runInContext("quizzes.find(quiz=>quiz.id==='cd').questions.length",context),4);
+assert.equal(vm.runInContext("quizzes.find(quiz=>quiz.id==='cat').questions[1].options[0].correct",context),false);
+assert.match(vm.runInContext("quizzes.find(quiz=>quiz.id==='cat').questions[1].options[0].text",context),/cat -N fichier/);
 assert.equal(vm.runInContext("quizzes.find(quiz=>quiz.id==='ls').questions.length",context),4);
 assert.equal(vm.runInContext("quizzes.find(quiz=>quiz.id==='pwd').questions.length",context),3);
 assert.match(vm.runInContext("quizzes.find(quiz=>quiz.id==='man').questions.flatMap(question=>question.options.map(option=>option.text)).join(' ')",context),/man -k list/);
