@@ -13,13 +13,13 @@ Le résultat est écrit sur la sortie standard. Le fichier source reste inchang�
 
 ## Commandes et options
 
-### Choisir le séparateur
+### Extraire un champ
 
 ```bash
-cut -d: -f2 colonnes/fiche
+cut -f2 fichier
 ```
 
-L’option `-d` définit le délimiteur qui sépare les champs. Ici, `-d:` utilise le caractère `:`. L’option `-f2` conserve le deuxième champ de chaque ligne.
+Dans un fichier dont les champs sont séparés par des tabulations, l’option `-f2` conserve le deuxième champ de chaque ligne. La tabulation est le délimiteur utilisé par défaut par `cut`.
 
 ### Extraire un autre champ
 
@@ -28,7 +28,7 @@ cut -d: -f3 colonnes/fiche
 cut -d';' -f2 colonnes/equipe
 ```
 
-Le séparateur doit correspondre au fichier. Les guillemets protègent le point-virgule afin que le shell ne l’interprète pas comme une séparation entre commandes.
+Pour un séparateur autre que la tabulation, utilise `-d` suivi du caractère voulu : `-d:` choisit `:` et `-d';'` choisit `;`. Les guillemets protègent ici le point-virgule pour que le shell ne l’interprète pas comme une séparation entre commandes. Certains autres caractères doivent aussi être protégés lorsqu’ils sont utilisés comme séparateurs.
 
 ### Extraire plusieurs champs
 
@@ -66,6 +66,6 @@ FLAG{BETA}
 
 Le délimiteur de `cut` est un caractère précis. Une virgule, un deux-points et un point-virgule ne produisent pas le même découpage.
 
-Des séparateurs consécutifs créent des champs vides. Normalise d’abord les espaces irréguliers avec `tr -s ' '` si nécessaire.
+Une ligne sans le délimiteur demandé est affichée entière par défaut. Des séparateurs consécutifs créent au contraire des champs vides : dans `a::b`, le deuxième champ est vide si `:` est le délimiteur.
 
-`cut` n’effectue ni tri ni comptage. Transmets sa sortie à `sort`, `uniq` ou `wc` pour poursuivre le traitement.
+`cut` n’effectue ni tri ni comptage : il sélectionne seulement des morceaux de chaque ligne.

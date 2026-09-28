@@ -7,7 +7,7 @@ const learningBlocks = [
     sequences: [
       {moduleId: '01', commandIds: ['man', 'pwd', 'cd', 'ls']},
       {moduleId: '02', commandIds: ['cat', 'less', 'head', 'tail', 'file', 'diff', 'pipe']},
-      {moduleId: '03', commandIds: ['cut', 'sort', 'uniq', 'wc', 'tr']}
+      {moduleId: '03', commandIds: ['cut', 'sort', 'uniq', 'wc', 'tr', 'redirections']}
     ]
   }
 ];
@@ -315,19 +315,19 @@ const commandQuizzes = [
     id: 'cut', label: 'cut', summary: 'Extraire des champs ou des caractères.', moduleIds: ['03'],
     questions: [
       {
-        prompt: 'Quelles options servent à extraire des champs avec cut ?',
+        prompt: 'Quelles affirmations sur les options de cut sont exactes ?',
         options: [
           {text: '-d choisit le séparateur.', correct: true, explanation: 'Par exemple, -d: utilise les deux-points.'},
           {text: '-f choisit un ou plusieurs champs.', correct: true, explanation: 'Par exemple, -f2 extrait le deuxième champ.'},
           {text: '-c peut sélectionner des positions de caractères.', correct: true, explanation: 'Cette sélection ne dépend pas d’un séparateur.'},
-          {text: '-n effectue un tri numérique.', correct: false, explanation: '-n appartient notamment à sort ; cut ne trie pas.'}
+          {text: '-n effectue un tri numérique.', correct: false, explanation: '-n est une option de sort, cut ne trie pas.'}
         ]
       },
       {
-        prompt: 'Quelles limites faut-il connaître avec cut ?',
+        prompt: 'Quelles affirmations sur le fonctionnement de cut sont exactes ?',
         options: [
-          {text: 'Le séparateur doit correspondre au contenu réel.', correct: true, explanation: 'Sinon les champs ne seront pas découpés comme prévu.'},
-          {text: 'Des espaces irréguliers peuvent produire des champs vides.', correct: true, explanation: 'Une normalisation préalable peut être nécessaire.'},
+          {text: 'Si le séparateur demandé est absent, cut affiche la ligne entière par défaut.', correct: true, explanation: 'Sans délimiteur sur la ligne, cut ne découpe pas cette ligne.'},
+          {text: 'Des séparateurs consécutifs peuvent créer un champ vide.', correct: true, explanation: 'Avec : comme délimiteur, le deuxième champ de a::b est vide.'},
           {text: 'cut ne trie pas les valeurs extraites.', correct: true, explanation: 'Il faut passer sa sortie à sort si nécessaire.'},
           {text: 'cut modifie le fichier source après extraction.', correct: false, explanation: 'Il écrit le résultat sur la sortie standard.'}
         ]
@@ -350,7 +350,7 @@ const commandQuizzes = [
         prompt: 'Quelles affirmations sur sort sont correctes ?',
         options: [
           {text: 'Sans option, 12 peut être placé avant 9.', correct: true, explanation: 'Le tri par défaut compare du texte.'},
-          {text: 'sort peut préparer les données pour uniq.', correct: true, explanation: 'Il rapproche les lignes identiques.'},
+          {text: 'Sans -k, sort compare les lignes entières.', correct: true, explanation: 'Il ne cible pas un champ précis si aucune clé de tri n’est indiquée.'},
           {text: 'sort -t: -k2,2n peut trier numériquement le deuxième champ séparé par :.', correct: true, explanation: '-t définit le séparateur et -k la clé.'},
           {text: 'sort réécrit toujours le fichier source.', correct: false, explanation: 'Par défaut, le résultat est envoyé sur la sortie standard.'}
         ]
@@ -364,7 +364,7 @@ const commandQuizzes = [
         prompt: 'Quelles affirmations sur uniq sont exactes ?',
         options: [
           {text: 'Il compare des lignes voisines.', correct: true, explanation: 'Des doublons éloignés ne sont pas rapprochés automatiquement.'},
-          {text: '-d affiche les lignes répétées.', correct: true, explanation: 'Cette option cible les doublons.'},
+          {text: '-d affiche une fois chaque groupe de lignes identiques consécutives.', correct: true, explanation: 'Les lignes isolées ne sont pas affichées, tandis que chaque groupe répété apparaît une seule fois.'},
           {text: '-c préfixe les lignes par leur nombre d’occurrences.', correct: true, explanation: 'Elle permet de produire des fréquences.'},
           {text: 'Il trie automatiquement son entrée.', correct: false, explanation: 'Il faut souvent utiliser sort avant uniq.'}
         ]
@@ -386,7 +386,7 @@ const commandQuizzes = [
       {
         prompt: 'Quelles associations entre options de wc et mesures sont correctes ?',
         options: [
-          {text: '-l compte les lignes.', correct: true, explanation: 'Il compte les caractères de fin de ligne.'},
+          {text: '-l compte les lignes.', correct: true, explanation: 'Il compte les retours à la ligne.'},
           {text: '-w compte les mots.', correct: true, explanation: 'Les mots sont séparés selon les règles de wc.'},
           {text: '-c compte les octets.', correct: true, explanation: 'Cette mesure peut différer du nombre de caractères.'},
           {text: '-n effectue un comptage numérique des colonnes.', correct: false, explanation: 'Cette option ne correspond pas à cet usage de wc.'}
@@ -422,6 +422,29 @@ const commandQuizzes = [
           {text: "tr -s ' ' pour réduire les suites d’espaces.", correct: true, explanation: 'Le découpage en champs devient plus prévisible.'},
           {text: "tr -d '\\r' pour retirer certains retours chariot.", correct: true, explanation: 'Cela peut normaliser des fichiers provenant de Windows.'},
           {text: 'tr ajoute automatiquement des colonnes manquantes.', correct: false, explanation: 'Il transforme des caractères, pas la structure logique des données.'}
+        ]
+      }
+    ]
+  },
+  {
+    id: 'redirections', label: '> / >>', summary: 'Enregistrer ou compléter la sortie d’une commande dans un fichier.', moduleIds: ['03'],
+    questions: [
+      {
+        prompt: 'Quelles affirmations sur > sont exactes ?',
+        options: [
+          {text: 'sort noms > resultat crée resultat s’il n’existe pas.', correct: true, explanation: 'Le shell crée le fichier de destination avant de lancer sort.'},
+          {text: 'Si resultat existe déjà, > remplace son ancien contenu.', correct: true, explanation: 'La destination est vidée avant de recevoir la nouvelle sortie.'},
+          {text: 'sort noms > resultat laisse le fichier noms inchangé.', correct: true, explanation: 'La redirection agit sur la sortie de sort, pas sur son entrée.'},
+          {text: '> ajoute toujours les nouvelles lignes à la fin du fichier sans écraser son contenu.', correct: false, explanation: 'C’est >> qui ajoute sans écraser, alors que > remplace le contenu précédent.'}
+        ]
+      },
+      {
+        prompt: 'Quelles affirmations sur >> sont exactes ?',
+        options: [
+          {text: 'cat suite >> resultat ajoute le contenu de suite à la fin de resultat sans écraser ce qui s’y trouve déjà.', correct: true, explanation: '>> conserve le contenu déjà présent dans la destination.'},
+          {text: '>> crée le fichier de destination s’il n’existe pas.', correct: true, explanation: 'La destination est créée avant de recevoir la sortie.'},
+          {text: 'Relancer cat suite >> resultat peut ajouter deux fois les mêmes lignes.', correct: true, explanation: 'Chaque exécution ajoute de nouveau la sortie à la fin.'},
+          {text: 'cat suite >> resultat modifie le fichier suite lu par cat.', correct: false, explanation: 'La redirection écrit dans resultat, tandis que suite reste inchangé.'}
         ]
       }
     ]

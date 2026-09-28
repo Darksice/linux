@@ -27,7 +27,7 @@ Seules les répétitions consécutives sont regroupées. Les lignes identiques �
 uniq -d doublons/brut
 ```
 
-L’option `-d` affiche une fois chaque ligne qui se répète immédiatement.
+L’option `-d` n’affiche que les groupes de lignes identiques consécutives contenant au moins deux lignes. Elle affiche la valeur une seule fois par groupe, même si elle apparaît trois fois ou davantage à la suite. Une ligne isolée n’apparaît pas.
 
 ### Compter les occurrences
 
@@ -77,4 +77,4 @@ Sans tri, seul le premier groupe d’`ALPHA` est détecté comme doublon voisin.
 
 Place `sort` avant `uniq`, pas après, si tu dois rapprocher des doublons éloignés.
 
-Les espaces et la casse font partie de la ligne. `FLAG{ALPHA}`, `flag{alpha}` et une ligne terminée par un espace sont différents tant qu’ils ne sont pas normalisés.
+La casse compte : `FLAG{ALPHA}` et `flag{ALPHA}` sont deux lignes différentes pour `uniq`.

@@ -56,19 +56,21 @@ tar -xzf module03-linux.tar.gz
 cd atelier-module-03
 ```
 
-Les quinze défis introduisent `cut`, `sort`, `uniq`, `wc` et `tr`, en réutilisant
+Les dix-huit défis introduisent `cut`, `sort`, `uniq`, `wc`, `tr`, `>` et `>>`, en réutilisant
 notamment le pipe, `cat`, `head` et `tail`. Les fichiers proposent plusieurs flags : la
 bonne réponse résulte d’une extraction, d’un tri, d’une normalisation ou d’un
-comptage. Les pièges portent notamment sur le tri numérique et sur le fait que
-`uniq` seul ne rapproche pas les doublons éloignés.
+comptage. Les pièges portent notamment sur le tri numérique, sur les doublons
+éloignés et sur la différence entre remplacer un fichier et lui ajouter du contenu.
+Les trois derniers défis modifient des fichiers dans l’archive extraite, il faut
+la réextraire pour repartir de zéro.
 
 ## Contenu pédagogique
 
-- 36 défis CTF répartis en trois modules, avec des leurres pédagogiques ;
+- 39 défis CTF répartis en trois modules, avec des leurres pédagogiques ;
 - indices progressifs et validation des flags dans le navigateur ;
 - 37 fiches de cours en Markdown, consultables et recherchables ;
 - un premier bloc guidé reliant cours, QCM et Modules 01 à 03 ;
-- 16 QCM totalisant 37 questions, avec plusieurs bonnes réponses possibles et
+- 17 QCM totalisant 39 questions, avec plusieurs bonnes réponses possibles et
   une explication après validation ;
 - guide de survie consultable à tout moment ;
 - page d'attente pour la future box de synthèse du premier bloc.

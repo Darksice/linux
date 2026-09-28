@@ -1,18 +1,18 @@
-// Module CTF de traitement de données. Les flags sont publics ; le raisonnement compte.
+// Module CTF de traitement de données. Les flags sont publics, le raisonnement compte.
 const module03 = {
   id: '03',
   title: 'Transformer et compter des données',
-  description: 'Extrais des colonnes, trie, élimine les doublons, compte et normalise des données en combinant les commandes déjà vues.',
+  description: 'Extrais, trie, compte et normalise des données, puis enregistre les résultats avec > et >>.',
   archive: 'module03-linux.tar.gz',
   folder: 'atelier-module-03',
-  intro: 'Les fichiers contiennent plusieurs flags plausibles. La bonne réponse se déduit d’une sélection, d’un tri ou d’un comptage ; le premier flag aperçu n’est pas forcément le bon.',
-  commands: ['cut', 'sort', 'uniq', 'wc', 'tr'],
+  intro: 'Les fichiers contiennent plusieurs flags plausibles. La bonne réponse se déduit d’une sélection, d’un tri ou d’un comptage, car le premier flag aperçu n’est pas forcément le bon. Les derniers défis modifient des fichiers. Réextrais l’archive pour repartir de zéro.',
+  commands: ['cut', 'sort', 'uniq', 'wc', 'tr', '>', '>>'],
   challenges: [
     {
       id: '01', title: 'Le bon champ', command: 'cat · cut',
       story: 'Une fiche tient sur une seule ligne. Les champs sont séparés par deux-points et deux d’entre eux ressemblent à un flag.',
       question: 'Dans colonnes/fiche, quel flag occupe le troisième champ ?',
-      hints: ['cut peut extraire un champ délimité ; -d choisit le séparateur et -f le numéro du champ.', 'Essaie cut -d: -f3 colonnes/fiche. cat colonnes/fiche permet d’observer la structure avant.'],
+      hints: ['cut peut extraire un champ délimité, -d choisit le séparateur et -f le numéro du champ.', 'Essaie cut -d: -f3 colonnes/fiche. cat colonnes/fiche permet d’observer la structure avant.'],
       decoy: 'FLAG{ROUCOOL}', decoyFeedback: 'Ce flag est dans le premier champ. Le défi demande le troisième.',
       success: 'cut -d: -f3 extrait le troisième champ d’une ligne séparée par des deux-points.',
       flag: 'FLAG{LOKHLASS}'
@@ -48,7 +48,7 @@ const module03 = {
       id: '05', title: 'Trier sur la bonne colonne', command: 'sort · cut',
       story: 'Cette fois, le nombre est après le flag. Trier le début de la ligne donnerait un autre résultat.',
       question: 'Dans tri/charges, quel flag correspond à la plus petite charge numérique ?',
-      hints: ['Les champs sont séparés par :. sort -t: -k2,2n trie numériquement le deuxième champ.', 'Regarde la première ligne de sort -t: -k2,2n tri/charges ; cut -d: -f1 peut n’afficher que le flag.'],
+      hints: ['Les champs sont séparés par :. sort -t: -k2,2n trie numériquement le deuxième champ.', 'Regarde la première ligne de sort -t: -k2,2n tri/charges. Tu peux utiliser cut -d: -f1 pour n’afficher que le flag.'],
       decoy: 'FLAG{GIRATINA}', decoyFeedback: 'Ce flag arrive tôt si tu tries le texte du premier champ. Compare les charges.',
       success: 'sort peut cibler une clé précise au lieu de trier la ligne entière.',
       flag: 'FLAG{TARINOR}'
@@ -57,7 +57,7 @@ const module03 = {
       id: '06', title: 'Doublons voisins', command: 'uniq',
       story: 'Deux flags sont répétés dans le fichier, mais un seul apparaît deux fois de suite.',
       question: 'Quel flag uniq -d doublons/brut affiche-t-il sans tri préalable ?',
-      hints: ['uniq ne voit que les répétitions consécutives ; -d ne montre que les lignes répétées.', 'Lance uniq -d doublons/brut. Le second doublon est séparé par d’autres lignes.'],
+      hints: ['uniq ne voit que les répétitions consécutives, -d ne montre que les lignes répétées.', 'Lance uniq -d doublons/brut. Le second doublon est séparé par d’autres lignes.'],
       decoy: 'FLAG{ELEKTEK}', decoyFeedback: 'Ce flag est répété, mais ses deux occurrences ne sont pas voisines.',
       success: 'uniq seul ne repère pas les doublons éloignés.',
       flag: 'FLAG{NIDOKING}'
@@ -84,7 +84,7 @@ const module03 = {
       id: '09', title: 'Douze lignes exactement', command: 'wc · cat',
       story: 'Trois fichiers de candidature ont un nombre de lignes différent. Chacun contient un flag plausible.',
       question: 'Dans comptage/candidats, quel flag se trouve dans le fichier de exactement 12 lignes ?',
-      hints: ['wc -l donne le nombre de lignes de chaque fichier.', 'Compare wc -l comptage/candidats/*, puis lis avec cat le fichier de 12 lignes.'],
+      hints: ['wc -l donne le nombre de lignes de chaque fichier.', 'Compare les trois fichiers avec wc -l comptage/candidats/alpha comptage/candidats/beta comptage/candidats/gamma, puis lis avec cat celui de 12 lignes.'],
       decoy: 'FLAG{SABELETTE}', decoyFeedback: 'Ce fichier contient moins de 12 lignes.',
       success: 'wc -l compte les lignes, puis cat permet d’inspecter le fichier choisi.',
       flag: 'FLAG{ARCEUS}'
@@ -93,7 +93,7 @@ const module03 = {
       id: '10', title: 'Compter les mots', command: 'wc · cat',
       story: 'Cette fois, la taille recherchée est un nombre de mots, pas de lignes.',
       question: 'Dans comptage/phrases, quel flag se trouve dans le fichier contenant exactement 7 mots ?',
-      hints: ['wc -w compte les mots séparés par des espaces.', 'Compare wc -w comptage/phrases/*, puis ouvre le bon fichier avec cat.'],
+      hints: ['wc -w compte les mots séparés par des espaces.', 'Compare les trois fichiers avec wc -w comptage/phrases/cible comptage/phrases/courte comptage/phrases/longue, puis lis le bon avec cat.'],
       decoy: 'FLAG{ROUCARNAGE}', decoyFeedback: 'Ce fichier n’a pas sept mots. Utilise wc -w plutôt que wc -l.',
       success: 'wc -w et wc -l mesurent deux choses différentes.',
       flag: 'FLAG{PHARAMP}'
@@ -102,8 +102,8 @@ const module03 = {
       id: '11', title: 'Combien de personnes uniques ?', command: 'sort · uniq · wc · |',
       story: 'Des noms se répètent dans comptage/personnes. Le nombre de personnes distinctes pointe vers un flag dans une table de correspondance.',
       question: 'Compte les noms distincts, puis lis comptage/cle. Quel flag correspond au résultat ?',
-      hints: ['Trie les noms avant uniq, puis compte les lignes restantes.', 'sort comptage/personnes | uniq | wc -l ; retrouve ce nombre dans comptage/cle.'],
-      decoy: 'FLAG{LAGGRON}', decoyFeedback: 'Ce flag correspond à trois personnes ; vérifie tous les noms distincts.',
+      hints: ['Trie les noms avant uniq, puis compte les lignes restantes.', 'Lance sort comptage/personnes | uniq | wc -l, puis retrouve ce nombre dans comptage/cle.'],
+      decoy: 'FLAG{LAGGRON}', decoyFeedback: 'Ce flag correspond à trois personnes. Vérifie tous les noms distincts.',
       success: 'sort | uniq | wc -l compte des valeurs distinctes sans modifier le fichier.',
       flag: 'FLAG{CELEBI}'
     },
@@ -142,6 +142,33 @@ const module03 = {
       decoy: 'FLAG{DIALGA}', decoyFeedback: 'Ce flag est fréquent, mais un autre gagne après normalisation de la casse.',
       success: 'Tu as enchaîné extraction, normalisation, tri, comptage et classement.',
       flag: 'FLAG{KYOGRE}'
+    },
+    {
+      id: '16', title: 'Remplacer un ancien résultat', command: 'sort · > · head',
+      story: 'Un ancien résultat est déjà présent. Tu dois le remplacer par les lignes triées, pas ajouter les nouvelles lignes à la suite.',
+      question: 'Dans redirections/remplacer, trie entree vers resultat avec >. Quel flag se trouve ensuite sur la première ligne de resultat ?',
+      hints: ['sort écrit normalement dans le terminal. > enregistre cette sortie en remplaçant le contenu de resultat.', 'Lance sort redirections/remplacer/entree > redirections/remplacer/resultat, puis head -n 1 redirections/remplacer/resultat.'],
+      decoy: 'FLAG{RAMOLOSS}', decoyFeedback: 'C’est l’ancien contenu de resultat, il faut le remplacer avec >.',
+      success: '> crée ou remplace le fichier de destination sans changer le fichier lu par sort.',
+      flag: 'FLAG{ABSOL}'
+    },
+    {
+      id: '17', title: 'Ajouter sans effacer', command: 'cat · >>',
+      story: 'Cette fois, la première ligne du résultat doit être conservée. Ajoute la suite à la fin du fichier sans le remplacer.',
+      question: 'Dans redirections/ajouter, ajoute suite à resultat avec >>. Quel flag se trouve alors sur la deuxième ligne de resultat ?',
+      hints: ['>> ajoute la sortie de cat à la fin du fichier existant.', 'Lance cat redirections/ajouter/suite >> redirections/ajouter/resultat, puis cat redirections/ajouter/resultat.'],
+      decoy: 'FLAG{GRIKNOT}', decoyFeedback: 'C’est la première ligne, qui doit rester en place. La question demande la deuxième.',
+      success: '>> conserve l’ancien contenu et ajoute la nouvelle sortie à la fin.',
+      flag: 'FLAG{LUCARIO}'
+    },
+    {
+      id: '18', title: 'Deux fragments, un flag', command: 'cat · tr · > · >>',
+      story: 'Deux fragments forment un seul flag. L’ancien résultat est un leurre, et le retour à la ligne du premier fragment empêcherait leur assemblage.',
+      question: 'Dans redirections/assembler, remplace resultat par debut sans son retour à la ligne, puis ajoute fin avec >>. Quel flag complet contient resultat ?',
+      hints: ['tr -d peut retirer le retour à la ligne du premier fragment avant la redirection avec >.', 'Lance cat redirections/assembler/debut | tr -d \'\\n\' > redirections/assembler/resultat, puis cat redirections/assembler/fin >> redirections/assembler/resultat. Lis enfin resultat avec cat.'],
+      decoy: 'FLAG{NOSTENFER}', decoyFeedback: 'C’est l’ancien résultat. > doit l’effacer avant l’ajout du second fragment.',
+      success: '> repart d’un résultat propre, >> ajoute la suite, et tr évite une coupure au milieu du flag.',
+      flag: 'FLAG{LATIAS}'
     }
   ]
 };

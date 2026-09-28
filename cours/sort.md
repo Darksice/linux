@@ -9,7 +9,7 @@ summary: Trie des lignes entières ou selon une clé textuelle ou numérique.
 
 `sort` reçoit des lignes et les affiche dans un nouvel ordre. Par défaut, la comparaison est textuelle et dépend des règles de langue configurées sur la machine.
 
-La commande n’écrit pas dans le fichier source. Elle produit un résultat trié sur la sortie standard et prépare souvent les données pour `uniq`.
+La commande n’écrit pas dans le fichier source. Elle produit un résultat trié sur la sortie standard.
 
 ## Commandes et options
 

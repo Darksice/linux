@@ -33,4 +33,19 @@ test "$(cat normalisation/casse | tr '[:lower:]' '[:upper:]' | sort | uniq -c | 
 test "$(cut -d';' -f2 pipeline/equipes | sort | uniq -c | sort -nr | head -n 1 | tr -s ' ' | cut -d' ' -f3)" = 'FLAG{LUGIA}'
 test "$(cat pipeline/incidents | cut -d: -f2 | tr '[:lower:]' '[:upper:]' | sort | uniq -c | sort -nr | head -n 1 | tr -s ' ' | cut -d' ' -f3)" = 'FLAG{KYOGRE}'
 
-printf 'Module 03 : 15 défis et leurs pièges de tri, doublons et comptage vérifiés.\n'
+sort redirections/remplacer/entree > redirections/remplacer/resultat
+test "$(head -n 1 redirections/remplacer/resultat)" = 'FLAG{ABSOL}'
+! grep -Fq 'FLAG{RAMOLOSS}' redirections/remplacer/resultat
+test "$(head -n 1 redirections/remplacer/entree)" = 'FLAG{ZIGZATON}'
+
+cat redirections/ajouter/suite >> redirections/ajouter/resultat
+test "$(head -n 1 redirections/ajouter/resultat)" = 'FLAG{GRIKNOT}'
+test "$(tail -n 1 redirections/ajouter/resultat)" = 'FLAG{LUCARIO}'
+test "$(wc -l < redirections/ajouter/resultat)" -eq 2
+
+cat redirections/assembler/debut | tr -d '\n' > redirections/assembler/resultat
+cat redirections/assembler/fin >> redirections/assembler/resultat
+test "$(cat redirections/assembler/resultat)" = 'FLAG{LATIAS}'
+! grep -Fq 'FLAG{NOSTENFER}' redirections/assembler/resultat
+
+printf 'Module 03 : 18 défis, dont les redirections > et >>, vérifiés dans l’archive.\n'
